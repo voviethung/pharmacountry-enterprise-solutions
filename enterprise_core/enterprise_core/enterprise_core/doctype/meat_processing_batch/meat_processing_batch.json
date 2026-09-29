@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:batch_code",
+ "creation": "2026-09-29 01:22:15.550146",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "batch_code",
+  "plant",
+  "process_date",
+  "process_type",
+  "sources",
+  "total_live_weight_kg",
+  "carcass_weight_kg",
+  "carcass_yield_percent",
+  "output_cut_weight_kg",
+  "cut_yield_percent",
+  "qc_status",
+  "qc_released_by",
+  "qc_released_on",
+  "qc_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Plant",
+   "options": "Meat Plant",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "process_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Process Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "process_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Process Type",
+   "options": "Whole Carcass\nPrimal Cuts\nDeboned\nGround/Minced",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sources",
+   "fieldtype": "Table",
+   "label": "Incoming Lot Sources (MP03 genealogy)",
+   "options": "Meat Processing Batch Source",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_live_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Live Weight (kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "carcass_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Carcass Weight (kg)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "carcass_yield_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Carcass Yield (%)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "output_cut_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Output Cut Weight (kg)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cut_yield_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Cut Yield (%)",
+   "read_only": 1
+  },
+  {
+   "default": "On Hold",
+   "fieldname": "qc_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "QC Status",
+   "options": "On Hold\nReleased\nRejected"
+  },
+  {
+   "fieldname": "qc_released_by",
+   "fieldtype": "Data",
+   "label": "QC Released By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qc_released_on",
+   "fieldtype": "Datetime",
+   "label": "QC Released On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qc_notes",
+   "fieldtype": "Small Text",
+   "label": "QC Notes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-29 01:22:15.550146",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Meat Processing Batch",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "process_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
