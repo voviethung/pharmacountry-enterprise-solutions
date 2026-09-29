@@ -1,0 +1,133 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 20:04:10.574882",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "provider",
+  "model_code",
+  "context_window",
+  "input_types",
+  "output_types",
+  "capabilities",
+  "cost_input_per_1k",
+  "cost_output_per_1k",
+  "latency_class",
+  "privacy_class",
+  "enabled",
+  "priority"
+ ],
+ "fields": [
+  {
+   "fieldname": "provider",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Provider",
+   "options": "AI Provider",
+   "reqd": 1
+  },
+  {
+   "fieldname": "model_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "context_window",
+   "fieldtype": "Int",
+   "label": "Context Window (tokens)"
+  },
+  {
+   "description": "Comma-separated: text, image, audio",
+   "fieldname": "input_types",
+   "fieldtype": "Data",
+   "label": "Input Types"
+  },
+  {
+   "description": "Comma-separated: text, structured, embeddings",
+   "fieldname": "output_types",
+   "fieldtype": "Data",
+   "label": "Output Types"
+  },
+  {
+   "description": "Comma-separated: chat, reasoning, structured_output, tool_use, long_context, embeddings, vision, classification, extraction",
+   "fieldname": "capabilities",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Capabilities",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost_input_per_1k",
+   "fieldtype": "Currency",
+   "label": "Cost per 1K Input Tokens (USD)",
+   "precision": "6"
+  },
+  {
+   "fieldname": "cost_output_per_1k",
+   "fieldtype": "Currency",
+   "label": "Cost per 1K Output Tokens (USD)",
+   "precision": "6"
+  },
+  {
+   "fieldname": "latency_class",
+   "fieldtype": "Select",
+   "label": "Latency Class",
+   "options": "Fast\nStandard\nSlow"
+  },
+  {
+   "fieldname": "privacy_class",
+   "fieldtype": "Select",
+   "label": "Privacy Class",
+   "options": "Public Cloud\nEnterprise Cloud\nPrivate/On-Prem"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "default": "100",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority (lower = tried first)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:04:10.574882",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Model",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "priority",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

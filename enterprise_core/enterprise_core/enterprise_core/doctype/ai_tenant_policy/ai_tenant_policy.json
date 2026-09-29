@@ -1,0 +1,69 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "creation": "2026-09-28 20:04:11.411139",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "ai_mode",
+  "allowed_providers",
+  "data_residency",
+  "notes"
+ ],
+ "fields": [
+  {
+   "default": "Disabled",
+   "fieldname": "ai_mode",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "AI Mode",
+   "options": "Disabled\nExternal Providers\nCustomer API Key\nPlatform Managed\nPrivate Endpoint\nHybrid",
+   "reqd": 1
+  },
+  {
+   "description": "Comma-separated AI Provider codes; blank = all enabled providers allowed",
+   "fieldname": "allowed_providers",
+   "fieldtype": "Small Text",
+   "label": "Allowed Providers"
+  },
+  {
+   "fieldname": "data_residency",
+   "fieldtype": "Data",
+   "label": "Data Residency Requirement"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-28 20:04:11.411139",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Tenant Policy",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:action_code",
+ "creation": "2026-09-28 20:04:10.898329",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "action_code",
+  "description",
+  "required_capabilities",
+  "preferred_provider",
+  "fallback_policy",
+  "prompt_template",
+  "allowed_tools",
+  "required_permission",
+  "human_review_required",
+  "max_cost_usd",
+  "retention_policy"
+ ],
+ "fields": [
+  {
+   "fieldname": "action_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Action Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "description": "Comma-separated, matched against AI Model.capabilities",
+   "fieldname": "required_capabilities",
+   "fieldtype": "Data",
+   "label": "Required Capabilities",
+   "reqd": 1
+  },
+  {
+   "fieldname": "preferred_provider",
+   "fieldtype": "Link",
+   "label": "Preferred Provider",
+   "options": "AI Provider"
+  },
+  {
+   "default": "Next Eligible Model",
+   "fieldname": "fallback_policy",
+   "fieldtype": "Select",
+   "label": "Fallback Policy",
+   "options": "Next Eligible Model\nFail Closed\nQueue for Retry"
+  },
+  {
+   "fieldname": "prompt_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Prompt Template",
+   "options": "Prompt Template",
+   "reqd": 1
+  },
+  {
+   "description": "Comma-separated",
+   "fieldname": "allowed_tools",
+   "fieldtype": "Data",
+   "label": "Allowed Tools"
+  },
+  {
+   "fieldname": "required_permission",
+   "fieldtype": "Link",
+   "label": "Required Permission (Role)",
+   "options": "Role"
+  },
+  {
+   "default": "1",
+   "fieldname": "human_review_required",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Human Review Required"
+  },
+  {
+   "fieldname": "max_cost_usd",
+   "fieldtype": "Currency",
+   "label": "Max Cost (USD)",
+   "precision": "4"
+  },
+  {
+   "fieldname": "retention_policy",
+   "fieldtype": "Select",
+   "label": "Retention Policy",
+   "options": "Store Full\nStore Metadata Only\nDo Not Store"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:04:10.898329",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "action_code",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

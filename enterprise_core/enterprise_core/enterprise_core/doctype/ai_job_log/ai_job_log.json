@@ -1,0 +1,171 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 20:04:11.076191",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "site",
+  "action",
+  "timestamp",
+  "provider",
+  "model",
+  "prompt_template_version",
+  "input_source_refs",
+  "retrieved_sources",
+  "tool_calls",
+  "output",
+  "tokens_used",
+  "estimated_cost_usd",
+  "latency_ms",
+  "status",
+  "user_feedback",
+  "accepted",
+  "edited",
+  "final_record_reference"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "site",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Site/Tenant"
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "AI Action",
+   "options": "AI Action",
+   "reqd": 1
+  },
+  {
+   "default": "now",
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp"
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Link",
+   "label": "Provider Used",
+   "options": "AI Provider"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model Used"
+  },
+  {
+   "fieldname": "prompt_template_version",
+   "fieldtype": "Data",
+   "label": "Prompt Template Version"
+  },
+  {
+   "fieldname": "input_source_refs",
+   "fieldtype": "Small Text",
+   "label": "Input Source References"
+  },
+  {
+   "fieldname": "retrieved_sources",
+   "fieldtype": "Small Text",
+   "label": "Retrieved Sources"
+  },
+  {
+   "fieldname": "tool_calls",
+   "fieldtype": "Small Text",
+   "label": "Tool Calls"
+  },
+  {
+   "fieldname": "output",
+   "fieldtype": "Long Text",
+   "label": "Output"
+  },
+  {
+   "fieldname": "tokens_used",
+   "fieldtype": "Int",
+   "label": "Tokens Used"
+  },
+  {
+   "fieldname": "estimated_cost_usd",
+   "fieldtype": "Currency",
+   "label": "Estimated Cost (USD)",
+   "precision": "6"
+  },
+  {
+   "fieldname": "latency_ms",
+   "fieldtype": "Int",
+   "label": "Latency (ms)"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Success\nFallback Used\nFailed\nBlocked by Policy"
+  },
+  {
+   "fieldname": "user_feedback",
+   "fieldtype": "Select",
+   "label": "User Feedback",
+   "options": "\nHelpful\nNot Helpful"
+  },
+  {
+   "default": "0",
+   "fieldname": "accepted",
+   "fieldtype": "Check",
+   "label": "Accepted"
+  },
+  {
+   "default": "0",
+   "fieldname": "edited",
+   "fieldtype": "Check",
+   "label": "Edited Before Use"
+  },
+  {
+   "fieldname": "final_record_reference",
+   "fieldtype": "Data",
+   "label": "Final Record Reference"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:04:11.076191",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Job Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "timestamp",
+ "sort_order": "DESC",
+ "states": []
+}
