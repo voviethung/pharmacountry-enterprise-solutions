@@ -1,0 +1,81 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:feature_code",
+ "creation": "2026-09-28 16:07:34.169470",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "feature_code",
+  "feature_name",
+  "capability_engine",
+  "description",
+  "default_enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "feature_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Feature Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "feature_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Feature Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "capability_engine",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Capability Engine",
+   "options": "Capability Engine",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_enabled",
+   "fieldtype": "Check",
+   "label": "Default Enabled"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 16:07:34.169470",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Feature Flag",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "feature_code",
+ "sort_order": "ASC",
+ "states": []
+}
