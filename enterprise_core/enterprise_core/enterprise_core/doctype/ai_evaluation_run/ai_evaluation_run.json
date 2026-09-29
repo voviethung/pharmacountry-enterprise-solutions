@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "action_code",
+  "run_datetime",
+  "provider_code",
+  "model_code",
+  "is_model_swap_check",
+  "total_cases",
+  "passed_cases",
+  "failed_cases",
+  "pass_rate_percent",
+  "false_positive_count",
+  "false_negative_count",
+  "source_support_score",
+  "groundedness_score",
+  "hallucination_flag_rate",
+  "actionability_score",
+  "rubric_scoring_notes",
+  "regression_vs_previous_run",
+  "results_json",
+  "run_by",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "action_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Action Code",
+   "options": "AI Action",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "run_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Run Datetime"
+  },
+  {
+   "fieldname": "provider_code",
+   "fieldtype": "Data",
+   "label": "Provider Code"
+  },
+  {
+   "fieldname": "model_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model Code"
+  },
+  {
+   "default": "0",
+   "description": "Set when this run was executed by check_model_swap_safe() against a HYPOTHETICAL alternate/candidate model configuration rather than the platform's normal production routing.",
+   "fieldname": "is_model_swap_check",
+   "fieldtype": "Check",
+   "label": "Is Model Swap Check"
+  },
+  {
+   "fieldname": "total_cases",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Cases"
+  },
+  {
+   "fieldname": "passed_cases",
+   "fieldtype": "Int",
+   "label": "Passed Cases"
+  },
+  {
+   "fieldname": "failed_cases",
+   "fieldtype": "Int",
+   "label": "Failed Cases"
+  },
+  {
+   "fieldname": "pass_rate_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Pass Rate %",
+   "precision": "1"
+  },
+  {
+   "description": "Count of cases where the action predicted the secondary flag (e.g. is_safety_critical) TRUE but the labeled ground truth was FALSE.",
+   "fieldname": "false_positive_count",
+   "fieldtype": "Int",
+   "label": "False Positive Count"
+  },
+  {
+   "description": "Count of cases where the action predicted the secondary flag FALSE but the labeled ground truth was TRUE.",
+   "fieldname": "false_negative_count",
+   "fieldtype": "Int",
+   "label": "False Negative Count"
+  },
+  {
+   "description": "REAL, computed dimension: % of cases whose returned `sources` citation list correctly includes the case's own real input record.",
+   "fieldname": "source_support_score",
+   "fieldtype": "Float",
+   "label": "Source Support Score %",
+   "precision": "1"
+  },
+  {
+   "description": "A Data (text) field, deliberately NOT numeric — always literally 'N/A - mock adapter does not vary output' while ai_core._call_provider_adapter() stays mocked (see rubric_scoring_notes). A Float field cannot honestly represent 'not measurable' (Frappe reads an unset Float back as 0.0, which would misleadingly look like a real, bad, score of zero) — this platform's mock LLM adapter returns a fixed canned string regardless of input, so a generative groundedness score cannot be honestly measured at all, not even as a low one.",
+   "fieldname": "groundedness_score",
+   "fieldtype": "Data",
+   "label": "Groundedness Score (N/A while mocked)"
+  },
+  {
+   "description": "A Data (text) field, deliberately NOT numeric — see groundedness_score's own description for why. The mock adapter never fabricates facts (it only echoes a template), so it cannot produce a hallucination for this metric to honestly detect.",
+   "fieldname": "hallucination_flag_rate",
+   "fieldtype": "Data",
+   "label": "Hallucination Flag Rate (N/A while mocked)"
+  },
+  {
+   "description": "A Data (text) field, deliberately NOT numeric — see groundedness_score's own description for why. Actionability of freeform narrative text cannot be honestly scored against a fixed mock string.",
+   "fieldname": "actionability_score",
+   "fieldtype": "Data",
+   "label": "Actionability Score (N/A while mocked)"
+  },
+  {
+   "fieldname": "rubric_scoring_notes",
+   "fieldtype": "Small Text",
+   "label": "Rubric Scoring Notes"
+  },
+  {
+   "description": "JSON: real comparison against the immediately-prior AI Evaluation Run for this same action_code — {previous_run, previous_pass_rate, current_pass_rate, delta_percent, regressed}. The concrete basis for the 'never swap model without regression-testing against the internal eval set' governance principle.",
+   "fieldname": "regression_vs_previous_run",
+   "fieldtype": "Code",
+   "label": "Regression vs Previous Run (JSON)",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON array: one entry per evaluated case (expected vs. actual category/severity/secondary flag, pass/fail, any pipeline error) — the human-reviewable detail behind the aggregate counts above.",
+   "fieldname": "results_json",
+   "fieldtype": "Code",
+   "label": "Per-Case Results (JSON)",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "run_by",
+   "fieldtype": "Link",
+   "label": "Run By",
+   "options": "User"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Evaluation Run",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
