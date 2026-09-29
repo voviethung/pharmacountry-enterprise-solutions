@@ -3,6 +3,10 @@ import { requireSession } from "@/lib/auth";
 import { getMyRfqDetail, SupplierApiError } from "@/lib/api";
 import SubmitQuotationForm from "@/components/SubmitQuotationForm";
 
+// Force dynamic rendering — login-gated dynamic-segment page, fetches this supplier's own live
+// RFQ detail on every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function RfqDetailPage({
   params,
 }: {

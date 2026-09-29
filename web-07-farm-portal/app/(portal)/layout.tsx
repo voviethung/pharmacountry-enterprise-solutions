@@ -1,6 +1,11 @@
 import { requireSession } from "@/lib/auth";
 import PortalHeader from "@/components/PortalHeader";
 
+// Force dynamic rendering for this entire route group — every page under it is login-gated and
+// reads the session cookie via requireSession(). A login-gated segment can never be static; set
+// here too (in addition to each page.tsx) so the whole subtree is unambiguously dynamic.
+export const dynamic = "force-dynamic";
+
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   // Every page under this route group is protected: no valid session -> redirect("/login")
   // happens inside requireSession() itself, before any farm data is ever fetched.

@@ -5,6 +5,11 @@ import { getPharmacyOrderStatus, PharmacyApiError } from "@/lib/api";
 // required by the real backend (see online_pharmacy_api.py's own docstring for why neither alone is
 // enough), and this route does nothing to weaken that: it's a thin passthrough, not a second place
 // that could accidentally allow a token-only or phone-only lookup.
+//
+// Force dynamic — this reads live order data from the real Frappe backend per request and must
+// never be evaluated/cached at build time.
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const orderToken = searchParams.get("order_token") || "";

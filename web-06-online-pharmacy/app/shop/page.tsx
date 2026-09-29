@@ -1,6 +1,12 @@
 import { getPharmacyCatalog, formatVnd } from "@/lib/api";
 import AddToCartButton from "@/components/AddToCartButton";
 
+// Force dynamic rendering — this page calls the real Frappe backend (live per-store stock,
+// pricing) on every request. Without this, Next.js prerenders it once at Docker build time
+// (when the backend isn't reachable from inside the build container) and serves that stale
+// snapshot to every visitor forever.
+export const dynamic = "force-dynamic";
+
 export default async function ShopPage() {
   let items: Awaited<ReturnType<typeof getPharmacyCatalog>> = [];
   let loadError = false;

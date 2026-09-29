@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { getPharmacyCatalog, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — this page calls the real Frappe backend on every request.
+// Without this, Next.js prerenders it once at Docker build time (when the backend isn't
+// reachable from inside the build container) and serves that stale/fallback snapshot forever.
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   let items: Awaited<ReturnType<typeof getPharmacyCatalog>> = [];
   try {

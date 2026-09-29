@@ -2,6 +2,12 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { getMyOrders, getMyTechnicalVisits, getMyRecommendations, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page that calls the real Frappe backend with a
+// per-session farm scope on every request. Without this, Next.js could prerender it once at
+// Docker build time (no session, no backend reachable) and serve that stale/broken snapshot to
+// every visitor forever. A login-gated page can never be static.
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const session = await requireSession();
   const [orders, visits, recommendations] = await Promise.all([

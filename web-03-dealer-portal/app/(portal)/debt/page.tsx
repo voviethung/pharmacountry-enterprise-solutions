@@ -1,6 +1,9 @@
 import { requireSession } from "@/lib/auth";
 import { getMyDebt, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export default async function DebtPage() {
   const session = await requireSession();
   const debt = await getMyDebt(session.frappeSid);

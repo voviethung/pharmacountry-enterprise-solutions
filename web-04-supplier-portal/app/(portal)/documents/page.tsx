@@ -1,6 +1,10 @@
 import { requireSession } from "@/lib/auth";
 import { getMyDocuments } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page, fetches this supplier's own live documents on
+// every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function DocumentsPage() {
   const session = await requireSession();
   const docs = await getMyDocuments(session.frappeSid);

@@ -15,22 +15,26 @@ import http from "node:http";
 const FRAPPE_BASE_URL = process.env.FRAPPE_BASE_URL || "http://localhost:8082";
 const FRAPPE_SITE_HOST = process.env.FRAPPE_SITE_HOST || "test.demo.local";
 
-// See .env.local's own comment: these are the sibling apps' OWN dev-server URLs (a frontend
-// deployment fact), not something the Frappe backend describes.
-export const WEB01_URL = process.env.HUB_WEB01_URL || "http://localhost:3001";
-export const WEB02_URL = process.env.HUB_WEB02_URL || "http://localhost:3002";
-export const WEB03_URL = process.env.HUB_WEB03_URL || "http://localhost:3004";
-export const WEB04_URL = process.env.HUB_WEB04_URL || "http://localhost:3005";
-export const WEB05_URL = process.env.HUB_WEB05_URL || "http://localhost:3006";
-export const WEB06_URL = process.env.HUB_WEB06_URL || "http://localhost:3007";
-export const WEB07_URL = process.env.HUB_WEB07_URL || "http://localhost:3008";
+// See .env.local's own comment: these are the sibling apps' OWN deployment URLs (a frontend
+// deployment fact), not something the Frappe backend describes. Deliberately NO localhost
+// fallback — a "http://localhost:3001" link is meaningless to a real visitor (it points at
+// their own device, not this server), so until an app is actually deployed somewhere publicly
+// reachable and its real URL is set via env var, these stay undefined and liveDemoUrlFor()
+// reports it as not yet live rather than rendering a dead link.
+export const WEB01_URL = process.env.HUB_WEB01_URL || undefined;
+export const WEB02_URL = process.env.HUB_WEB02_URL || undefined;
+export const WEB03_URL = process.env.HUB_WEB03_URL || undefined;
+export const WEB04_URL = process.env.HUB_WEB04_URL || undefined;
+export const WEB05_URL = process.env.HUB_WEB05_URL || undefined;
+export const WEB06_URL = process.env.HUB_WEB06_URL || undefined;
+export const WEB07_URL = process.env.HUB_WEB07_URL || undefined;
 
 // Maps the backend's real, stable demo `key` (NOT pack_code — a pack_code can now have more
 // than one demo, e.g. IP-CONSUMER-DIST has both WEB-01 and WEB-03) -> the matching sibling
 // app's real URL. Deliberately a small, hardcoded map here in the frontend (mirroring the
 // backend's own hardcoded `_LIVE_DEMO_PACKS` allow-list) rather than trying to derive a URL
 // from any request input.
-const LIVE_DEMO_URLS: Record<string, string> = {
+const LIVE_DEMO_URLS: Record<string, string | undefined> = {
   "WEB-01": WEB01_URL,
   "WEB-02": WEB02_URL,
   "WEB-03": WEB03_URL,

@@ -6,6 +6,9 @@ import { NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/auth";
 import { requestReturn, DealerApiError } from "@/lib/api";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend.
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {

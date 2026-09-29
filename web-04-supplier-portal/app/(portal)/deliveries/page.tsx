@@ -1,6 +1,10 @@
 import { requireSession } from "@/lib/auth";
 import { getMyDeliveries, formatMoney } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page, fetches this supplier's own live deliveries on
+// every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function DeliveriesPage() {
   const session = await requireSession();
   const deliveries = await getMyDeliveries(session.frappeSid);

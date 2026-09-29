@@ -8,6 +8,9 @@ export const metadata: Metadata = {
     "Every real Industry Pack built into ENTERPRISE_PLATFORM, pulled live from the platform's own registry.",
 };
 
+// Force dynamic rendering — see app/page.tsx's own comment on the same requirement.
+export const dynamic = "force-dynamic";
+
 export default async function SolutionsPage() {
   let solutions: IndustrySolution[] = [];
   let loadError = false;
@@ -86,10 +89,17 @@ function SolutionCard({ solution }: { solution: IndustrySolution }) {
         <div className="mt-4 space-y-2">
           {solution.live_demos.map((demo) => {
             const url = liveDemoUrlFor(demo.key);
+            if (!url) {
+              return (
+                <p key={demo.key} className="text-sm font-medium text-slate-400">
+                  {demo.label} &mdash; not yet publicly deployed
+                </p>
+              );
+            }
             return (
               <a
                 key={demo.key}
-                href={url ?? "#"}
+                href={url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block text-sm font-medium text-emerald-700 hover:text-emerald-800"

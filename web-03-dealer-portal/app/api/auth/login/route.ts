@@ -13,6 +13,10 @@ import { loginToFrappe, FrappeLoginError } from "@/lib/frappeAuth";
 import { getMyProfile, DealerApiError } from "@/lib/api";
 import { createSession, SESSION_COOKIE_NAME } from "@/lib/session";
 
+// Force dynamic rendering — calls the real Frappe backend and sets a session cookie; must never
+// be cached/prerendered.
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   let username: string;
   let password: string;

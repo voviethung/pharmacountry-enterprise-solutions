@@ -2,6 +2,11 @@ import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth";
 import LoginForm from "@/components/LoginForm";
 
+// Force dynamic rendering — this reads the session cookie (to bounce an already-logged-in
+// farm straight to /dashboard). Without this, Next.js could prerender it once at Docker build
+// time and bake in a stale "not logged in" snapshot forever.
+export const dynamic = "force-dynamic";
+
 export default async function LoginPage() {
   const session = await getCurrentSession();
   if (session) redirect("/dashboard");

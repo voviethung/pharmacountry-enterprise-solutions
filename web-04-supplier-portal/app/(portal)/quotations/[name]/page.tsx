@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyQuotationDetail, SupplierApiError, formatMoney } from "@/lib/api";
 
+// Force dynamic rendering — login-gated dynamic-segment page, fetches this supplier's own live
+// quotation detail on every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function QuotationDetailPage({
   params,
 }: {

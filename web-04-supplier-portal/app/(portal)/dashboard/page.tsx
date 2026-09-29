@@ -2,6 +2,12 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { getMyRfqs, getMyQuotations, getMyPurchaseOrders, getMyQualificationStatus } from "@/lib/api";
 
+// Force dynamic rendering — this is a login-gated page that fetches this supplier's own live
+// data from Frappe on every request. Without this, Next.js could prerender it once at Docker
+// build time (before the backend is even reachable, and with no real session) and serve that
+// stale/broken snapshot to every visitor forever.
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const session = await requireSession();
   const [rfqs, quotations, purchaseOrders, qualification] = await Promise.all([

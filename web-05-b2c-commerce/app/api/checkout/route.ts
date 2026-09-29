@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { placeWebOrder, B2cApiError, type CheckoutContact, type CheckoutLine } from "@/lib/api";
 
+// Force dynamic — this is a guest-writable order-creation endpoint hitting the real Frappe
+// backend on every call; it must never be cached or treated as static output.
+export const dynamic = "force-dynamic";
+
 // Server-side proxy for the ONE write this whole app performs. The browser never talks to Frappe
 // directly (same "backend URL/response never visible in client-side network calls" discipline
 // every prior WEB-0X app follows) — it POSTs here, and THIS Route Handler forwards to the real

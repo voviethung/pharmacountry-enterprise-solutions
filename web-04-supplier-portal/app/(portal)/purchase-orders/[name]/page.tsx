@@ -2,6 +2,11 @@ import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyPurchaseOrderDetail, SupplierApiError, formatMoney } from "@/lib/api";
 
+// Force dynamic rendering — login-gated dynamic-segment page, fetches this supplier's own live
+// purchase order detail on every request. See app/(portal)/dashboard/page.tsx for the full
+// reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function PurchaseOrderDetailPage({
   params,
 }: {

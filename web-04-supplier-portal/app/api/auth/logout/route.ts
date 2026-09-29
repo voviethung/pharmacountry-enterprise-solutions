@@ -3,6 +3,9 @@ import { cookies } from "next/headers";
 import { logoutFromFrappe } from "@/lib/frappeAuth";
 import { getSession, destroySession, SESSION_COOKIE_NAME } from "@/lib/session";
 
+// Force dynamic — reads the session cookie and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export async function POST() {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE_NAME)?.value;

@@ -5,6 +5,11 @@ import {
   liveDemoUrlFor,
 } from "@/lib/api";
 
+// Force dynamic rendering — this page calls the real Frappe backend on every request.
+// Without this, Next.js prerenders it once at Docker build time (when the backend isn't
+// reachable from inside the build container) and serves that stale/fallback snapshot forever.
+export const dynamic = "force-dynamic";
+
 // Real platform-scale numbers (from the guest-whitelisted `get_platform_stats()` endpoint)
 // render if the backend is reachable; if it's briefly down, the page still renders with
 // clearly-labeled fallback numbers instead of crashing — same "never hard-fail a public page
@@ -49,7 +54,7 @@ export default async function HomePage() {
           <p className="text-sm font-medium uppercase tracking-wide text-amber-600">
             Multi-Industry ERP Demo Platform &middot; Built on Frappe/ERPNext
           </p>
-          <h1 className="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 max-w-3xl">
+          <h1 className="mt-3 text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 max-w-3xl break-words">
             ENTERPRISE_PLATFORM
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-600 leading-relaxed">
@@ -124,18 +129,19 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {liveDemos.map((demo) => {
               const url = liveDemoUrlFor(demo.key);
-              return (
-                <a
-                  key={demo.key}
-                  href={url ?? "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group rounded-lg border border-slate-200 bg-white p-6 hover:border-slate-400 hover:shadow-sm transition-all"
-                >
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    Live Demo
-                  </span>
+              const badge = url ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Live Demo
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-500">
+                  Built &middot; not yet publicly deployed
+                </span>
+              );
+              const body = (
+                <>
+                  {badge}
                   {demo.requires_login && (
                     <span className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">
                       Requires login
@@ -145,9 +151,32 @@ export default async function HomePage() {
                     {demo.pack_name}
                   </h3>
                   <p className="mt-2 text-sm text-slate-600">{demo.summary}</p>
-                  <p className="mt-4 text-sm font-medium text-slate-900">
-                    {demo.label} &rarr;
-                  </p>
+                  {url && (
+                    <p className="mt-4 text-sm font-medium text-slate-900">
+                      {demo.label} &rarr;
+                    </p>
+                  )}
+                </>
+              );
+              if (!url) {
+                return (
+                  <div
+                    key={demo.key}
+                    className="group rounded-lg border border-slate-200 bg-white p-6 opacity-80"
+                  >
+                    {body}
+                  </div>
+                );
+              }
+              return (
+                <a
+                  key={demo.key}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-lg border border-slate-200 bg-white p-6 hover:border-slate-400 hover:shadow-sm transition-all"
+                >
+                  {body}
                 </a>
               );
             })}

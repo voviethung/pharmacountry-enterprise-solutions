@@ -3,6 +3,9 @@ import { requireSession } from "@/lib/auth";
 import { getMyOrders, getCatalogWithMyPricing, formatVnd } from "@/lib/api";
 import PlaceOrderForm from "@/components/PlaceOrderForm";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export default async function OrdersPage() {
   const session = await requireSession();
   const [orders, catalog] = await Promise.all([

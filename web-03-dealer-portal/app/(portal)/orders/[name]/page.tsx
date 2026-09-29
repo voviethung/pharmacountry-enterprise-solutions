@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyOrderDetail, DealerApiError, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — session-gated, per-order dynamic route, calls the real backend.
+export const dynamic = "force-dynamic";
+
 export default async function OrderDetailPage({
   params,
 }: {

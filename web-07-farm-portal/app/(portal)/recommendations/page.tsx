@@ -1,6 +1,10 @@
 import { requireSession } from "@/lib/auth";
 import { getMyRecommendations } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page that calls the real Frappe backend with a
+// per-session farm scope on every request. See dashboard/page.tsx for the full rationale.
+export const dynamic = "force-dynamic";
+
 export default async function RecommendationsPage() {
   const session = await requireSession();
   const recommendations = await getMyRecommendations(session.frappeSid);

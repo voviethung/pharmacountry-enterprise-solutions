@@ -2,6 +2,9 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { getMyDebt, getMyOrders, getMyInvoices, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const session = await requireSession();
   const [debt, orders, invoices] = await Promise.all([

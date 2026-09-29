@@ -1,6 +1,9 @@
 import { requireSession } from "@/lib/auth";
 import { getCatalogWithMyPricing, getStockAvailability, formatVnd } from "@/lib/api";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export default async function CatalogPage() {
   const session = await requireSession();
   const [items, stock] = await Promise.all([

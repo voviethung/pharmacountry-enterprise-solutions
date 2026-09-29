@@ -7,6 +7,11 @@ import { placePharmacyOrder, PharmacyApiError, type CheckoutContact, type Checko
 // guest-writable `place_pharmacy_order` endpoint using the Host-header workaround in lib/api.ts. No
 // price/rate/batch is ever read from the request body here either; only item_code/qty and contact
 // fields are forwarded, exactly mirroring the real backend's own accepted shape.
+//
+// Force dynamic — this is a live guest-checkout write against the real Frappe backend and must
+// never be evaluated/cached at build time.
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   let body: { items?: CheckoutLine[]; contact?: CheckoutContact };
   try {

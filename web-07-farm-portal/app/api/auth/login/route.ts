@@ -14,6 +14,11 @@ import { loginToFrappe, FrappeLoginError } from "@/lib/frappeAuth";
 import { getMyProfile, FarmApiError } from "@/lib/api";
 import { createSession, SESSION_COOKIE_NAME } from "@/lib/session";
 
+// Force dynamic — this Route Handler calls the real Frappe backend and sets a session cookie on
+// every request. POST handlers are never statically optimized by Next.js anyway, but this is
+// made explicit for consistency with every other backend-dependent route in this app.
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   let username: string;
   let password: string;

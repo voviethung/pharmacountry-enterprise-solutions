@@ -6,6 +6,9 @@ import { NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/auth";
 import { submitQuotation, SupplierApiError } from "@/lib/api";
 
+// Force dynamic — reads the session cookie and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {

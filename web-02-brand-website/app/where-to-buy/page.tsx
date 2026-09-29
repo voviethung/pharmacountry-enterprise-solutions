@@ -11,6 +11,12 @@ export const metadata: Metadata = {
 // by Golden Demo #25's "Demo Consumer Distribution Co.") that actually resells this exact
 // product (VITC-1000-EFF) at a real price — this page references that relationship in plain
 // prose, without wiring up a live cross-app integration that this demo stage doesn't need.
+//
+// Force dynamic rendering — this page calls the real Frappe backend on every request.
+// Without this, Next.js prerenders it once at Docker build time (when the backend isn't
+// reachable from inside the build container) and serves that stale/fallback snapshot forever.
+export const dynamic = "force-dynamic";
+
 export default async function WhereToBuyPage() {
   const [profile, product] = await Promise.all([getBrandProfile(), getBrandProduct()]);
 

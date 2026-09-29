@@ -1,6 +1,10 @@
 import { requireSession } from "@/lib/auth";
 import { getMyQualificationStatus } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page, fetches this supplier's own live qualification
+// status on every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function QualificationPage() {
   const session = await requireSession();
   const q = await getMyQualificationStatus(session.frappeSid);

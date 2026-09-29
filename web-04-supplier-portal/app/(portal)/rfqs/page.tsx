@@ -2,6 +2,10 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { getMyRfqs } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page, fetches this supplier's own live RFQs on every
+// request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function RfqsPage() {
   const session = await requireSession();
   const rfqs = await getMyRfqs(session.frappeSid);

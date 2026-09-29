@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth";
 import LoginForm from "@/components/LoginForm";
 
+// Force dynamic rendering — reads the session cookie (redirects to /dashboard if already
+// logged in). A login-gated page must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function LoginPage() {
   const session = await getCurrentSession();
   if (session) redirect("/dashboard");

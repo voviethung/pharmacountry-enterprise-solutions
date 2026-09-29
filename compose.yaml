@@ -1,0 +1,116 @@
+name: nextjs-demo
+
+# Separate deployment lifecycle from the Frappe stack (frappe_docker_demo/compose.yaml),
+# per master plan §9.1 — a Next.js build failure here must never be able to take down the
+# Frappe business core. Connects to the Frappe backend over the host network (host.docker.internal)
+# since the two compose projects are independent.
+
+services:
+  hub-landing:
+    build:
+      context: ./hub-landing
+    restart: unless-stopped
+    ports:
+      - "8090:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+      # All 7 Web/Portal sub-apps are now containerized and running persistently (see their
+      # own service entries below). These are their REAL PUBLIC subdomain URLs (not internal
+      # Docker-network addresses or localhost dev ports) — the Hub is rendered for real
+      # external visitors, so its links must resolve for them once Cloudflare Tunnel routing
+      # is added for each subdomain. Until then these subdomains 404 at the edge even though
+      # the containers themselves are already up and reachable via their localhost ports.
+      HUB_WEB01_URL: https://catalog.pharmacountry.vn
+      HUB_WEB02_URL: https://brand.pharmacountry.vn
+      HUB_WEB03_URL: https://dealer.pharmacountry.vn
+      HUB_WEB04_URL: https://supplier.pharmacountry.vn
+      HUB_WEB05_URL: https://shop.pharmacountry.vn
+      HUB_WEB06_URL: https://pharmacy.pharmacountry.vn
+      HUB_WEB07_URL: https://farm.pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-01-corporate-catalog:
+    build:
+      context: ./web-01-corporate-catalog
+    restart: unless-stopped
+    ports:
+      - "8091:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-02-brand-website:
+    build:
+      context: ./web-02-brand-website
+    restart: unless-stopped
+    ports:
+      - "8092:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-03-dealer-portal:
+    build:
+      context: ./web-03-dealer-portal
+    restart: unless-stopped
+    ports:
+      - "8093:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-04-supplier-portal:
+    build:
+      context: ./web-04-supplier-portal
+    restart: unless-stopped
+    ports:
+      - "8094:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-05-b2c-commerce:
+    build:
+      context: ./web-05-b2c-commerce
+    restart: unless-stopped
+    ports:
+      - "8095:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-06-online-pharmacy:
+    build:
+      context: ./web-06-online-pharmacy
+    restart: unless-stopped
+    ports:
+      - "8096:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  web-07-farm-portal:
+    build:
+      context: ./web-07-farm-portal
+    restart: unless-stopped
+    ports:
+      - "8097:3000"
+    environment:
+      FRAPPE_BASE_URL: http://host.docker.internal:8082
+      FRAPPE_SITE_HOST: pharmacountry.vn
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

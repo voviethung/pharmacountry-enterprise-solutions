@@ -21,6 +21,12 @@ export const metadata: Metadata = {
     "Enterprise Platform Phase 7 WEB-02 demo — a consumer brand site for a real supplement manufacturer, telling the brand's own story with real formula and lab-verification data served from a guest-only Frappe API.",
 };
 
+// This root layout also calls the real Frappe backend directly (see loadHeaderProfile below)
+// on every request. Force dynamic rendering here too so it (and any future page that doesn't
+// set this itself) never gets baked into a static snapshot taken at Docker build time, when
+// the backend may not even be reachable.
+export const dynamic = "force-dynamic";
+
 // The company name/country are used in the header/footer on every page, so they're fetched
 // once here rather than duplicated in every page component. If the Frappe backend is
 // unreachable, the layout still renders with a clearly-labeled fallback instead of crashing

@@ -2,6 +2,11 @@ import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth";
 import LoginForm from "@/components/LoginForm";
 
+// Force dynamic rendering — this reads the session cookie on every request (to bounce an
+// already-logged-in visitor straight to /dashboard). A login-gated app's pages can never be
+// static; prerendering this at Docker build time would bake in a single snapshot for everyone.
+export const dynamic = "force-dynamic";
+
 export default async function LoginPage() {
   const session = await getCurrentSession();
   if (session) redirect("/dashboard");

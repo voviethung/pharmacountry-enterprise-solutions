@@ -2,6 +2,9 @@ import { requireSession } from "@/lib/auth";
 import { getMyReturns, getMyDeliveriesEligibleForReturn, formatVnd } from "@/lib/api";
 import RequestReturnForm from "@/components/RequestReturnForm";
 
+// Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
+export const dynamic = "force-dynamic";
+
 export default async function ReturnsPage() {
   const session = await requireSession();
   const [returns, deliveries] = await Promise.all([

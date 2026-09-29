@@ -2,6 +2,10 @@ import Link from "next/link";
 import { requireSession } from "@/lib/auth";
 import { getMyPurchaseOrders, formatMoney } from "@/lib/api";
 
+// Force dynamic rendering — login-gated page, fetches this supplier's own live purchase orders
+// on every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+export const dynamic = "force-dynamic";
+
 export default async function PurchaseOrdersPage() {
   const session = await requireSession();
   const orders = await getMyPurchaseOrders(session.frappeSid);
