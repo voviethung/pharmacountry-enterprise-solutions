@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:seed_batch_code",
+ "creation": "2026-09-28 21:21:48.866099",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "seed_batch_code",
+  "nursery_batch",
+  "grading_date",
+  "grade_a_count",
+  "grade_b_count",
+  "reject_count",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "seed_batch_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Seed Batch Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "nursery_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Nursery Batch",
+   "options": "Aqua Nursery Batch",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "grading_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Grading Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "grade_a_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Grade A Count"
+  },
+  {
+   "fieldname": "grade_b_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Grade B Count"
+  },
+  {
+   "fieldname": "reject_count",
+   "fieldtype": "Int",
+   "label": "Reject Count"
+  },
+  {
+   "default": "Available",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Available\nDispatched"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 21:21:48.866099",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Aqua Seed Batch",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "grading_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
