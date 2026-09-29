@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 19:08:21.237636",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "subject",
+  "capa_type",
+  "source_type",
+  "source_reference",
+  "owner_user",
+  "due_date",
+  "status",
+  "action_plan",
+  "effectiveness_check_date",
+  "effectiveness_evidence",
+  "closed_by",
+  "closed_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Subject",
+   "reqd": 1
+  },
+  {
+   "fieldname": "capa_type",
+   "fieldtype": "Select",
+   "label": "CAPA Type",
+   "options": "Corrective\nPreventive\nBoth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source_type",
+   "fieldtype": "Select",
+   "label": "Source Type",
+   "options": "\nDeviation\nOOS/OOT\nComplaint\nAudit Finding\nChange Control\nRisk"
+  },
+  {
+   "fieldname": "source_reference",
+   "fieldtype": "Dynamic Link",
+   "label": "Source Reference",
+   "options": "source_type"
+  },
+  {
+   "fieldname": "owner_user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "CAPA Owner",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Due Date",
+   "reqd": 1
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Open\nIn Progress\nOverdue\nPending Effectiveness Check\nClosed"
+  },
+  {
+   "fieldname": "action_plan",
+   "fieldtype": "Text",
+   "label": "Action Plan"
+  },
+  {
+   "fieldname": "effectiveness_check_date",
+   "fieldtype": "Date",
+   "label": "Effectiveness Check Date"
+  },
+  {
+   "fieldname": "effectiveness_evidence",
+   "fieldtype": "Text",
+   "label": "Effectiveness Evidence"
+  },
+  {
+   "fieldname": "closed_by",
+   "fieldtype": "Link",
+   "label": "Closed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Date",
+   "label": "Closed Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 19:08:21.237636",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "QMS CAPA",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "due_date",
+ "sort_order": "ASC",
+ "states": []
+}
