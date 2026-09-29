@@ -1,0 +1,101 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:flock_code",
+ "creation": "2026-09-28 20:44:59.612608",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "flock_code",
+  "house",
+  "flock_type",
+  "breed",
+  "placement_date",
+  "initial_count",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "flock_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Flock Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "house",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "House",
+   "options": "Poultry House",
+   "reqd": 1
+  },
+  {
+   "fieldname": "flock_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Flock Type",
+   "options": "Broiler\nLayer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "breed",
+   "fieldtype": "Data",
+   "label": "Breed"
+  },
+  {
+   "default": "Today",
+   "fieldname": "placement_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Placement Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "initial_count",
+   "fieldtype": "Int",
+   "label": "Initial Count",
+   "reqd": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nSold"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:44:59.612608",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Poultry Flock",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "placement_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
