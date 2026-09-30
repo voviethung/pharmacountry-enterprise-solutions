@@ -23,7 +23,7 @@
     "switchToEn": "English"
   },
   "footer": {
-    "tagline": "Enterprise software for pharma-grade industries.",
+    "tagline": "Enterprise software for regulated manufacturing, distribution, and farm operations.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
     "builtOn": "Built on Frappe/ERPNext"
   },
@@ -36,14 +36,17 @@
     "Livestock": "Livestock",
     "Nutraceutical": "Nutraceutical",
     "Processing": "Processing",
-    "Veterinary": "Veterinary"
+    "Veterinary": "Veterinary",
+    "Horizontal / Cross-Industry": "Horizontal / Cross-Industry"
   },
   "home": {
     "eyebrow": "PharmaCountry Enterprise Solutions · Built on Frappe / ERPNext",
-    "title": "Enterprise software for pharma-grade industries, built to run.",
-    "lead": "PharmaCountry Enterprise Solutions is the technology and ERP division of PharmaCountry, building real, working Frappe/ERPNext-based systems for pharmaceutical manufacturing, quality management, animal health, aquaculture, cosmetics, medical devices, pharmacy retail, and more. Every solution below is a real, working backend — not a mockup.",
+    "title": "Enterprise software for regulated manufacturing, distribution & farm operations.",
+    "lead": "ERP, manufacturing, quality, laboratory, supply chain, and farm management — built as one connected, working system for pharmaceutical, healthcare, veterinary, animal feed, livestock, and aquaculture businesses. Every solution below is a real backend running today, not a mockup.",
     "ctaSolutions": "Explore Industries & Solutions",
-    "ctaAbout": "About PharmaCountry",
+    "ctaExploreDemos": "Explore Live Demos",
+    "ctaRequestDemo": "Request a Demo",
+    "ctaAbout": "About This Platform",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — enterprise technology across pharmaceutical and multi-industry manufacturing",
     "stats": {
       "industryPacks": "Industry Packs",
@@ -98,7 +101,42 @@
     "requiresLogin": "Requires login",
     "erpNote": "Explored via internal system login — not a public website in this environment.",
     "languageNote": "Industry names and summaries below are sourced live from our backend registry and are currently authored in English only.",
-    "viewDetails": "View full details"
+    "viewDetails": "Explore Solution",
+    "requestDemo": "Request Demo",
+    "filters": {
+      "heading": "Filter Solutions",
+      "industryLabel": "Industry",
+      "operationLabel": "Operation",
+      "softwareLabel": "Software",
+      "all": "All",
+      "clear": "Clear filters",
+      "resultsCount": "{count, plural, =0 {No solutions match these filters} =1 {Showing 1 solution} other {Showing # solutions}}",
+      "noResults": "No solutions match these filters. Try clearing one or more of them."
+    },
+    "operations": {
+      "manufacturing": "Manufacturing",
+      "quality": "Quality",
+      "laboratory": "Laboratory",
+      "documentControl": "Document Control",
+      "assetMaintenance": "Asset Maintenance",
+      "farm": "Farm",
+      "processing": "Processing",
+      "distribution": "Distribution",
+      "retail": "Retail",
+      "warehousing": "Warehousing",
+      "trading": "Trading"
+    },
+    "software": {
+      "erp": "ERP",
+      "qms": "QMS",
+      "dms": "DMS",
+      "lims": "LIMS",
+      "eamCmms": "EAM / CMMS",
+      "wms": "WMS",
+      "farmManagement": "Farm Management",
+      "crm": "CRM",
+      "pos": "POS"
+    }
   },
   "solutionDetail": {
     "back": "← Back to Industries & Solutions",
@@ -124,7 +162,10 @@
     "liveSiteBody": "This industry also has its own dedicated public website — a real, standalone application, not a mockup.",
     "notBuiltHeading": "Not yet built",
     "contentLanguageNote": "The detailed content on this page (test scenarios, business flow, build notes) is sourced from our internal engineering documentation and is currently authored in English only — the same honest limitation already disclosed on the main Solutions page for live registry data.",
-    "erpExploreNote": "This reference implementation is explored via internal system login rather than a public website — everything below is real, verified detail about what it actually contains."
+    "erpExploreNote": "This reference implementation is explored via internal system login rather than a public website — everything below is real, verified detail about what it actually contains.",
+    "engineeringEvidenceHeading": "Engineering Evidence",
+    "engineeringEvidenceIntro": "For technical reviewers: the exact test IDs, seed data steps, and platform engines behind the claims above. Click to expand.",
+    "evidenceTestIdsIntro": "Every test ID and what it verifies:"
   },
   "about": {
     "title": "About PharmaCountry Enterprise Solutions",

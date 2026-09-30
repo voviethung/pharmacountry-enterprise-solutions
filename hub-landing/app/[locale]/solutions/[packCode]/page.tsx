@@ -8,7 +8,16 @@ import {
 } from "@/lib/api";
 import { getPackContent, NOT_YET_BUILT_NOTE } from "@/lib/industryPackContent";
 import { visualForCategory } from "@/lib/industryIcons";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, ListChecks, Cog, AlertTriangle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  CheckCircle2,
+  ListChecks,
+  Cog,
+  AlertTriangle,
+  ChevronDown,
+  FlaskConical,
+} from "lucide-react";
 
 // This page calls the real Frappe backend on every request (get_industry_pack_detail) — see
 // app/[locale]/page.tsx's own comment on the same requirement. Without this, Next.js would
@@ -85,7 +94,6 @@ export default async function SolutionDetailPage({
             {detail.industry_category}
           </p>
           <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">{detail.pack_name}</h1>
-          <p className="mt-1 text-xs text-slate-400">{detail.pack_code}</p>
         </div>
       </div>
 
@@ -143,40 +151,23 @@ export default async function SolutionDetailPage({
 
       {content && (
         <>
+          {/* Business-facing primary content: what the demo proves, in plain English — no
+              test-ID codes or "Golden Demo #N" labels at this level (P1 #3). */}
           <section className="mt-10">
             <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
               <CheckCircle2 className="h-5 w-5 text-[#158A57]" strokeWidth={1.75} />
               {t("provesHeading")}
             </h2>
-            <p className="mt-1 text-xs text-slate-500">
-              {content.goldenDemoLabel}
-              {content.companyName ? ` · ${t("companyLabel")}: ${content.companyName}` : ""}
-            </p>
             <p className="mt-3 text-sm text-slate-600">
               {t("provesIntro", { count: content.testIds.length })}
             </p>
             <ul className="mt-4 space-y-2.5">
-              {content.testIds.map((id) => {
-                const unconfirmed = content.unconfirmedTestIds?.includes(id);
-                return (
-                  <li key={id} className="flex gap-3 text-sm">
-                    <span className="mt-0.5 shrink-0 rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs font-semibold text-slate-600">
-                      {id}
-                    </span>
-                    <span className="text-slate-700">
-                      {content.testDescriptions[id]}
-                      {unconfirmed && (
-                        <span
-                          className="ml-1.5 inline-flex items-center gap-1 text-xs text-amber-700"
-                          title={t("unconfirmedFlag")}
-                        >
-                          <AlertTriangle className="inline h-3 w-3" strokeWidth={2} />
-                        </span>
-                      )}
-                    </span>
-                  </li>
-                );
-              })}
+              {content.testIds.map((id) => (
+                <li key={id} className="flex gap-2.5 text-sm text-slate-700">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#3DBB89]" strokeWidth={2} />
+                  <span>{content.testDescriptions[id]}</span>
+                </li>
+              ))}
             </ul>
           </section>
 
@@ -187,16 +178,27 @@ export default async function SolutionDetailPage({
             </p>
           </section>
 
+          {/* Issues found & fixed during testing: genuinely valuable (proves testing was real)
+              but a business buyer shouldn't hit it before understanding the product — closed by
+              default, positioned after the business-facing content above (P1 #5). */}
           {content.notableBugsFixed && content.notableBugsFixed.length > 0 && (
-            <section className="mt-10">
-              <h2 className="text-lg font-semibold text-slate-900">{t("bugsHeading")}</h2>
-              <p className="mt-1 text-xs text-slate-500">{t("bugsIntro")}</p>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
-                {content.notableBugsFixed.map((bug, i) => (
-                  <li key={i}>{bug}</li>
-                ))}
-              </ul>
-            </section>
+            <details className="mt-10 group rounded-lg border border-slate-200 bg-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-slate-900 marker:content-none">
+                {t("bugsHeading")}
+                <ChevronDown
+                  className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+                  strokeWidth={2}
+                />
+              </summary>
+              <div className="border-t border-slate-100 px-5 py-4">
+                <p className="text-xs text-slate-500">{t("bugsIntro")}</p>
+                <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
+                  {content.notableBugsFixed.map((bug, i) => (
+                    <li key={i}>{bug}</li>
+                  ))}
+                </ul>
+              </div>
+            </details>
           )}
 
           <p className="mt-8 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-500 italic">
@@ -205,53 +207,117 @@ export default async function SolutionDetailPage({
         </>
       )}
 
-      {detail.seed_steps.length > 0 && (
-        <section className="mt-10">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <ListChecks className="h-5 w-5 text-[#158A57]" strokeWidth={1.75} />
-            {t("seedStepsHeading")}
-          </h2>
-          <p className="mt-2 text-sm text-slate-600">
-            {t("seedStepsIntro", { count: detail.seed_steps.length })}
-          </p>
-          <ol className="mt-4 space-y-1.5">
-            {detail.seed_steps.map((step) => (
-              <li
-                key={step.sequence}
-                className="flex items-center gap-3 rounded-md border border-slate-100 bg-white px-3 py-2 text-sm"
-              >
-                <span className="w-7 shrink-0 text-right font-mono text-xs text-slate-400">
-                  {step.sequence}
-                </span>
-                <span className="flex-1 text-slate-700">{step.label}</span>
-                <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
-                  {seedTypeLabel(step.seed_type, t)}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
+      {/* Engineering Evidence: the raw test IDs, seed data steps, and capability engines a
+          technical buyer (CTO/QA/IT) will specifically want — collapsed by default, a clearly
+          labeled secondary disclosure rather than shown at the same priority as the
+          business-facing content above (P1 #3). */}
+      {(content || detail.seed_steps.length > 0 || detail.capability_engines.length > 0) && (
+        <details className="mt-6 group rounded-lg border border-slate-200 bg-slate-50">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-slate-900 marker:content-none">
+            <span className="flex items-center gap-2">
+              <FlaskConical className="h-4 w-4 text-[#158A57]" strokeWidth={1.75} />
+              {t("engineeringEvidenceHeading")}
+            </span>
+            <ChevronDown
+              className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+              strokeWidth={2}
+            />
+          </summary>
+          <div className="space-y-8 border-t border-slate-200 px-5 py-5">
+            <p className="text-xs text-slate-500">{t("engineeringEvidenceIntro")}</p>
+
+            {content && (
+              <div>
+                <p className="text-xs font-mono text-slate-500">
+                  {content.goldenDemoLabel}
+                  {content.companyName ? ` · ${t("companyLabel")}: ${content.companyName}` : ""}
+                </p>
+                <p className="mt-3 text-sm font-medium text-slate-900">
+                  {t("evidenceTestIdsIntro")}
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {content.testIds.map((id) => {
+                    const unconfirmed = content.unconfirmedTestIds?.includes(id);
+                    return (
+                      <li key={id} className="flex gap-3 text-sm">
+                        <span className="mt-0.5 shrink-0 rounded bg-white px-1.5 py-0.5 font-mono text-xs font-semibold text-slate-600 border border-slate-200">
+                          {id}
+                        </span>
+                        <span className="text-slate-700">
+                          {content.testDescriptions[id]}
+                          {unconfirmed && (
+                            <span
+                              className="ml-1.5 inline-flex items-center gap-1 text-xs text-amber-700"
+                              title={t("unconfirmedFlag")}
+                            >
+                              <AlertTriangle className="inline h-3 w-3" strokeWidth={2} />
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+
+            {detail.seed_steps.length > 0 && (
+              <div>
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                  <ListChecks className="h-4 w-4 text-[#158A57]" strokeWidth={1.75} />
+                  {t("seedStepsHeading")}
+                </h3>
+                <p className="mt-2 text-xs text-slate-500">
+                  {t("seedStepsIntro", { count: detail.seed_steps.length })}
+                </p>
+                <ol className="mt-3 space-y-1.5">
+                  {detail.seed_steps.map((step) => (
+                    <li
+                      key={step.sequence}
+                      className="flex items-center gap-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm"
+                    >
+                      <span className="w-7 shrink-0 text-right font-mono text-xs text-slate-400">
+                        {step.sequence}
+                      </span>
+                      <span className="flex-1 text-slate-700">{step.label}</span>
+                      <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                        {seedTypeLabel(step.seed_type, t)}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {detail.capability_engines.length > 0 && (
+              <div>
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                  <Cog className="h-4 w-4 text-[#158A57]" strokeWidth={1.75} />
+                  {t("enginesHeading")}
+                </h3>
+                <p className="mt-2 text-xs text-slate-500">{t("enginesIntro")}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {detail.capability_engines.map((engine) => (
+                    <span
+                      key={engine.engine_code}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700"
+                    >
+                      {engine.engine_name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </details>
       )}
 
-      {detail.capability_engines.length > 0 && (
-        <section className="mt-10">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <Cog className="h-5 w-5 text-[#158A57]" strokeWidth={1.75} />
-            {t("enginesHeading")}
-          </h2>
-          <p className="mt-2 text-sm text-slate-600">{t("enginesIntro")}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {detail.capability_engines.map((engine) => (
-              <span
-                key={engine.engine_code}
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700"
-              >
-                {engine.engine_name}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Technical identifiers, collapsed to a small monospace footer line rather than a
+          headline (P1 #3). */}
+      <p className="mt-10 border-t border-slate-100 pt-4 font-mono text-[11px] text-slate-400">
+        {detail.pack_code}
+        {content ? ` · ${content.goldenDemoLabel}` : ""}
+      </p>
     </div>
   );
 }

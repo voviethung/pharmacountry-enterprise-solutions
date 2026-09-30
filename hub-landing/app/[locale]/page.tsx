@@ -121,17 +121,29 @@ export default async function HomePage({
           <p className="mt-6 max-w-2xl text-lg text-slate-300 leading-relaxed">
             {t("lead")}
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/solutions"
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            {/* Primary CTA: straight into the platform's strongest, most concrete proof — the
+                real live demo sites, one scroll down on this same page — rather than a generic
+                catalog link. */}
+            <a
+              href="#live-demos"
               className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-100 transition-colors"
             >
-              {t("ctaSolutions")}
+              {t("ctaExploreDemos")}
               <ArrowRight className="h-4 w-4" strokeWidth={2} />
+            </a>
+            {/* Secondary CTA: reuses the existing /contact page (real Contact -> ERPNext CRM
+                Lead pipeline) rather than a new/duplicate contact mechanism. */}
+            <Link
+              href="/contact?intent=demo-request"
+              className="rounded-md border border-slate-600 px-5 py-3 text-sm font-semibold text-slate-200 hover:border-slate-400 hover:text-white transition-colors"
+            >
+              {t("ctaRequestDemo")}
             </Link>
+            {/* Tertiary: kept as a lower-emphasis text link (also already in the header nav). */}
             <Link
               href="/about"
-              className="rounded-md border border-slate-600 px-5 py-3 text-sm font-semibold text-slate-200 hover:border-slate-400 hover:text-white transition-colors"
+              className="text-sm font-medium text-slate-300 underline decoration-slate-500 underline-offset-4 hover:text-white transition-colors"
             >
               {t("ctaAbout")}
             </Link>
@@ -166,7 +178,7 @@ export default async function HomePage({
         )}
       </section>
 
-      <section className="border-t border-slate-200 bg-slate-50">
+      <section id="live-demos" className="border-t border-slate-200 bg-slate-50 scroll-mt-16">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="flex items-end justify-between mb-8">
             <div>

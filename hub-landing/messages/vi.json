@@ -23,7 +23,7 @@
     "switchToEn": "English"
   },
   "footer": {
-    "tagline": "Phần mềm doanh nghiệp cho các ngành đạt chuẩn dược phẩm.",
+    "tagline": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
     "builtOn": "Xây dựng trên nền tảng Frappe/ERPNext"
   },
@@ -36,14 +36,17 @@
     "Livestock": "Chăn nuôi",
     "Nutraceutical": "Thực phẩm chức năng",
     "Processing": "Chế biến",
-    "Veterinary": "Thú y"
+    "Veterinary": "Thú y",
+    "Horizontal / Cross-Industry": "Liên ngành"
   },
   "home": {
     "eyebrow": "PharmaCountry Enterprise Solutions · Xây dựng trên nền tảng Frappe / ERPNext",
-    "title": "Phần mềm doanh nghiệp cho ngành dược và nhiều lĩnh vực khác, sẵn sàng vận hành thực tế.",
-    "lead": "PharmaCountry Enterprise Solutions là bộ phận công nghệ và ERP của PharmaCountry, xây dựng các hệ thống thực tế trên nền tảng Frappe/ERPNext cho sản xuất dược phẩm, quản lý chất lượng, chăn nuôi thú y, nuôi trồng thủy sản, mỹ phẩm, thiết bị y tế, bán lẻ dược phẩm và nhiều ngành khác. Mỗi giải pháp bên dưới là một hệ thống backend thực tế đang vận hành — không phải bản dựng minh họa.",
+    "title": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
+    "lead": "ERP, sản xuất, chất lượng, phòng thí nghiệm, chuỗi cung ứng và quản lý trang trại — được xây dựng thành một hệ thống liền mạch, thực tế, phục vụ các doanh nghiệp dược phẩm, y tế, thú y, thức ăn chăn nuôi, chăn nuôi và thủy sản. Mỗi giải pháp bên dưới là một hệ thống backend thực tế đang vận hành — không phải bản dựng minh họa.",
     "ctaSolutions": "Khám phá Ngành & Giải pháp",
-    "ctaAbout": "Về PharmaCountry",
+    "ctaExploreDemos": "Khám phá Demo trực tiếp",
+    "ctaRequestDemo": "Yêu cầu Demo",
+    "ctaAbout": "Về nền tảng này",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — công nghệ doanh nghiệp cho sản xuất dược phẩm và đa ngành",
     "stats": {
       "industryPacks": "Gói giải pháp ngành",
@@ -98,7 +101,42 @@
     "requiresLogin": "Yêu cầu đăng nhập",
     "erpNote": "Khám phá qua đăng nhập hệ thống nội bộ — không phải website công khai trong môi trường này.",
     "languageNote": "Tên và mô tả ngành bên dưới được lấy trực tiếp từ hệ thống backend và hiện chỉ được biên soạn bằng tiếng Anh.",
-    "viewDetails": "Xem chi tiết đầy đủ"
+    "viewDetails": "Khám phá giải pháp",
+    "requestDemo": "Yêu cầu Demo",
+    "filters": {
+      "heading": "Lọc giải pháp",
+      "industryLabel": "Ngành",
+      "operationLabel": "Nghiệp vụ",
+      "softwareLabel": "Phần mềm",
+      "all": "Tất cả",
+      "clear": "Xóa bộ lọc",
+      "resultsCount": "{count, plural, =0 {Không có giải pháp nào phù hợp với bộ lọc} =1 {Hiển thị 1 giải pháp} other {Hiển thị # giải pháp}}",
+      "noResults": "Không có giải pháp nào phù hợp với bộ lọc hiện tại. Hãy thử xóa bớt một vài điều kiện lọc."
+    },
+    "operations": {
+      "manufacturing": "Sản xuất",
+      "quality": "Chất lượng",
+      "laboratory": "Phòng thí nghiệm",
+      "documentControl": "Quản lý tài liệu",
+      "assetMaintenance": "Bảo trì thiết bị",
+      "farm": "Trang trại",
+      "processing": "Chế biến",
+      "distribution": "Phân phối",
+      "retail": "Bán lẻ",
+      "warehousing": "Kho vận",
+      "trading": "Thương mại"
+    },
+    "software": {
+      "erp": "ERP",
+      "qms": "QMS",
+      "dms": "DMS",
+      "lims": "LIMS",
+      "eamCmms": "EAM / CMMS",
+      "wms": "WMS",
+      "farmManagement": "Quản lý trang trại",
+      "crm": "CRM",
+      "pos": "POS"
+    }
   },
   "solutionDetail": {
     "back": "← Quay lại Ngành & Giải pháp",
@@ -124,7 +162,10 @@
     "liveSiteBody": "Ngành này còn có website công khai chuyên biệt riêng — một ứng dụng độc lập thực tế, không phải bản dựng minh họa.",
     "notBuiltHeading": "Chưa xây dựng",
     "contentLanguageNote": "Nội dung chi tiết trên trang này (kịch bản kiểm thử, quy trình nghiệp vụ, ghi chú xây dựng) được lấy từ tài liệu kỹ thuật nội bộ của chúng tôi và hiện chỉ được biên soạn bằng tiếng Anh — cùng giới hạn minh bạch đã được công bố trên trang Giải pháp chính đối với dữ liệu đăng ký trực tiếp.",
-    "erpExploreNote": "Bản triển khai mẫu này được khám phá qua đăng nhập hệ thống nội bộ thay vì một website công khai — mọi nội dung bên dưới là thông tin chi tiết thực tế, đã được xác minh về những gì demo này thực sự bao gồm."
+    "erpExploreNote": "Bản triển khai mẫu này được khám phá qua đăng nhập hệ thống nội bộ thay vì một website công khai — mọi nội dung bên dưới là thông tin chi tiết thực tế, đã được xác minh về những gì demo này thực sự bao gồm.",
+    "engineeringEvidenceHeading": "Bằng chứng kỹ thuật",
+    "engineeringEvidenceIntro": "Dành cho người đánh giá kỹ thuật: các mã kiểm thử, bước khởi tạo dữ liệu và engine nền tảng thực tế đứng sau các nội dung ở trên. Nhấn để mở rộng.",
+    "evidenceTestIdsIntro": "Từng mã kiểm thử và nội dung nó xác minh:"
   },
   "about": {
     "title": "Về PharmaCountry Enterprise Solutions",
