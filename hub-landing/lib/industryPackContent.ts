@@ -179,7 +179,7 @@ const PACK_CONTENT_SOURCE: Record<string, IndustryPackContentSource> = {
       businessFlowSummary:
         "A cold-storage temperature excursion is investigated as a Deviation, root-caused, and linked to a CAPA that can only close after a genuine effectiveness check performed by someone other than the CAPA's own owner. The same run also seeds a Change Control flagging an SOP for revision (picked up later by the DMS golden demo), an out-of-spec lab result, an audit finding, and a recall/risk/supplier-quality record, for full coverage of all 9 QMS modules.",
       notableBugsFixed: [
-        "The CAPA-escalation step originally bypassed Frappe's own audit trail, silently defeating the full-audit-trail test for that one event.",
+        "The CAPA-escalation step originally bypassed the platform's own audit trail, silently defeating the full-audit-trail test for that one event.",
         "Cross-module link fields used friendly labels instead of the literal DocType names the linking mechanism actually validates against, breaking every cross-module link until fixed.",
         "None of the 9 new QMS doctypes had change tracking enabled, so the audit-trail test initially showed zero history despite everything else working correctly.",
       ],
@@ -198,7 +198,7 @@ const PACK_CONTENT_SOURCE: Record<string, IndustryPackContentSource> = {
       businessFlowSummary:
         "Một sự cố nhiệt độ vượt ngưỡng tại kho lạnh được điều tra dưới dạng Sai lệch (Deviation), xác định nguyên nhân gốc rễ, và liên kết với một CAPA — CAPA này chỉ có thể đóng sau khi có đánh giá hiệu quả thực sự, được thực hiện bởi người khác chứ không phải chính người phụ trách CAPA đó. Cùng kịch bản demo này còn khởi tạo một Kiểm soát thay đổi (Change Control) đánh dấu một SOP cần sửa đổi (được Golden Demo DMS tiếp nhận sau đó), một kết quả xét nghiệm ngoài tiêu chuẩn, một phát hiện đánh giá (audit finding), và một bản ghi thu hồi/rủi ro/chất lượng nhà cung cấp — đảm bảo bao phủ đầy đủ cả 9 phân hệ của QMS.",
       notableBugsFixed: [
-        "Bước tự động chuyển trạng thái quá hạn của CAPA ban đầu bỏ qua cơ chế audit trail gốc của Frappe, khiến bài kiểm thử về nhật ký kiểm toán đầy đủ bị vô hiệu một cách âm thầm đối với riêng sự kiện đó.",
+        "Bước tự động chuyển trạng thái quá hạn của CAPA ban đầu bỏ qua cơ chế audit trail gốc của nền tảng, khiến bài kiểm thử về nhật ký kiểm toán đầy đủ bị vô hiệu một cách âm thầm đối với riêng sự kiện đó.",
         "Các trường liên kết giữa các phân hệ sử dụng nhãn hiển thị thân thiện thay vì đúng tên DocType mà cơ chế liên kết thực sự kiểm tra, khiến mọi liên kết liên phân hệ bị lỗi cho đến khi được sửa.",
         "Cả 9 DocType mới của QMS đều chưa bật tính năng theo dõi thay đổi, khiến bài kiểm thử audit trail ban đầu không hiển thị lịch sử nào dù mọi thứ khác đều hoạt động đúng.",
       ],

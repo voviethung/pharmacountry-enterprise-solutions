@@ -1,7 +1,7 @@
 {
   "meta": {
     "homeTitle": "PharmaCountry Enterprise Solutions — Multi-Industry ERP Technology",
-    "homeDescription": "PharmaCountry's enterprise software and ERP technology division — real, working Frappe/ERPNext-based solutions for pharmaceutical manufacturing and beyond.",
+    "homeDescription": "PharmaCountry's enterprise software and technology division — real, working solutions for pharmaceutical manufacturing and beyond, connecting pharmaceutical needs worldwide.",
     "solutionsTitle": "Industries & Solutions — PharmaCountry Enterprise Solutions",
     "solutionsDescription": "Every real industry solution built by PharmaCountry Enterprise Solutions, pulled live from our own solutions registry.",
     "aboutTitle": "About — PharmaCountry Enterprise Solutions",
@@ -25,7 +25,7 @@
   "footer": {
     "tagline": "Enterprise software for regulated manufacturing, distribution, and farm operations.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
-    "builtOn": "Built on Frappe/ERPNext"
+    "globalTagline": "Connecting pharmaceutical needs worldwide"
   },
   "categories": {
     "Pharmaceutical": "Pharmaceutical",
@@ -40,7 +40,7 @@
     "Horizontal / Cross-Industry": "Horizontal / Cross-Industry"
   },
   "home": {
-    "eyebrow": "PharmaCountry Enterprise Solutions · Built on Frappe / ERPNext",
+    "eyebrow": "PharmaCountry Enterprise Solutions · Connecting Pharmaceutical Needs Worldwide",
     "title": "Enterprise software for regulated manufacturing, distribution & farm operations.",
     "lead": "ERP, manufacturing, quality, laboratory, supply chain, and farm management — built as one connected, working system for pharmaceutical, healthcare, veterinary, animal feed, livestock, and aquaculture businesses. Every solution below is a real backend running today, not a mockup.",
     "ctaSolutions": "Explore Industries & Solutions",
@@ -211,16 +211,16 @@
     "title": "About PharmaCountry Enterprise Solutions",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — our technology and team",
     "p1": "PharmaCountry is the platform connecting pharmaceutical needs worldwide — a B2B marketplace serving the global pharmaceutical industry across 100+ countries. PharmaCountry Enterprise Solutions is our technology and ERP division: the team that builds the real, working enterprise software behind pharmaceutical manufacturing, quality, and supply chain operations, and extends that same foundation to adjacent regulated and process industries.",
-    "p2": "Our technology is built on Frappe/ERPNext, a mature open-source ERP framework, configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
+    "p2": "Our own proprietary technology is configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
     "p3": "We build around three values: People, Partnerships, and Progress — for a healthier world. Every industry solution presented on our Solutions page is backed by a real, seeded dataset and verified end-to-end workflows, not mockups or placeholder screenshots.",
-    "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same Frappe/ERPNext foundation we use for real deployments.",
+    "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same technology foundation we use for real deployments.",
     "vendorProfile": {
       "companyHeading": "Company & Location",
       "companyText": "PharmaCountry Enterprise Solutions is based in Vietnam, building and supporting enterprise software for pharmaceutical, healthcare, and adjacent regulated and process industries.",
       "techHeading": "Technology",
-      "techText": "This platform is built on Frappe/ERPNext, a mature, widely-used open-source ERP framework, with customer-facing web applications — including this site — built in Next.js. Business data is stored in a real MariaDB/PostgreSQL database (Frappe supports both), and the entire stack is deployed using Docker containers, the same containerized architecture behind every industry solution shown on this site.",
+      "techText": "This platform runs on a modern, enterprise-grade technology foundation, with customer-facing web applications — including this site — built using current web application standards. Business data is stored in a real, production-grade relational database, and the entire stack is deployed using containerized infrastructure, the same architecture behind every industry solution shown on this site.",
       "deploymentHeading": "Deployment Options",
-      "deploymentIntro": "For a real customer engagement, PharmaCountry Enterprise Solutions supports three deployment models — standard for Frappe/ERPNext-based enterprise software:",
+      "deploymentIntro": "For a real customer engagement, PharmaCountry Enterprise Solutions supports three deployment models — standard for modern enterprise software:",
       "deploymentCloudLabel": "Cloud",
       "deploymentCloudText": "Hosted and managed by us.",
       "deploymentDedicatedLabel": "Dedicated",
@@ -232,7 +232,7 @@
       "methodologyIntro": "A real implementation typically follows a standard, proven sequence. Exact scope and timeline are agreed with each customer based on their industry and complexity — nothing here is a fixed timeline or quote.",
       "methodologySteps": {
         "discovery": { "label": "Discovery & Scoping", "text": "Understand your processes, data, and requirements." },
-        "configuration": { "label": "Configuration", "text": "Configure the platform's real Frappe/ERPNext modules to match your business." },
+        "configuration": { "label": "Configuration", "text": "Configure the platform's real modules to match your business." },
         "migration": { "label": "Data Migration", "text": "Bring your existing data into the new system." },
         "training": { "label": "Training", "text": "Prepare your team to operate the system confidently." },
         "goLive": { "label": "Go-Live", "text": "Launch on real, live business data." }
@@ -240,7 +240,7 @@
       "supportHeading": "Support",
       "supportText": "Support is part of every engagement, from initial configuration through day-to-day operation after go-live. As with scope and timeline, the specifics of a support plan are agreed per engagement rather than fixed in advance.",
       "securityHeading": "Security & Data Isolation",
-      "securityText": "Security and per-account data isolation are core to how this platform is built, not an afterthought. Every industry solution runs on Frappe's own role-based permission system, and per-account data isolation has been built and empirically verified across multiple live portals on this platform: the Dealer, Supplier, and Farm portals each restrict a logged-in user to their own data using Frappe's User Permission mechanism — verified by confirming that two different portal logins genuinely see non-overlapping records, not just a status flag claiming so. In a real multi-tenant deployment, each customer's data is further isolated at the instance level."
+      "securityText": "Security and per-account data isolation are core to how this platform is built, not an afterthought. Every industry solution runs on our own role-based permission system, and per-account data isolation has been built and empirically verified across multiple live portals on this platform: the Dealer, Supplier, and Farm portals each restrict a logged-in user to their own data using the platform's own permission-scoping mechanism — verified by confirming that two different portal logins genuinely see non-overlapping records, not just a status flag claiming so. In a real multi-tenant deployment, each customer's data is further isolated at the instance level."
     },
     "contactHeading": "Get in touch",
     "contactText": "Have a question about a specific industry solution, or interested in what PharmaCountry Enterprise Solutions could build for your business? Reach out through our contact page.",

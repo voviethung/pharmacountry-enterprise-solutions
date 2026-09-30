@@ -1,7 +1,7 @@
 {
   "meta": {
     "homeTitle": "PharmaCountry Enterprise Solutions — Công nghệ ERP đa ngành",
-    "homeDescription": "Bộ phận công nghệ và ERP doanh nghiệp của PharmaCountry — các giải pháp thực tế trên nền tảng Frappe/ERPNext cho sản xuất dược phẩm và nhiều ngành khác.",
+    "homeDescription": "Bộ phận công nghệ doanh nghiệp của PharmaCountry — các giải pháp thực tế cho sản xuất dược phẩm và nhiều ngành khác, kết nối nhu cầu dược phẩm toàn cầu.",
     "solutionsTitle": "Ngành & Giải pháp — PharmaCountry Enterprise Solutions",
     "solutionsDescription": "Mọi giải pháp ngành thực tế do PharmaCountry Enterprise Solutions xây dựng, lấy trực tiếp từ hệ thống đăng ký giải pháp của chúng tôi.",
     "aboutTitle": "Giới thiệu — PharmaCountry Enterprise Solutions",
@@ -25,7 +25,7 @@
   "footer": {
     "tagline": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
-    "builtOn": "Xây dựng trên nền tảng Frappe/ERPNext"
+    "globalTagline": "Kết nối nhu cầu dược phẩm toàn cầu"
   },
   "categories": {
     "Pharmaceutical": "Dược phẩm",
@@ -40,7 +40,7 @@
     "Horizontal / Cross-Industry": "Liên ngành"
   },
   "home": {
-    "eyebrow": "PharmaCountry Enterprise Solutions · Xây dựng trên nền tảng Frappe / ERPNext",
+    "eyebrow": "PharmaCountry Enterprise Solutions · Kết nối nhu cầu dược phẩm toàn cầu",
     "title": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
     "lead": "ERP, sản xuất, chất lượng, phòng thí nghiệm, chuỗi cung ứng và quản lý trang trại — được xây dựng thành một hệ thống liền mạch, thực tế, phục vụ các doanh nghiệp dược phẩm, y tế, thú y, thức ăn chăn nuôi, chăn nuôi và thủy sản. Mỗi giải pháp bên dưới là một hệ thống backend thực tế đang vận hành — không phải bản dựng minh họa.",
     "ctaSolutions": "Khám phá Ngành & Giải pháp",
@@ -211,16 +211,16 @@
     "title": "Về PharmaCountry Enterprise Solutions",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — công nghệ và đội ngũ của chúng tôi",
     "p1": "PharmaCountry là nền tảng kết nối nhu cầu dược phẩm trên toàn thế giới — một sàn giao dịch B2B phục vụ ngành dược phẩm toàn cầu tại hơn 100 quốc gia. PharmaCountry Enterprise Solutions là bộ phận công nghệ và ERP của chúng tôi: đội ngũ xây dựng phần mềm doanh nghiệp thực tế đứng sau hoạt động sản xuất, chất lượng và chuỗi cung ứng dược phẩm, đồng thời mở rộng nền tảng đó sang các ngành công nghiệp quy trình và quản lý chặt chẽ khác có liên quan.",
-    "p2": "Công nghệ của chúng tôi được xây dựng trên nền tảng Frappe/ERPNext — một framework ERP mã nguồn mở trưởng thành — được cấu hình thành các giải pháp ngành thực tế: sản xuất dược phẩm, quản lý chất lượng và tài liệu, quản lý thông tin phòng thí nghiệm (LIMS), quản lý thiết bị và tài sản, sản xuất thức ăn chăn nuôi và premix, quản lý trang trại chăn nuôi và thủy sản, sản xuất mỹ phẩm và thiết bị y tế, bán lẻ dược phẩm, kho lạnh 3PL và phân phối hàng tiêu dùng, cùng nhiều lĩnh vực khác.",
+    "p2": "Công nghệ độc quyền của chúng tôi được cấu hình thành các giải pháp ngành thực tế: sản xuất dược phẩm, quản lý chất lượng và tài liệu, quản lý thông tin phòng thí nghiệm (LIMS), quản lý thiết bị và tài sản, sản xuất thức ăn chăn nuôi và premix, quản lý trang trại chăn nuôi và thủy sản, sản xuất mỹ phẩm và thiết bị y tế, bán lẻ dược phẩm, kho lạnh 3PL và phân phối hàng tiêu dùng, cùng nhiều lĩnh vực khác.",
     "p3": "Chúng tôi xây dựng dựa trên ba giá trị cốt lõi: Con người, Hợp tác và Phát triển — vì một thế giới khỏe mạnh hơn. Mọi giải pháp ngành được giới thiệu trên trang Giải pháp của chúng tôi đều dựa trên bộ dữ liệu thực tế và quy trình nghiệp vụ đầu-cuối đã được kiểm chứng, không phải bản dựng minh họa.",
-    "p4": "Để đảm bảo tính minh bạch: trang giới thiệu công nghệ này vận hành trên dữ liệu khởi tạo mang tính minh họa được tạo cho mục đích trình diễn, không phải giao dịch khách hàng thực tế — tên công ty, số lượng và số liệu hiển thị chỉ mang tính minh họa. Điều có thật là chính phần mềm: mọi quy trình, màn hình và tích hợp tại đây đều là mã nguồn hoạt động thực sự, được xây dựng trên cùng nền tảng Frappe/ERPNext mà chúng tôi sử dụng cho các triển khai thực tế.",
+    "p4": "Để đảm bảo tính minh bạch: trang giới thiệu công nghệ này vận hành trên dữ liệu khởi tạo mang tính minh họa được tạo cho mục đích trình diễn, không phải giao dịch khách hàng thực tế — tên công ty, số lượng và số liệu hiển thị chỉ mang tính minh họa. Điều có thật là chính phần mềm: mọi quy trình, màn hình và tích hợp tại đây đều là mã nguồn hoạt động thực sự, được xây dựng trên cùng nền tảng công nghệ mà chúng tôi sử dụng cho các triển khai thực tế.",
     "vendorProfile": {
       "companyHeading": "Công ty & Địa điểm",
       "companyText": "PharmaCountry Enterprise Solutions có trụ sở tại Việt Nam, xây dựng và hỗ trợ phần mềm doanh nghiệp cho ngành dược phẩm, y tế và các ngành công nghiệp quy trình, quản lý chặt chẽ có liên quan.",
       "techHeading": "Công nghệ",
-      "techText": "Nền tảng này được xây dựng trên Frappe/ERPNext — một framework ERP mã nguồn mở trưởng thành, được sử dụng rộng rãi — với các ứng dụng web dành cho khách hàng, bao gồm cả trang web này, được xây dựng bằng Next.js. Dữ liệu nghiệp vụ được lưu trữ trong cơ sở dữ liệu MariaDB/PostgreSQL thực tế (Frappe hỗ trợ cả hai), và toàn bộ hệ thống được triển khai bằng container Docker — cùng kiến trúc container hóa đứng sau mọi giải pháp ngành trên trang web này.",
+      "techText": "Nền tảng này được xây dựng trên nền tảng công nghệ hiện đại, cấp doanh nghiệp, với các ứng dụng web dành cho khách hàng, bao gồm cả trang web này, được xây dựng theo các tiêu chuẩn ứng dụng web hiện hành. Dữ liệu nghiệp vụ được lưu trữ trong cơ sở dữ liệu quan hệ thực tế, cấp sản xuất, và toàn bộ hệ thống được triển khai bằng hạ tầng container hóa — cùng kiến trúc đứng sau mọi giải pháp ngành trên trang web này.",
       "deploymentHeading": "Phương án triển khai",
-      "deploymentIntro": "Đối với một khách hàng thực tế, PharmaCountry Enterprise Solutions hỗ trợ ba mô hình triển khai — tiêu chuẩn đối với phần mềm doanh nghiệp trên nền tảng Frappe/ERPNext:",
+      "deploymentIntro": "Đối với một khách hàng thực tế, PharmaCountry Enterprise Solutions hỗ trợ ba mô hình triển khai — tiêu chuẩn đối với phần mềm doanh nghiệp hiện đại:",
       "deploymentCloudLabel": "Đám mây (Cloud)",
       "deploymentCloudText": "Được chúng tôi lưu trữ và vận hành.",
       "deploymentDedicatedLabel": "Riêng biệt (Dedicated)",
@@ -232,7 +232,7 @@
       "methodologyIntro": "Một dự án triển khai thực tế thường tuân theo một trình tự chuẩn, đã được kiểm chứng. Phạm vi và thời gian cụ thể được thống nhất với từng khách hàng dựa trên ngành và mức độ phức tạp — đây không phải là mốc thời gian hay báo giá cố định.",
       "methodologySteps": {
         "discovery": { "label": "Khảo sát & Xác định phạm vi", "text": "Tìm hiểu quy trình, dữ liệu và yêu cầu của bạn." },
-        "configuration": { "label": "Cấu hình", "text": "Cấu hình các phân hệ Frappe/ERPNext thực tế của nền tảng phù hợp với doanh nghiệp bạn." },
+        "configuration": { "label": "Cấu hình", "text": "Cấu hình các phân hệ thực tế của nền tảng phù hợp với doanh nghiệp bạn." },
         "migration": { "label": "Chuyển đổi dữ liệu", "text": "Đưa dữ liệu hiện có của bạn vào hệ thống mới." },
         "training": { "label": "Đào tạo", "text": "Chuẩn bị cho đội ngũ của bạn vận hành hệ thống một cách tự tin." },
         "goLive": { "label": "Vận hành chính thức", "text": "Đưa hệ thống vào vận hành trên dữ liệu kinh doanh thực tế." }
@@ -240,7 +240,7 @@
       "supportHeading": "Hỗ trợ",
       "supportText": "Hỗ trợ là một phần của mọi dự án, từ giai đoạn cấu hình ban đầu đến vận hành hằng ngày sau khi go-live. Cũng như phạm vi và thời gian, các chi tiết của gói hỗ trợ được thống nhất theo từng dự án thay vì cố định từ trước.",
       "securityHeading": "Bảo mật & Phân tách dữ liệu",
-      "securityText": "Bảo mật và phân tách dữ liệu theo từng tài khoản là yếu tố cốt lõi trong cách nền tảng này được xây dựng, không phải là điều bổ sung sau. Mọi giải pháp ngành đều vận hành trên hệ thống phân quyền dựa trên vai trò (role-based permission) của chính Frappe, và việc phân tách dữ liệu theo từng tài khoản đã được xây dựng và kiểm chứng thực tế trên nhiều cổng thông tin đang hoạt động của nền tảng này: cổng Đại lý, cổng Nhà cung cấp và cổng Trang trại đều giới hạn người dùng đã đăng nhập chỉ thấy dữ liệu của riêng họ thông qua cơ chế User Permission của Frappe — được xác minh bằng cách kiểm tra rằng hai tài khoản đăng nhập khác nhau thực sự thấy các bộ dữ liệu không trùng lặp, chứ không chỉ dựa vào một cờ trạng thái tuyên bố như vậy. Trong một triển khai đa khách hàng (multi-tenant) thực tế, dữ liệu của mỗi khách hàng còn được phân tách sâu hơn ở cấp độ instance riêng."
+      "securityText": "Bảo mật và phân tách dữ liệu theo từng tài khoản là yếu tố cốt lõi trong cách nền tảng này được xây dựng, không phải là điều bổ sung sau. Mọi giải pháp ngành đều vận hành trên hệ thống phân quyền dựa trên vai trò (role-based permission) của riêng chúng tôi, và việc phân tách dữ liệu theo từng tài khoản đã được xây dựng và kiểm chứng thực tế trên nhiều cổng thông tin đang hoạt động của nền tảng này: cổng Đại lý, cổng Nhà cung cấp và cổng Trang trại đều giới hạn người dùng đã đăng nhập chỉ thấy dữ liệu của riêng họ thông qua cơ chế phân quyền riêng của nền tảng — được xác minh bằng cách kiểm tra rằng hai tài khoản đăng nhập khác nhau thực sự thấy các bộ dữ liệu không trùng lặp, chứ không chỉ dựa vào một cờ trạng thái tuyên bố như vậy. Trong một triển khai đa khách hàng (multi-tenant) thực tế, dữ liệu của mỗi khách hàng còn được phân tách sâu hơn ở cấp độ instance riêng."
     },
     "contactHeading": "Liên hệ với chúng tôi",
     "contactText": "Bạn có câu hỏi về một giải pháp ngành cụ thể, hoặc quan tâm đến những gì PharmaCountry Enterprise Solutions có thể xây dựng cho doanh nghiệp của bạn? Hãy liên hệ với chúng tôi qua trang Liên hệ.",
