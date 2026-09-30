@@ -16,8 +16,8 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
           <Link href="/" className="hover:text-emerald-800 transition-colors">
             Home
           </Link>
-          <Link href="/product" className="hover:text-emerald-800 transition-colors">
-            Our Product
+          <Link href="/products" className="hover:text-emerald-800 transition-colors">
+            Our Products
           </Link>
           <Link href="/our-story" className="hover:text-emerald-800 transition-colors">
             Our Story

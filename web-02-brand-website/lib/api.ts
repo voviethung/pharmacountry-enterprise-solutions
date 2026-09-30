@@ -57,6 +57,17 @@ export interface BrandProduct {
   quality: BrandQuality | null;
 }
 
+// P2 post-launch reviewer fix: the lightweight lineup shape get_brand_products() returns —
+// enough to render a product grid/nav without pulling full formula/quality detail for every
+// SKU up front (that's what getBrandProduct(item_code) is for, on the detail page).
+export interface BrandProductSummary {
+  item_code: string;
+  item_name: string;
+  shelf_life_days: number;
+  category: string;
+  tagline: string;
+}
+
 class FrappeApiError extends Error {}
 
 function callFrappeApi<T>(
@@ -108,8 +119,20 @@ export function getBrandProfile(): Promise<BrandProfile> {
   );
 }
 
-export function getBrandProduct(): Promise<BrandProduct> {
+// P2 post-launch reviewer fix: get_brand_product now accepts an optional item_code (still
+// defaults to the flagship when omitted, so every existing call site — the homepage, the
+// original /product page — keeps working unchanged).
+export function getBrandProduct(itemCode?: string): Promise<BrandProduct> {
   return callFrappeApi<BrandProduct>(
-    "enterprise_core.enterprise_core.public_api.get_brand_product"
+    "enterprise_core.enterprise_core.public_api.get_brand_product",
+    itemCode ? { item_code: itemCode } : undefined
+  );
+}
+
+// P2 post-launch reviewer fix: new, additive — the real product lineup (now 3 real SKUs
+// instead of 1), for the /products listing page.
+export function getBrandProducts(): Promise<BrandProductSummary[]> {
+  return callFrappeApi<BrandProductSummary[]>(
+    "enterprise_core.enterprise_core.public_api.get_brand_products"
   );
 }
