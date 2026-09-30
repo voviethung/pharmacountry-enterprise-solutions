@@ -668,6 +668,126 @@ def get_platform_stats():
 	}
 
 
+# ----------------------------------------------------------------------------
+# Industry Pack DETAIL (USER-REQUESTED — "make the ~26 non-live-demo Industry Packs feel
+# genuinely complete instead of a one-line ERP System Demo card"). Backs a new per-pack page
+# in the Hub, `hub-landing`'s `/solutions/[packCode]`.
+#
+# WHY THIS REVISITS THE ABOVE MODULE DOCSTRING'S "never the child rows themselves" RULE:
+# `get_industry_solutions()`'s own module docstring (above) deliberately withheld
+# `Industry Pack.seeds` child-row CONTENT from the LIST endpoint, reasoning that
+# "roles/workspaces/seeds are child tables that could reveal internal template
+# naming/sequencing" — true, and that reasoning still holds for the bulk LIST endpoint (no
+# reason a homepage-scale listing needs 27 packs' worth of internal step names). This new
+# function is a DIFFERENT, narrower thing: a single pack's own detail page, requested
+# explicitly by pack_code, whose entire purpose is to show a genuine visitor "what actually
+# ran to build this specific demo" — the real `Seed Template` names (e.g. "QMS Deviation ->
+# CAPA -> Closure (DP-529)") ARE exactly that fact, and they are already visible to anyone
+# reading this platform's own public engineering documentation
+# (`documents/project_status.md`) — this just surfaces the same honest fact through the UI
+# instead of only through source comments. Still never returns `seed_function` (the literal
+# Python dotted path) or `is_required`/raw `template_code` — only a human label, its
+# `seed_type`, and its sequence position, which is what an interested visitor actually wants
+# ("how many real steps, in what order, does this reference build have").
+#
+# CAPABILITY ENGINES: only returned when `Industry Pack.default_edition` is ACTUALLY set —
+# confirmed live (2026-09-30 investigation) that only 1 of 27 packs (IP-PHARMA ->
+# PHARMA_MFG_STARTER) has this populated; every other pack's `default_edition` is blank. This
+# function does NOT fabricate a plausible-looking engine list for the other 26 — it returns an
+# empty list for them, and the frontend is expected to simply omit that section rather than
+# show a fake or guessed set of engines. Honesty about a data-model gap beats a confident-
+# looking but invented answer.
+def _resolve_seed_steps(pack_code):
+	"""Real `Industry Pack Seed` child rows for one pack, resolved to their `Seed Template`'s
+	human-readable name/type, in sequence order. See this section's own comment above for why
+	this — unlike `get_industry_solutions()` — is allowed to expose child-row content."""
+	seed_rows = frappe.db.get_all(
+		"Industry Pack Seed",
+		filters={"parenttype": "Industry Pack", "parent": pack_code},
+		fields=["seed_template", "sequence"],
+		order_by="sequence asc",
+	)
+	if not seed_rows:
+		return []
+	template_codes = list({row.seed_template for row in seed_rows})
+	templates = {
+		t.template_code: t
+		for t in frappe.db.get_all(
+			"Seed Template",
+			filters={"template_code": ["in", template_codes]},
+			fields=["template_code", "template_name", "seed_type"],
+		)
+	}
+	steps = []
+	for row in seed_rows:
+		template = templates.get(row.seed_template)
+		if not template:
+			continue
+		steps.append(
+			{
+				"sequence": row.sequence,
+				"label": template.template_name,
+				"seed_type": template.seed_type,
+			}
+		)
+	return steps
+
+
+def _resolve_capability_engines(default_edition):
+	"""Real `Edition.capability_engines` -> `Capability Engine` lookup for one Edition code, or
+	an empty list if there's no Edition to resolve (see this section's own comment above — this
+	is currently true for 26 of 27 packs, and that's reported as an empty list, never guessed)."""
+	if not default_edition:
+		return []
+	engine_rows = frappe.db.get_all(
+		"Edition Capability Engine",
+		filters={"parenttype": "Edition", "parent": default_edition, "enabled": 1},
+		fields=["capability_engine"],
+	)
+	if not engine_rows:
+		return []
+	engine_codes = list({row.capability_engine for row in engine_rows})
+	engines = frappe.db.get_all(
+		"Capability Engine",
+		filters={"engine_code": ["in", engine_codes], "enabled": 1},
+		fields=["engine_code", "engine_name", "category"],
+		order_by="engine_code asc",
+	)
+	return [{"engine_code": e.engine_code, "engine_name": e.engine_name, "category": e.category} for e in engines]
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_industry_pack_detail(pack_code):
+	"""Public, guest-accessible detail for ONE real, enabled Industry Pack — backs the Hub's
+	`/solutions/[packCode]` page. `pack_code` is a request parameter (unlike every other
+	function in this module), but it only ever SELECTS which already-public pack_code's real
+	registry data to return — never an arbitrary doctype/fieldname, and the underlying query is
+	still `frappe.db.get_all()` with a hardcoded field allow-list, exactly like
+	`get_industry_solutions()`. An unknown/disabled pack_code raises `DoesNotExistError` rather
+	than silently returning an empty/blank record."""
+	pack = frappe.db.get_value(
+		"Industry Pack",
+		{"pack_code": pack_code, "enabled": 1},
+		["pack_code", "pack_name", "industry_category", "default_edition"],
+		as_dict=True,
+	)
+	if not pack:
+		frappe.throw("Industry pack not found.", frappe.DoesNotExistError)
+
+	live_demos = _LIVE_DEMO_PACKS.get(pack.pack_code, [])
+	return {
+		"pack_code": pack.pack_code,
+		"pack_name": pack.pack_name,
+		"industry_category": pack.industry_category,
+		"summary": _PACK_SUMMARIES.get(pack.pack_code, ""),
+		"has_golden_demo": _pack_has_golden_demo(pack.pack_code),
+		"has_live_demo": bool(live_demos),
+		"live_demos": live_demos,
+		"seed_steps": _resolve_seed_steps(pack.pack_code),
+		"capability_engines": _resolve_capability_engines(pack.default_edition),
+	}
+
+
 # ============================================================================
 # Hub Contact Form — REAL BUSINESS-CRM WRITE (user-requested rebrand, not in the master plan's
 # WEB-01..07 list — see documents/project_status.md's rebrand entry for the full rationale).
