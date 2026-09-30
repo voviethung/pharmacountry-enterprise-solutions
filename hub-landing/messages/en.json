@@ -202,7 +202,6 @@
     "liveSiteHeading": "Live public site",
     "liveSiteBody": "This industry also has its own dedicated public website — a real, standalone application, not a mockup.",
     "notBuiltHeading": "Not yet built",
-    "contentLanguageNote": "The detailed content on this page (test scenarios, business flow, build notes) is sourced from our internal engineering documentation and is currently authored in English only — the same honest limitation already disclosed on the main Solutions page for live registry data.",
     "erpExploreNote": "This reference implementation is explored via internal system login rather than a public website — everything below is real, verified detail about what it actually contains.",
     "engineeringEvidenceHeading": "Engineering Evidence",
     "engineeringEvidenceIntro": "For technical reviewers: the exact test IDs, seed data steps, and platform engines behind the claims above. Click to expand.",

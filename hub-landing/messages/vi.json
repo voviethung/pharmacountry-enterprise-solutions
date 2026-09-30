@@ -202,7 +202,6 @@
     "liveSiteHeading": "Website công khai đang hoạt động",
     "liveSiteBody": "Ngành này còn có website công khai chuyên biệt riêng — một ứng dụng độc lập thực tế, không phải bản dựng minh họa.",
     "notBuiltHeading": "Chưa xây dựng",
-    "contentLanguageNote": "Nội dung chi tiết trên trang này (kịch bản kiểm thử, quy trình nghiệp vụ, ghi chú xây dựng) được lấy từ tài liệu kỹ thuật nội bộ của chúng tôi và hiện chỉ được biên soạn bằng tiếng Anh — cùng giới hạn minh bạch đã được công bố trên trang Giải pháp chính đối với dữ liệu đăng ký trực tiếp.",
     "erpExploreNote": "Bản triển khai mẫu này được khám phá qua đăng nhập hệ thống nội bộ thay vì một website công khai — mọi nội dung bên dưới là thông tin chi tiết thực tế, đã được xác minh về những gì demo này thực sự bao gồm.",
     "engineeringEvidenceHeading": "Bằng chứng kỹ thuật",
     "engineeringEvidenceIntro": "Dành cho người đánh giá kỹ thuật: các mã kiểm thử, bước khởi tạo dữ liệu và engine nền tảng thực tế đứng sau các nội dung ở trên. Nhấn để mở rộng.",

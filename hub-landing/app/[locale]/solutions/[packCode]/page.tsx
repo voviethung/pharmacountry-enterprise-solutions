@@ -77,7 +77,7 @@ export default async function SolutionDetailPage({
     );
   }
 
-  const content = getPackContent(detail.pack_code);
+  const content = getPackContent(detail.pack_code, locale);
   const { icon: Icon, bg, fg } = visualForCategory(detail.industry_category);
   const isNotYetBuilt = !detail.has_golden_demo;
 
@@ -200,10 +200,6 @@ export default async function SolutionDetailPage({
               </div>
             </details>
           )}
-
-          <p className="mt-8 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-500 italic">
-            {t("contentLanguageNote")}
-          </p>
         </>
       )}
 
