@@ -79,6 +79,47 @@
         "label": "Bản triển khai mẫu",
         "text": "Phần lớn các gói giải pháp ngành đã có bản triển khai mẫu hoàn chỉnh, được kiểm chứng — dữ liệu khởi tạo thực tế và quy trình nghiệp vụ đầu-cuối có thể khám phá trực tiếp trong hệ thống. Một số ngành còn có website công khai riêng, như các website ở trên."
       }
+    },
+    "aiAutomation": {
+    "heading": "AI & Tự động hóa",
+    "lead": "AI là một trong 15 engine năng lực dùng chung của chúng tôi. Đây là một kiến trúc thực tế, đang hoạt động — không phải một slide thuyết trình — được xây dựng trực tiếp vào các phân hệ bên dưới.",
+    "honesty": {
+      "heading": "AI hoạt động như thế nào trong môi trường này",
+      "text": "Mọi năng lực bên dưới đều chạy trên kiến trúc thực tế: một lớp định tuyến không phụ thuộc nhà cung cấp (provider-agnostic), cơ chế dự phòng (fallback) giữa các mô hình, thực thi chính sách AI theo từng khách hàng (tenant), một hệ thống đăng ký công cụ (tool registry) được kiểm soát, quyền truy cập dữ liệu theo phân quyền, cùng nhật ký kiểm toán (audit log) đầy đủ cho mọi yêu cầu — cộng với bước phê duyệt bắt buộc của con người ở bất kỳ đâu mà một bản nháp AI có thể trở thành một bản ghi thực sự. Lớp định tuyến này được thiết kế để gọi đến một nhà cung cấp mô hình ngôn ngữ thực tế theo lựa chọn của bạn trong một triển khai thực tế — OpenAI, Anthropic Claude, Groq, hoặc một mô hình riêng, tự triển khai (private/self-hosted). Riêng trong bản demo công khai này, phản hồi của mô hình được mô phỏng (simulated), để bạn có thể thấy chính xác cách phân quyền, phê duyệt và ghi nhật ký kiểm toán hoạt động mà không cần gọi mô hình thực hoặc khóa API trong một môi trường công khai."
+    },
+    "humanApprovalBadge": "Yêu cầu con người phê duyệt",
+    "items": {
+      "executiveAssistant": {
+        "title": "Trợ lý Điều hành (Executive Assistant)",
+        "text": "Đặt câu hỏi bằng ngôn ngữ tự nhiên về dữ liệu vận hành thực tế — CAPA quá hạn, lô hàng đang bị giữ, hàng tồn kho sắp hết hạn, hiệu suất FCR của trang trại, xu hướng doanh thu — và nhận câu trả lời được xây dựng từ một tập hợp cố định các công cụ dữ liệu chỉ-đọc đã được kiểm duyệt, kèm trích dẫn nguồn. Kết quả tự động được giới hạn theo đúng những gì người dùng đặt câu hỏi thực sự được phép xem."
+      },
+      "qmsCopilot": {
+        "title": "QMS Copilot",
+        "text": "Hỗ trợ điều tra sai lệch (deviation) và soạn thảo CAPA (hành động khắc phục và phòng ngừa). Mọi đề xuất do AI soạn thảo đều được lưu ở dạng bản nháp và cần sự phê duyệt rõ ràng của một người kiểm duyệt — bao gồm quy tắc cấm tự phê duyệt chính mình — trước khi trở thành một phần của hồ sơ chất lượng chính thức."
+      },
+      "dmsCopilot": {
+        "title": "DMS Copilot",
+        "text": "So sánh các phiên bản tài liệu và tìm kiếm nội dung liên quan trong các tài liệu được kiểm soát, giúp đội ngũ quản lý tài liệu nhanh chóng biết điều gì đã thay đổi và câu trả lời đã có sẵn ở đâu."
+      },
+      "manufacturingInsight": {
+        "title": "Manufacturing Insight",
+        "text": "Phân tích dữ liệu sản xuất và lô hàng thực tế để phát hiện chậm trễ tiến độ và bất thường về hiệu suất (yield) cần được xem xét kỹ hơn."
+      },
+      "procurementAssistant": {
+        "title": "Procurement Assistant",
+        "text": "So sánh báo giá nhà cung cấp và tóm tắt lịch sử nhà cung cấp để hỗ trợ quyết định mua hàng. Hệ thống không bao giờ tự động duyệt một nhà cung cấp hay một đơn mua hàng — quyết định đó luôn thuộc về con người."
+      },
+      "farmAssistant": {
+        "title": "Trợ lý Chăn nuôi & Thủy sản",
+        "text": "Phân tích hệ số chuyển đổi thức ăn (FCR), tỷ lệ hao hụt và các bất thường tại ao nuôi/trang trại trong hoạt động chăn nuôi và nuôi tôm/cá, dựa trên cùng dữ liệu thu hoạch và quản lý trang trại thực tế được sử dụng ở nơi khác trên nền tảng này."
+      },
+      "enterpriseSearch": {
+        "title": "Tìm kiếm Doanh nghiệp theo Phân quyền",
+        "text": "Một pipeline lập chỉ mục và truy xuất tài liệu (RAG) thực tế — tài liệu được chia nhỏ (chunk), lập chỉ mục và truy xuất để trả lời câu hỏi — với mọi kết quả được giới hạn theo đúng những gì người dùng yêu cầu thực sự được phép xem, cùng mô hình phân quyền được áp dụng ở mọi nơi khác trên nền tảng này."
+      }
+    },
+    "governanceNote": "Tất cả các năng lực trên đều chạy trên cùng một nền tảng dùng chung: hệ thống đăng ký công cụ được kiểm soát, chính sách AI theo từng khách hàng, định tuyến dự phòng giữa các mô hình, nhật ký kiểm toán đầy đủ cho mọi yêu cầu, và một tập hợp ngày càng mở rộng các bộ dữ liệu đánh giá dùng để kiểm tra chất lượng phản hồi AI theo thời gian.",
+    "cta": "Liên hệ để tìm hiểu về kiến trúc AI"
     }
   },
   "solutions": {
@@ -174,6 +215,34 @@
     "p2": "Công nghệ của chúng tôi được xây dựng trên nền tảng Frappe/ERPNext — một framework ERP mã nguồn mở trưởng thành — được cấu hình thành các giải pháp ngành thực tế: sản xuất dược phẩm, quản lý chất lượng và tài liệu, quản lý thông tin phòng thí nghiệm (LIMS), quản lý thiết bị và tài sản, sản xuất thức ăn chăn nuôi và premix, quản lý trang trại chăn nuôi và thủy sản, sản xuất mỹ phẩm và thiết bị y tế, bán lẻ dược phẩm, kho lạnh 3PL và phân phối hàng tiêu dùng, cùng nhiều lĩnh vực khác.",
     "p3": "Chúng tôi xây dựng dựa trên ba giá trị cốt lõi: Con người, Hợp tác và Phát triển — vì một thế giới khỏe mạnh hơn. Mọi giải pháp ngành được giới thiệu trên trang Giải pháp của chúng tôi đều dựa trên bộ dữ liệu thực tế và quy trình nghiệp vụ đầu-cuối đã được kiểm chứng, không phải bản dựng minh họa.",
     "p4": "Để đảm bảo tính minh bạch: trang giới thiệu công nghệ này vận hành trên dữ liệu khởi tạo mang tính minh họa được tạo cho mục đích trình diễn, không phải giao dịch khách hàng thực tế — tên công ty, số lượng và số liệu hiển thị chỉ mang tính minh họa. Điều có thật là chính phần mềm: mọi quy trình, màn hình và tích hợp tại đây đều là mã nguồn hoạt động thực sự, được xây dựng trên cùng nền tảng Frappe/ERPNext mà chúng tôi sử dụng cho các triển khai thực tế.",
+    "vendorProfile": {
+      "companyHeading": "Công ty & Địa điểm",
+      "companyText": "PharmaCountry Enterprise Solutions có trụ sở tại Việt Nam, xây dựng và hỗ trợ phần mềm doanh nghiệp cho ngành dược phẩm, y tế và các ngành công nghiệp quy trình, quản lý chặt chẽ có liên quan.",
+      "techHeading": "Công nghệ",
+      "techText": "Nền tảng này được xây dựng trên Frappe/ERPNext — một framework ERP mã nguồn mở trưởng thành, được sử dụng rộng rãi — với các ứng dụng web dành cho khách hàng, bao gồm cả trang web này, được xây dựng bằng Next.js. Dữ liệu nghiệp vụ được lưu trữ trong cơ sở dữ liệu MariaDB/PostgreSQL thực tế (Frappe hỗ trợ cả hai), và toàn bộ hệ thống được triển khai bằng container Docker — cùng kiến trúc container hóa đứng sau mọi giải pháp ngành trên trang web này.",
+      "deploymentHeading": "Phương án triển khai",
+      "deploymentIntro": "Đối với một khách hàng thực tế, PharmaCountry Enterprise Solutions hỗ trợ ba mô hình triển khai — tiêu chuẩn đối với phần mềm doanh nghiệp trên nền tảng Frappe/ERPNext:",
+      "deploymentCloudLabel": "Đám mây (Cloud)",
+      "deploymentCloudText": "Được chúng tôi lưu trữ và vận hành.",
+      "deploymentDedicatedLabel": "Riêng biệt (Dedicated)",
+      "deploymentDedicatedText": "Một instance riêng trên hạ tầng do bạn lựa chọn.",
+      "deploymentOnPremLabel": "Tại chỗ (On-Premise)",
+      "deploymentOnPremText": "Triển khai ngay trong trung tâm dữ liệu của bạn.",
+      "deploymentNote": "Bản trình diễn này tự thân vận hành theo một mô hình triển khai đám mây cụ thể — mô hình triển khai cho một khách hàng thực tế là lựa chọn được thống nhất cùng bạn.",
+      "methodologyHeading": "Quy trình triển khai",
+      "methodologyIntro": "Một dự án triển khai thực tế thường tuân theo một trình tự chuẩn, đã được kiểm chứng. Phạm vi và thời gian cụ thể được thống nhất với từng khách hàng dựa trên ngành và mức độ phức tạp — đây không phải là mốc thời gian hay báo giá cố định.",
+      "methodologySteps": {
+        "discovery": { "label": "Khảo sát & Xác định phạm vi", "text": "Tìm hiểu quy trình, dữ liệu và yêu cầu của bạn." },
+        "configuration": { "label": "Cấu hình", "text": "Cấu hình các phân hệ Frappe/ERPNext thực tế của nền tảng phù hợp với doanh nghiệp bạn." },
+        "migration": { "label": "Chuyển đổi dữ liệu", "text": "Đưa dữ liệu hiện có của bạn vào hệ thống mới." },
+        "training": { "label": "Đào tạo", "text": "Chuẩn bị cho đội ngũ của bạn vận hành hệ thống một cách tự tin." },
+        "goLive": { "label": "Vận hành chính thức", "text": "Đưa hệ thống vào vận hành trên dữ liệu kinh doanh thực tế." }
+      },
+      "supportHeading": "Hỗ trợ",
+      "supportText": "Hỗ trợ là một phần của mọi dự án, từ giai đoạn cấu hình ban đầu đến vận hành hằng ngày sau khi go-live. Cũng như phạm vi và thời gian, các chi tiết của gói hỗ trợ được thống nhất theo từng dự án thay vì cố định từ trước.",
+      "securityHeading": "Bảo mật & Phân tách dữ liệu",
+      "securityText": "Bảo mật và phân tách dữ liệu theo từng tài khoản là yếu tố cốt lõi trong cách nền tảng này được xây dựng, không phải là điều bổ sung sau. Mọi giải pháp ngành đều vận hành trên hệ thống phân quyền dựa trên vai trò (role-based permission) của chính Frappe, và việc phân tách dữ liệu theo từng tài khoản đã được xây dựng và kiểm chứng thực tế trên nhiều cổng thông tin đang hoạt động của nền tảng này: cổng Đại lý, cổng Nhà cung cấp và cổng Trang trại đều giới hạn người dùng đã đăng nhập chỉ thấy dữ liệu của riêng họ thông qua cơ chế User Permission của Frappe — được xác minh bằng cách kiểm tra rằng hai tài khoản đăng nhập khác nhau thực sự thấy các bộ dữ liệu không trùng lặp, chứ không chỉ dựa vào một cờ trạng thái tuyên bố như vậy. Trong một triển khai đa khách hàng (multi-tenant) thực tế, dữ liệu của mỗi khách hàng còn được phân tách sâu hơn ở cấp độ instance riêng."
+    },
     "contactHeading": "Liên hệ với chúng tôi",
     "contactText": "Bạn có câu hỏi về một giải pháp ngành cụ thể, hoặc quan tâm đến những gì PharmaCountry Enterprise Solutions có thể xây dựng cho doanh nghiệp của bạn? Hãy liên hệ với chúng tôi qua trang Liên hệ.",
     "contactLink": "Liên hệ ngay"
@@ -191,6 +260,18 @@
     "success": "Cảm ơn bạn — chúng tôi đã nhận được tin nhắn. Đội ngũ của chúng tôi sẽ liên hệ lại sớm.",
     "errorGeneric": "Đã có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.",
     "errorValidation": "Vui lòng nhập họ tên, email hợp lệ và nội dung tin nhắn.",
-    "companyOptional": "(không bắt buộc)"
+    "companyOptional": "(không bắt buộc)",
+    "companyInfo": {
+      "heading": "Thông tin công ty",
+      "intro": "Muốn liên hệ trực tiếp, hoặc chỉ đơn giản là muốn biết ai đứng sau nền tảng này? Đây là thông tin của chúng tôi.",
+      "companyLabel": "Công ty",
+      "companyName": "PharmaCountry Enterprise Solutions",
+      "companyDescription": "Bộ phận công nghệ và ERP doanh nghiệp của PharmaCountry, sàn giao dịch B2B dược phẩm toàn cầu.",
+      "emailLabel": "Email",
+      "locationLabel": "Địa điểm",
+      "locationValue": "Thành phố Hồ Chí Minh, Việt Nam",
+      "linkedinLabel": "LinkedIn",
+      "linkedinNote": "Trang công ty sẽ sớm ra mắt."
+    }
   }
 }

@@ -7,7 +7,20 @@ import {
   liveDemoUrlFor,
 } from "@/lib/api";
 import { visualForCategory } from "@/lib/industryIcons";
-import { Boxes, Network, CheckCircle2, ArrowRight } from "lucide-react";
+import {
+  Boxes,
+  Network,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+  ShieldAlert,
+  MessageSquareText,
+  FileSearch,
+  Factory,
+  ClipboardCheck,
+  Fish,
+  Search,
+} from "lucide-react";
 
 // The 9 real `industry_category` values this platform's own Industry Pack registry actually
 // uses (grepped live from get_industry_solutions() — not invented), rendered as a stable
@@ -25,6 +38,21 @@ const HERO_CATEGORIES = [
   "Nutraceutical",
   "Processing",
   "Veterinary",
+] as const;
+
+// The 7 real Phase 6A AI capabilities this platform actually built (see project_status.md's
+// Phase 6A section, AI-DEMO-01 through Evaluation Datasets) — a frontend-owned, stable list
+// (these are shipped modules, not live-fetched data). `humanApproval` marks the 2 items whose
+// own build docs describe a mandatory human-approval gate before an AI draft becomes a real
+// record (QMS Copilot's AI Draft mechanism, Procurement Assistant's "never auto-approves").
+const AI_ITEMS = [
+  { key: "executiveAssistant", icon: MessageSquareText, humanApproval: false },
+  { key: "qmsCopilot", icon: ShieldAlert, humanApproval: true },
+  { key: "dmsCopilot", icon: FileSearch, humanApproval: false },
+  { key: "manufacturingInsight", icon: Factory, humanApproval: false },
+  { key: "procurementAssistant", icon: ClipboardCheck, humanApproval: true },
+  { key: "farmAssistant", icon: Fish, humanApproval: false },
+  { key: "enterpriseSearch", icon: Search, humanApproval: false },
 ] as const;
 
 // Force dynamic rendering — this page calls the real Frappe backend on every request. Without
@@ -304,6 +332,62 @@ export default async function HomePage({
             </p>
             <p className="mt-2 text-slate-600">{t("howBuilt.demos.text")}</p>
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <p className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-[#158A57]">
+            <Sparkles className="h-4 w-4" strokeWidth={2} />
+            {t("aiAutomation.heading")}
+          </p>
+          <h2 className="mt-2 max-w-2xl text-2xl font-semibold text-slate-900">
+            {t("aiAutomation.lead")}
+          </h2>
+
+          {/* Honesty callout — the mock-vs-real framing lives here, once, rather than repeated
+              on every card below. See this section's own build notes for why: the underlying
+              LLM provider call is a deliberately-labeled mock adapter (`ai_core.py`), while the
+              routing/policy/tool-registry/permission/audit architecture around it is real. */}
+          <div className="mt-6 rounded-lg border border-[#158A57]/25 bg-white p-5 max-w-3xl">
+            <h3 className="text-sm font-semibold text-slate-900">
+              {t("aiAutomation.honesty.heading")}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              {t("aiAutomation.honesty.text")}
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {AI_ITEMS.map(({ key, icon: Icon, humanApproval }) => (
+              <div key={key} className="rounded-lg border border-slate-200 bg-white p-6">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#158A57]/10">
+                  <Icon className="h-5 w-5 text-[#0A4A2D]" strokeWidth={1.75} />
+                </span>
+                <h3 className="mt-3 font-semibold text-slate-900">
+                  {t(`aiAutomation.items.${key}.title`)}
+                </h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  {t(`aiAutomation.items.${key}.text`)}
+                </p>
+                {humanApproval && (
+                  <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                    {t("aiAutomation.humanApprovalBadge")}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 max-w-3xl text-sm text-slate-500">{t("aiAutomation.governanceNote")}</p>
+
+          <Link
+            href="/contact?intent=ai-architecture"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#158A57] hover:text-[#0A4A2D] hover:underline"
+          >
+            {t("aiAutomation.cta")}
+            <ArrowRight className="h-4 w-4" strokeWidth={2} />
+          </Link>
         </div>
       </section>
     </div>

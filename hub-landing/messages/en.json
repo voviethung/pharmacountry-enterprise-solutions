@@ -79,6 +79,47 @@
         "label": "Reference Implementations",
         "text": "Most industry packs already have a complete, verified reference implementation — real seeded data and end-to-end business flows explored directly in the system. Select industries also get a dedicated public website, like the ones above."
       }
+    },
+    "aiAutomation": {
+    "heading": "AI & Automation",
+    "lead": "AI is one of our 15 shared capability engines. It's real, working architecture — not a slide — built directly into the modules below.",
+    "honesty": {
+      "heading": "How AI works in this environment",
+      "text": "Every capability below runs on real architecture: a provider-agnostic routing layer, fallback between models, tenant-level AI policy enforcement, a governed tool registry, permission-scoped data access, and a full audit log of every request — plus a mandatory human-approval step wherever a draft could become a real record. That routing layer is designed to call a real language-model provider of your choice in a production deployment — OpenAI, Anthropic Claude, Groq, or a private, self-hosted model. In this public demo specifically, the model response itself is simulated, so you can see exactly how permissions, approvals, and audit logging behave without live model calls or API keys in a public environment."
+    },
+    "humanApprovalBadge": "Human approval required",
+    "items": {
+      "executiveAssistant": {
+        "title": "Executive Assistant",
+        "text": "Ask plain questions about real operational data — overdue CAPAs, batches on hold, near-expiry inventory, farm FCR performance, revenue trends — and get an answer built from a fixed set of vetted, read-only data tools, with source citations. Results are automatically scoped to what the asking user is actually permitted to see."
+      },
+      "qmsCopilot": {
+        "title": "QMS Copilot",
+        "text": "Assists with deviation investigation and CAPA (Corrective and Preventive Action) drafting. Every AI-drafted suggestion is held as a draft and requires a human reviewer's explicit approval — including a rule against self-approval — before it becomes part of the real quality record."
+      },
+      "dmsCopilot": {
+        "title": "DMS Copilot",
+        "text": "Compares document revisions and searches controlled documents for relevant content, helping document-control teams find what changed and where an answer already exists."
+      },
+      "manufacturingInsight": {
+        "title": "Manufacturing Insight",
+        "text": "Analyzes real production and batch data to flag delivery delays and yield anomalies worth a closer look."
+      },
+      "procurementAssistant": {
+        "title": "Procurement Assistant",
+        "text": "Compares supplier quotations and summarizes supplier history to support a purchasing decision. It never auto-approves a supplier or a purchase — that decision always stays with a human."
+      },
+      "farmAssistant": {
+        "title": "Livestock & Aquaculture Assistant",
+        "text": "Analyzes feed conversion ratio (FCR), mortality, and pond/farm anomalies across livestock and shrimp/fish farm operations, built on the same real harvest and farm-management data used elsewhere on this platform."
+      },
+      "enterpriseSearch": {
+        "title": "Permission-Aware Enterprise Search",
+        "text": "A real document indexing and retrieval (RAG) pipeline — documents are chunked, indexed, and retrieved to answer questions — with every result scoped to what the requesting user is actually permitted to see, the same permission model enforced everywhere else on this platform."
+      }
+    },
+    "governanceNote": "All of this runs through the same shared backbone: a governed tool registry, tenant-level AI policy, fallback routing between models, full audit logging of every request, and a growing set of evaluation datasets used to test AI response quality over time.",
+    "cta": "Ask us about the AI architecture"
     }
   },
   "solutions": {
@@ -174,6 +215,34 @@
     "p2": "Our technology is built on Frappe/ERPNext, a mature open-source ERP framework, configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
     "p3": "We build around three values: People, Partnerships, and Progress — for a healthier world. Every industry solution presented on our Solutions page is backed by a real, seeded dataset and verified end-to-end workflows, not mockups or placeholder screenshots.",
     "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same Frappe/ERPNext foundation we use for real deployments.",
+    "vendorProfile": {
+      "companyHeading": "Company & Location",
+      "companyText": "PharmaCountry Enterprise Solutions is based in Vietnam, building and supporting enterprise software for pharmaceutical, healthcare, and adjacent regulated and process industries.",
+      "techHeading": "Technology",
+      "techText": "This platform is built on Frappe/ERPNext, a mature, widely-used open-source ERP framework, with customer-facing web applications — including this site — built in Next.js. Business data is stored in a real MariaDB/PostgreSQL database (Frappe supports both), and the entire stack is deployed using Docker containers, the same containerized architecture behind every industry solution shown on this site.",
+      "deploymentHeading": "Deployment Options",
+      "deploymentIntro": "For a real customer engagement, PharmaCountry Enterprise Solutions supports three deployment models — standard for Frappe/ERPNext-based enterprise software:",
+      "deploymentCloudLabel": "Cloud",
+      "deploymentCloudText": "Hosted and managed by us.",
+      "deploymentDedicatedLabel": "Dedicated",
+      "deploymentDedicatedText": "A private instance on infrastructure of your choice.",
+      "deploymentOnPremLabel": "On-Premise",
+      "deploymentOnPremText": "Deployed inside your own data center.",
+      "deploymentNote": "This showcase itself runs as one specific cloud deployment — the deployment model for a real customer is a choice made together with you.",
+      "methodologyHeading": "Implementation Approach",
+      "methodologyIntro": "A real implementation typically follows a standard, proven sequence. Exact scope and timeline are agreed with each customer based on their industry and complexity — nothing here is a fixed timeline or quote.",
+      "methodologySteps": {
+        "discovery": { "label": "Discovery & Scoping", "text": "Understand your processes, data, and requirements." },
+        "configuration": { "label": "Configuration", "text": "Configure the platform's real Frappe/ERPNext modules to match your business." },
+        "migration": { "label": "Data Migration", "text": "Bring your existing data into the new system." },
+        "training": { "label": "Training", "text": "Prepare your team to operate the system confidently." },
+        "goLive": { "label": "Go-Live", "text": "Launch on real, live business data." }
+      },
+      "supportHeading": "Support",
+      "supportText": "Support is part of every engagement, from initial configuration through day-to-day operation after go-live. As with scope and timeline, the specifics of a support plan are agreed per engagement rather than fixed in advance.",
+      "securityHeading": "Security & Data Isolation",
+      "securityText": "Security and per-account data isolation are core to how this platform is built, not an afterthought. Every industry solution runs on Frappe's own role-based permission system, and per-account data isolation has been built and empirically verified across multiple live portals on this platform: the Dealer, Supplier, and Farm portals each restrict a logged-in user to their own data using Frappe's User Permission mechanism — verified by confirming that two different portal logins genuinely see non-overlapping records, not just a status flag claiming so. In a real multi-tenant deployment, each customer's data is further isolated at the instance level."
+    },
     "contactHeading": "Get in touch",
     "contactText": "Have a question about a specific industry solution, or interested in what PharmaCountry Enterprise Solutions could build for your business? Reach out through our contact page.",
     "contactLink": "Contact us"
@@ -191,6 +260,18 @@
     "success": "Thank you — your message has been received. Our team will get back to you soon.",
     "errorGeneric": "Something went wrong sending your message. Please try again in a moment.",
     "errorValidation": "Please fill in your name, a valid email, and a message.",
-    "companyOptional": "(optional)"
+    "companyOptional": "(optional)",
+    "companyInfo": {
+      "heading": "Company Information",
+      "intro": "Prefer to reach us directly, or just want to know who's behind this platform? Here's how.",
+      "companyLabel": "Company",
+      "companyName": "PharmaCountry Enterprise Solutions",
+      "companyDescription": "The enterprise software and ERP technology division of PharmaCountry, the global B2B pharmaceutical marketplace.",
+      "emailLabel": "Email",
+      "locationLabel": "Location",
+      "locationValue": "Ho Chi Minh City, Vietnam",
+      "linkedinLabel": "LinkedIn",
+      "linkedinNote": "Company profile coming soon."
+    }
   }
 }
