@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getIndustrySolutions, liveDemoUrlFor, type IndustrySolution } from "@/lib/api";
 import { visualForCategory } from "@/lib/industryIcons";
+import { ArrowUpRight } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -92,16 +94,26 @@ export default async function SolutionsPage({
 
 type T = (key: string, values?: Record<string, string | number>) => string;
 
+// Every card's PRIMARY click target is now the new `/solutions/[packCode]` detail page (built
+// for this rebrand's richer per-industry content) — including "Live Demo" packs, whose direct
+// external site link(s) are demoted to a SECONDARY action rendered below the primary Link,
+// never removed. The primary Link and any external `<a>` live outside one another (siblings in
+// the same bordered card, not nested) since HTML forbids nesting an <a> inside another <a>.
 function SolutionCard({ solution, t }: { solution: IndustrySolution; t: T }) {
   if (solution.has_live_demo) {
     return (
       <div className="rounded-lg border border-slate-200 bg-white p-6 hover:border-[#3DBB89] hover:shadow-md transition-all flex flex-col">
-        <div className="flex items-start justify-between">
-          <CategoryIcon category={solution.industry_category} />
-          <CardBadge tone="live">{t("badge.live")}</CardBadge>
-        </div>
-        <CardBody solution={solution} />
-        <div className="mt-4 space-y-2">
+        <Link href={`/solutions/${solution.pack_code}`} className="group flex flex-1 flex-col">
+          <div className="flex items-start justify-between">
+            <CategoryIcon category={solution.industry_category} />
+            <CardBadge tone="live">{t("badge.live")}</CardBadge>
+          </div>
+          <CardBody solution={solution} />
+          <p className="mt-4 text-sm font-medium text-slate-900 group-hover:text-[#158A57]">
+            {t("viewDetails")} &rarr;
+          </p>
+        </Link>
+        <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
           {solution.live_demos.map((demo) => {
             const url = liveDemoUrlFor(demo.key);
             if (!url) {
@@ -117,11 +129,12 @@ function SolutionCard({ solution, t }: { solution: IndustrySolution; t: T }) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-sm font-medium text-[#158A57] hover:text-[#0A4A2D]"
+                className="flex items-center gap-1 text-sm font-medium text-[#158A57] hover:text-[#0A4A2D]"
               >
-                {demo.label} &rarr;
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+                {demo.label}
                 {demo.requires_login && (
-                  <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                  <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
                     {t("requiresLogin")}
                   </span>
                 )}
@@ -135,25 +148,35 @@ function SolutionCard({ solution, t }: { solution: IndustrySolution; t: T }) {
 
   if (solution.has_golden_demo) {
     return (
-      <div className="rounded-lg border border-slate-200 bg-white p-6 flex flex-col hover:shadow-sm transition-all">
+      <Link
+        href={`/solutions/${solution.pack_code}`}
+        className="group rounded-lg border border-slate-200 bg-white p-6 flex flex-col hover:border-[#3DBB89] hover:shadow-sm transition-all"
+      >
         <div className="flex items-start justify-between">
           <CategoryIcon category={solution.industry_category} />
           <CardBadge tone="erp">{t("badge.erp")}</CardBadge>
         </div>
         <CardBody solution={solution} />
-        <p className="mt-4 text-xs text-slate-400">{t("erpNote")}</p>
-      </div>
+        <p className="mt-4 text-sm font-medium text-slate-900 group-hover:text-[#158A57]">
+          {t("viewDetails")} &rarr;
+        </p>
+        <p className="mt-1 text-xs text-slate-400">{t("erpNote")}</p>
+      </Link>
     );
   }
 
   return (
-    <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 p-6 flex flex-col opacity-80">
+    <Link
+      href={`/solutions/${solution.pack_code}`}
+      className="rounded-lg border border-dashed border-slate-200 bg-slate-50 p-6 flex flex-col opacity-80 hover:opacity-100 hover:border-slate-300 transition-all"
+    >
       <div className="flex items-start justify-between">
         <CategoryIcon category={solution.industry_category} muted />
         <CardBadge tone="planned">{t("badge.planned")}</CardBadge>
       </div>
       <CardBody solution={solution} />
-    </div>
+      <p className="mt-4 text-sm font-medium text-slate-500">{t("viewDetails")} &rarr;</p>
+    </Link>
   );
 }
 

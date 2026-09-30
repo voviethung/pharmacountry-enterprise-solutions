@@ -170,6 +170,39 @@ export function getIndustrySolutions(): Promise<IndustrySolution[]> {
   );
 }
 
+// One real seed step that ran to build this pack's golden demo (Industry Pack Seed -> Seed
+// Template, resolved server-side). `label` is the real Seed Template's human name (frequently
+// carrying its own real internal ticket reference, e.g. "(DP-529)") — never the raw
+// `seed_function` dotted path or `template_code` enum. See public_api.py's own
+// `get_industry_pack_detail()` docstring for why this endpoint (unlike the list endpoint) is
+// allowed to expose this.
+export interface IndustryPackSeedStep {
+  sequence: number;
+  label: string;
+  seed_type: "Master Data" | "Transaction" | "Demo Scenario" | string;
+}
+
+// One real Capability Engine this pack's Edition actually wires up. Only ever non-empty when
+// the pack's own `default_edition` is genuinely set in the backend (true today for exactly 1
+// of 27 packs, IP-PHARMA) — never a guessed/typical set for the other packs.
+export interface IndustryPackCapabilityEngine {
+  engine_code: string;
+  engine_name: string;
+  category: string;
+}
+
+export interface IndustryPackDetail extends IndustrySolution {
+  seed_steps: IndustryPackSeedStep[];
+  capability_engines: IndustryPackCapabilityEngine[];
+}
+
+export function getIndustryPackDetail(packCode: string): Promise<IndustryPackDetail> {
+  return callFrappeApi<IndustryPackDetail>(
+    "enterprise_core.enterprise_core.public_api.get_industry_pack_detail",
+    { params: { pack_code: packCode } }
+  );
+}
+
 export interface ContactLeadInput {
   fullName: string;
   email: string;
