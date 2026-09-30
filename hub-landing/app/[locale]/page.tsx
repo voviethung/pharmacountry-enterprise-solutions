@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import {
   getPlatformStats,
@@ -74,11 +75,16 @@ export default async function HomePage({
   return (
     <div>
       <section className="relative overflow-hidden border-b border-slate-200 bg-slate-900">
-        {/* TODO: replace this CSS-only gradient treatment with a real hero image once
-            generated — see IMAGE_PROMPTS.md ("Homepage hero banner"). No product photography
-            exists anywhere in this platform's real data (every Item.image field is empty), so
-            this stays an honest illustrative treatment, now tinted with the real PharmaCountry
-            brand green, until real imagery is generated and embedded. */}
+        {/* Real hero image (generated from IMAGE_PROMPTS.md's "Homepage hero banner" prompt),
+            tinted by the gradient/grid overlays below for white-text legibility on the left. */}
+        <Image
+          src="/images/hero-control-room.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-70"
+        />
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{
@@ -92,6 +98,15 @@ export default async function HomePage({
             backgroundImage:
               "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
             backgroundSize: "48px 48px",
+          }}
+        />
+        {/* Left-to-right darkening so the headline stays legible over the photo regardless of
+            its own content on the right two-thirds. */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.55) 45%, rgba(15,23,42,0.25) 100%)",
           }}
         />
 
@@ -238,6 +253,17 @@ export default async function HomePage({
 
       <section className="mx-auto max-w-6xl px-6 py-16">
         <h2 className="text-2xl font-semibold text-slate-900">{t("howBuilt.heading")}</h2>
+        {/* Real multi-industry illustration (generated from IMAGE_PROMPTS.md's "Multi-industry
+            breadth illustration" prompt), anchoring this section visually. */}
+        <div className="mt-8 relative mx-auto h-56 w-full max-w-xl sm:h-64">
+          <Image
+            src="/images/multi-industry.webp"
+            alt=""
+            fill
+            sizes="(min-width: 640px) 576px, 100vw"
+            className="object-contain"
+          />
+        </div>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div>
             <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#158A57]/10">

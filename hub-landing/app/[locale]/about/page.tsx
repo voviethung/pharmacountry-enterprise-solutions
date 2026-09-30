@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
@@ -28,32 +29,15 @@ export default async function AboutPage({
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-bold text-slate-900">{t("title")}</h1>
 
-      {/* TODO: replace with a real About-page image once generated — see IMAGE_PROMPTS.md
-          ("About-page image"). CSS-only placeholder in the real brand green, not a broken
-          <img> tag, until real imagery exists. */}
-      <div
-        className="mt-8 flex h-56 items-center justify-center rounded-xl border border-[#158A57]/20 sm:h-72"
-        style={{
-          background:
-            "linear-gradient(135deg, #3DBB89 0%, #158A57 45%, #0A4A2D 100%)",
-        }}
-        role="img"
-        aria-label={t("heroImageAlt")}
-      >
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <rect
-            x="10"
-            y="10"
-            width="44"
-            height="44"
-            rx="6"
-            fill="none"
-            stroke="#ffffff"
-            strokeOpacity="0.55"
-            strokeWidth="2.5"
-            transform="rotate(45 32 32)"
-          />
-        </svg>
+      {/* Real About-page image (generated from IMAGE_PROMPTS.md's "About-page image" prompt). */}
+      <div className="mt-8 relative h-56 overflow-hidden rounded-xl border border-[#158A57]/20 sm:h-72">
+        <Image
+          src="/images/about-team.webp"
+          alt={t("heroImageAlt")}
+          fill
+          sizes="(min-width: 768px) 768px, 100vw"
+          className="object-cover"
+        />
       </div>
 
       <div className="mt-8 space-y-6 text-slate-700 leading-relaxed">
