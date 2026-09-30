@@ -533,3 +533,85 @@ def seed_cosmetics_rework():
 	if not c06_confirmed:
 		frappe.throw(f"C06 FAILED: reworked batch {new_batch}'s genealogy does not resolve back to original batch {original_batch}.")
 	return f"seed_cosmetics_rework: C06 CONFIRMED — new batch {new_batch}'s genealogy resolves back to original batch {original_batch} through the rework."
+
+
+# ---------------------------------------------------------------------------
+# Catalog expansion (P2 post-launch reviewer fix, NOT a master-plan DP item) — this golden
+# demo's ONLY sellable finished good was FACIAL-CLEANSER-150ML (FACIAL-CLEANSER-BULK is an
+# unsellable manufacturing intermediate), giving WEB-05's "Skincare" grouping zero real
+# breadth. Adds ONE new real, single-stage finished cosmetic — a real Item + real Formula
+# (BOM) mixing real chemical ingredients with real packaging materials, the same mixed-UOM
+# BOM shape the Packed Formula above already establishes (kg chemicals + Nos packaging ->
+# Nos bottles) — deliberately NOT re-running the two-stage Bulk/Packed pipeline (that
+# specific shape exists to demonstrate C02's genealogy test, not because every SKU needs it).
+# No production run of its own here — real public stock/price is established downstream by
+# Demo Consumer Distribution Co.'s own Material Receipt, same pattern as
+# FACIAL-CLEANSER-150ML/VITC-1000-EFF.
+# ---------------------------------------------------------------------------
+
+_TONER_ITEM = "FACIAL-TONER-200ML"
+_TONER_NAME = "Hydrating Facial Toner 200ml"
+_TONER_BATCH_QTY = 500  # Nos (bottles)
+_TONER_NEW_CHEMICALS = [("NIACINAMIDE", "Niacinamide"), ("WITCH-HAZEL-EXTRACT", "Witch Hazel Extract")]
+_TONER_NEW_PACKAGING = [("BOTTLE-200ML", "Bottle 200ml (Toner)"), ("SPRAY-CAP", "Spray Cap"), ("LABEL-FACIAL-TONER", "Label - Facial Toner")]
+# AQUA, GLYCERIN, PRESERVATIVE-PHENOXYETHANOL are reused directly from this module's own
+# existing chemicals above — Item is not company-scoped.
+_TONER_FORMULA = [
+	("AQUA", 90),
+	("GLYCERIN", 5),
+	("NIACINAMIDE", 2),
+	("WITCH-HAZEL-EXTRACT", 2),
+	("PRESERVATIVE-PHENOXYETHANOL", 1),
+	("BOTTLE-200ML", 500),
+	("SPRAY-CAP", 500),
+	("LABEL-FACIAL-TONER", 500),
+]
+
+
+def seed_cosmetics_catalog_expansion():
+	"""P2 catalog-widening fix (post-launch reviewer feedback, not a master-plan DP item) — one
+	new real finished cosmetic (Item + real Formula/BOM), widening WEB-05's "Skincare" category
+	beyond the single FACIAL-CLEANSER-150ML SKU. See the module-level comment above this
+	section for the full design rationale."""
+	if not frappe.db.exists("Company", _COMPANY_NAME):
+		return "seed_cosmetics_catalog_expansion: SKIPPED — run seed_cosmetics_master_data first."
+	created_items = 0
+	for item_code, item_name in _TONER_NEW_CHEMICALS:
+		if frappe.db.exists("Item", item_code):
+			continue
+		frappe.get_doc({"doctype": "Item", "item_code": item_code, "item_name": item_name, "item_group": "Raw Material", "stock_uom": "Kg", "is_stock_item": 1}).insert(ignore_permissions=True)
+		created_items += 1
+	for item_code, item_name in _TONER_NEW_PACKAGING:
+		if frappe.db.exists("Item", item_code):
+			continue
+		frappe.get_doc({"doctype": "Item", "item_code": item_code, "item_name": item_name, "item_group": "Packaging Material", "stock_uom": "Nos", "is_stock_item": 1}).insert(ignore_permissions=True)
+		created_items += 1
+
+	toner_created = False
+	if not frappe.db.exists("Item", _TONER_ITEM):
+		frappe.get_doc(
+			{
+				"doctype": "Item",
+				"item_code": _TONER_ITEM,
+				"item_name": _TONER_NAME,
+				"item_group": "Finished Goods",
+				"stock_uom": "Nos",
+				"is_stock_item": 1,
+				"has_batch_no": 1,
+				"create_new_batch": 1,
+				"has_expiry_date": 1,
+				"shelf_life_in_days": 1095,
+			}
+		).insert(ignore_permissions=True)
+		toner_created = True
+
+	bom_created = False
+	if not frappe.db.exists("BOM", {"item": _TONER_ITEM, "is_active": 1}):
+		bom = frappe.get_doc({"doctype": "BOM", "item": _TONER_ITEM, "quantity": _TONER_BATCH_QTY, "uom": "Nos", "company": _COMPANY_NAME, "is_active": 1, "is_default": 1})
+		for ing_code, qty in _TONER_FORMULA:
+			bom.append("items", {"item_code": ing_code, "qty": qty})
+		bom.insert(ignore_permissions=True)
+		bom.submit()
+		bom_created = True
+
+	return f"seed_cosmetics_catalog_expansion: {created_items} new raw/packaging Item(s). Toner Item {'created' if toner_created else 'already existed'}. Formula {'created' if bom_created else 'already existed'}."

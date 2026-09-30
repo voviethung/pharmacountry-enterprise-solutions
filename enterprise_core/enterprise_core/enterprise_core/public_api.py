@@ -73,18 +73,42 @@ _COMPANY_COPY = {
 # _safe_item_codes()'s real SQL filter.
 _CATALOG_COPY = {
 	"VITC-1000-EFF": {
-		"category": "Nutraceutical / Supplement",
+		"category": "Vitamins",
 		"blurb": (
 			"Fast-dissolving effervescent tablet delivering 1000mg of Vitamin C per serving, "
 			"distributed nationwide through our dealer network."
 		),
 	},
+	"VITD3-1000-SG": {
+		"category": "Vitamins",
+		"blurb": "Vitamin D3 1000 IU softgel for daily bone and immune support, distributed nationwide through our dealer network.",
+	},
+	"MULTIVIT-COMP-TAB": {
+		"category": "Vitamins",
+		"blurb": "A daily multivitamin complex tablet covering Vitamin C, D3, Zinc and B-Complex, distributed nationwide through our dealer network.",
+	},
+	"ZINC-50-TAB": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "Zinc gluconate 50mg tablet supporting normal immune function, distributed nationwide through our dealer network.",
+	},
+	"OMEGA3-1000-SG": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "Omega-3 fish oil 1000mg softgel, distributed nationwide through our dealer network.",
+	},
+	"PROBIOTIC-10B-CAP": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "A 10 billion CFU probiotic capsule for daily digestive support, distributed nationwide through our dealer network.",
+	},
 	"FACIAL-CLEANSER-150ML": {
-		"category": "Personal Care / Cosmetics",
+		"category": "Skincare",
 		"blurb": (
 			"Gentle daily facial cleanser in a 150ml bottle, formulated for everyday use and "
 			"distributed through our dealer and retail network."
 		),
+	},
+	"FACIAL-TONER-200ML": {
+		"category": "Skincare",
+		"blurb": "Hydrating facial toner in a 200ml bottle, formulated for everyday use and distributed through our dealer and retail network.",
 	},
 }
 
@@ -250,8 +274,24 @@ def get_item_detail(item_code: str = ""):
 # ============================================================================
 
 _BRAND_COMPANY = "Demo Supplement Co."
-_BRAND_FG_ITEM = "VITC-1000-EFF"
+_BRAND_FG_ITEM = "VITC-1000-EFF"  # the default/flagship — get_brand_product() with no item_code
 _BRAND_FG_NAME = "Vitamin C 1000mg Effervescent Tablet"
+
+# P2 post-launch reviewer fix (not a master-plan DP item): a reviewer correctly flagged WEB-02
+# as showcasing only 1 SKU. `supplement_seeds.py`'s seed_supplement_flagship_production() took
+# 2 more real products through the FULL production -> QC -> LIMS COA pipeline (identical depth
+# to VITC-1000-EFF's own) specifically so this brand site could genuinely show a small real
+# lineup (3 SKUs, within the reviewer's own suggested 3-5 range) rather than fabricate
+# additional "hero products" with no real formula/quality data behind them. `get_brand_product()`
+# stays the exact single-item shape it always was (now parameterized, defaulting to the
+# flagship) so every existing caller (the homepage, the original /product page) keeps working
+# unchanged; `get_brand_products()` is new, additive, for the lineup page.
+_BRAND_ITEMS = ["VITC-1000-EFF", "VITD3-1000-SG", "ZINC-50-TAB"]
+_BRAND_ITEM_NAMES = {
+	"VITC-1000-EFF": "Vitamin C 1000mg Effervescent Tablet",
+	"VITD3-1000-SG": "Vitamin D3 1000 IU Softgel",
+	"ZINC-50-TAB": "Zinc Gluconate 50mg Tablet",
+}
 
 _BRAND_COPY = {
 	"tagline": "Daily immune support, fast-dissolving, made with care.",
@@ -271,7 +311,7 @@ _BRAND_COPY = {
 }
 
 # Presentation-only copy for the hero product page — see module docstring. Keyed by the real
-# item_code; only ever surfaced for `_BRAND_FG_ITEM` itself.
+# item_code; only ever surfaced for an item_code in `_BRAND_ITEMS`.
 _PRODUCT_COPY = {
 	"VITC-1000-EFF": {
 		"category": "Immune Support / Effervescent Supplement",
@@ -287,7 +327,36 @@ _PRODUCT_COPY = {
 			"Light orange flavor, no artificial dyes in the formula.",
 			"Every batch lab-tested against a published potency specification before release.",
 		],
-	}
+	},
+	"VITD3-1000-SG": {
+		"category": "Bone & Immune Support / Softgel Supplement",
+		"tagline": "1000 IU of Vitamin D3 in an easy-to-swallow softgel, verified in the lab.",
+		"story": (
+			"Our Vitamin D3 softgel delivers a full 1000 IU dose in a soybean-oil carrier for "
+			"reliable absorption. Like every product in our range, it's formulated, "
+			"manufactured, and lab-tested end-to-end by Demo Supplement Co."
+		),
+		"benefits": [
+			"1000 IU Vitamin D3 per softgel to support normal bone and immune function.",
+			"Soybean-oil carrier for reliable absorption of a fat-soluble vitamin.",
+			"Easy-to-swallow softgel format — no chewing or dissolving required.",
+			"Every batch lab-tested against a published potency specification before release.",
+		],
+	},
+	"ZINC-50-TAB": {
+		"category": "Immune Support / Mineral Supplement",
+		"tagline": "50mg of Zinc Gluconate per tablet, verified in the lab.",
+		"story": (
+			"Our Zinc Gluconate tablet delivers a consistent 50mg dose to support normal "
+			"immune function. Like every product in our range, it's formulated, manufactured, "
+			"and lab-tested end-to-end by Demo Supplement Co."
+		),
+		"benefits": [
+			"50mg Zinc Gluconate per tablet to support normal immune function.",
+			"Compact standard tablet format.",
+			"Every batch lab-tested against a published potency specification before release.",
+		],
+	},
 }
 
 # Presentation-only short notes for real formula ingredients — purely descriptive flavor text,
@@ -300,23 +369,30 @@ _INGREDIENT_NOTES = {
 	"SORBITOL": "A gentle sweetener and tablet binder.",
 	"SOY-LECITHIN": "A binding agent derived from soy — the tablet's one common allergen.",
 	"ORANGE-FLAVOR": "Natural-style orange flavoring, no artificial dyes.",
+	"VIT-D3-CONCENTRATE": "The active ingredient — Cholecalciferol (Vitamin D3) concentrate.",
+	"SOYBEAN-OIL": "The carrier oil the softgel is filled with, chosen for fat-soluble vitamin absorption.",
+	"GELATIN": "Forms the softgel shell.",
+	"GLYCERIN": "A plasticizer that keeps the softgel shell flexible.",
+	"ZINC-GLUCONATE": "The active ingredient — a well-absorbed form of zinc.",
+	"MCC": "Microcrystalline Cellulose — a tablet filler/binder.",
+	"MAG-STEARATE": "A tableting lubricant that keeps the formula from sticking to manufacturing equipment.",
 }
 
 
-def _brand_default_bom():
+def _brand_default_bom(item_code):
 	"""The product's real, current manufacturing Formula (BOM) — active AND default only, i.e.
 	the version actually used for the most recent production, never a superseded/historical
 	BOM version (those stay on record for traceability but aren't "the current formula")."""
 	return frappe.db.get_value(
-		"BOM", {"item": _BRAND_FG_ITEM, "is_active": 1, "is_default": 1}, "name"
+		"BOM", {"item": item_code, "is_active": 1, "is_default": 1}, "name"
 	)
 
 
-def _brand_formula():
+def _brand_formula(item_code):
 	"""Real BOM ingredient list, reduced to item_code/name/percent-of-formula-weight only —
 	never a BOM cost/rate/amount field. Percentage is computed here (qty / total qty), never
 	stored or asserted by any hardcoded lookup, so it stays correct if the formula changes."""
-	bom_name = _brand_default_bom()
+	bom_name = _brand_default_bom(item_code)
 	if not bom_name:
 		return []
 	rows = frappe.db.get_all(
@@ -337,14 +413,14 @@ def _brand_formula():
 	return formula
 
 
-def _brand_quality():
+def _brand_quality(item_name):
 	"""Real LIMS Specification (the published potency range) + the latest Approved LIMS
 	COA/Test result for THIS item specifically, scoped via `LIMS Sample.item_name` (this
 	platform's shared LIMS chain serves multiple golden demos/items on the same doctypes, so
 	scoping by item_name — not "any Approved COA in the system" — is required for correctness,
 	not just security). Returns None if no Effective spec exists yet rather than guessing."""
 	spec_name = frappe.db.get_value(
-		"LIMS Specification", {"item_name": _BRAND_FG_NAME, "status": "Effective"}, "name"
+		"LIMS Specification", {"item_name": item_name, "status": "Effective"}, "name"
 	)
 	if not spec_name:
 		return None
@@ -357,7 +433,7 @@ def _brand_quality():
 	sample_names = [
 		row.name
 		for row in frappe.db.get_all(
-			"LIMS Sample", filters={"item_name": _BRAND_FG_NAME}, fields=["name"]
+			"LIMS Sample", filters={"item_name": item_name}, fields=["name"]
 		)
 	]
 	latest_result = None
@@ -423,21 +499,29 @@ def get_brand_profile():
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
-def get_brand_product():
-	"""Public, guest-accessible hero-product page: real Item facts (shelf life, allergen flag),
-	real Formula (BOM) ingredient proportions, and real lab-verified quality data — plus
-	presentation copy for the narrative fields Item.description/image leave empty. There is
-	only one hero product in this demo (`_BRAND_FG_ITEM`), so unlike WEB-01's catalog this is
-	not parameterized by item_code at all — nothing here is guest-controllable."""
+def get_brand_product(item_code: str = ""):
+	"""Public, guest-accessible product detail page: real Item facts (shelf life, allergen
+	flag), real Formula (BOM) ingredient proportions, and real lab-verified quality data — plus
+	presentation copy for the narrative fields Item.description/image leave empty.
+
+	P2 post-launch reviewer fix: originally hardcoded to a single hero product
+	(`_BRAND_FG_ITEM`) with no item_code parameter at all. Now accepts an OPTIONAL item_code,
+	defaulting to the flagship when blank (so every existing caller — the homepage,
+	`/product` — keeps working byte-for-byte unchanged), but STRICTLY validated against the
+	small, hardcoded `_BRAND_ITEMS` allow-list — never an arbitrary guest-supplied Item code,
+	same discipline as `get_item_detail()`'s own `_safe_item_codes()` check above."""
+	item_code = (item_code or "").strip() or _BRAND_FG_ITEM
+	if item_code not in _BRAND_ITEMS:
+		frappe.throw("Product is not available.", frappe.DoesNotExistError)
 	item = frappe.db.get_value(
 		"Item",
-		_BRAND_FG_ITEM,
+		item_code,
 		["item_code", "item_name", "shelf_life_in_days", "contains_allergen"],
 		as_dict=True,
 	)
 	if not item:
 		frappe.throw("Product is not available.", frappe.DoesNotExistError)
-	copy = _PRODUCT_COPY.get(_BRAND_FG_ITEM, {})
+	copy = _PRODUCT_COPY.get(item_code, {})
 	return {
 		"item_code": item.item_code,
 		"item_name": item.item_name,
@@ -447,9 +531,34 @@ def get_brand_product():
 		"tagline": copy.get("tagline", ""),
 		"story": copy.get("story", ""),
 		"benefits": copy.get("benefits", []),
-		"ingredients": _brand_formula(),
-		"quality": _brand_quality(),
+		"ingredients": _brand_formula(item_code),
+		"quality": _brand_quality(item.item_name),
 	}
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_brand_products():
+	"""Public, guest-accessible product LINEUP — new, additive (P2 post-launch reviewer fix):
+	a lightweight list of every real item in the small, hardcoded `_BRAND_ITEMS` allow-list, so
+	the brand site can show a real multi-SKU lineup page rather than jumping straight to one
+	hero product. Same explicit field allow-list discipline as the rest of this module — no
+	quality/ingredient detail here (that's what `get_brand_product(item_code)` is for)."""
+	products = []
+	for item_code in _BRAND_ITEMS:
+		item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "shelf_life_in_days"], as_dict=True)
+		if not item:
+			continue
+		copy = _PRODUCT_COPY.get(item_code, {})
+		products.append(
+			{
+				"item_code": item.item_code,
+				"item_name": item.item_name,
+				"shelf_life_days": item.shelf_life_in_days,
+				"category": copy.get("category", "Supplement"),
+				"tagline": copy.get("tagline", ""),
+			}
+		)
+	return products
 
 
 # ============================================================================

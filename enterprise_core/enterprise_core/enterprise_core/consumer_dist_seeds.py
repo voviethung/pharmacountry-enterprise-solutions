@@ -671,3 +671,68 @@ def seed_consumer_dist_dashboard():
 	if not dashboard.get("stock_by_item"):
 		frappe.throw("Sales dashboard FAILED: no stock data resolved for the Distribution Center.")
 	return f"seed_consumer_dist_dashboard: CD06 CONFIRMED — commission report + sales dashboard resolve real data for both Sales Persons. {commission}"
+
+
+# ---------------------------------------------------------------------------
+# Catalog expansion (P2 post-launch reviewer fix, NOT a master-plan DP item) — this is the
+# SINGLE company WEB-01 (catalog.pharmacountry.vn) and WEB-05 (shop.pharmacountry.vn) actually
+# read from (see public_api.py/b2c_commerce_api.py's own `_safe_item_codes()` — a real, live
+# SQL join requiring BOTH a real Stock Ledger Entry for this company AND a real selling Item
+# Price on "Standard Selling"; no hardcoded item_code list anywhere in either frontend). A
+# reviewer correctly flagged both public sites as looking too thin (2 products, no category
+# breadth) because this Company had only ever received 2 finished goods. This function
+# receives the SAME way the golden demo's own DP-666 already established (a fresh Material
+# Receipt into the Distribution Center, no reference back to the manufacturer's own batch —
+# Item isn't company-scoped, so this Company can receive/resell a finished good it never
+# itself made) for 6 new REAL finished goods reused from Golden Demo #20 (5 new supplement
+# products, supplement_seeds.py's seed_supplement_catalog_expansion()) and Golden Demo #21 (1
+# new cosmetic, cosmetics_seeds.py's seed_cosmetics_catalog_expansion()) — run those two seed
+# functions on this same site FIRST so these Items actually exist before this one runs.
+#
+# Real, honest category grouping for WEB-05's "3-4 categories" ask — grounded in what each
+# item actually is, not an invented label: "Vitamins" (VITC-1000-EFF, VITD3-1000-SG,
+# MULTIVIT-COMP-TAB), "Minerals & Specialty Supplements" (ZINC-50-TAB, OMEGA3-1000-SG,
+# PROBIOTIC-10B-CAP), "Skincare" (FACIAL-CLEANSER-150ML, FACIAL-TONER-200ML) — 8 products
+# across 3 real categories total once this runs, up from 2 products / 0 category breadth.
+# ---------------------------------------------------------------------------
+
+_EXPANSION_ITEMS = {
+	# item_code: (receive_qty, receive_basic_rate, selling_price_list_rate)
+	"VITD3-1000-SG": (300, 180000, 300000),
+	"ZINC-50-TAB": (250, 90000, 150000),
+	"MULTIVIT-COMP-TAB": (280, 140000, 230000),
+	"OMEGA3-1000-SG": (260, 200000, 330000),
+	"PROBIOTIC-10B-CAP": (200, 220000, 360000),
+	"FACIAL-TONER-200ML": (350, 45000, 75000),
+}
+
+
+def seed_consumer_dist_catalog_expansion():
+	"""P2 catalog-widening fix — receives 6 new real finished goods (5 supplement + 1
+	cosmetics, reused from Golden Demo #20/#21, Item isn't company-scoped) into the
+	Distribution Center via a real Material Receipt, and gives each a real selling Item Price
+	on the public "Standard Selling" price list — the exact 2 real, data-driven conditions
+	WEB-01's/WEB-05's own `_safe_item_codes()` queries require. Guarded per-item on Stock
+	Ledger Entry EXISTENCE (this session's own established idempotency lesson), never a
+	balance, so a later order/return against one of these items can never re-trigger a
+	duplicate receipt."""
+	if not frappe.db.exists("Company", _COMPANY_NAME):
+		return "seed_consumer_dist_catalog_expansion: SKIPPED — run seed_consumer_dist_master_data first."
+
+	missing_items = [code for code in _EXPANSION_ITEMS if not frappe.db.exists("Item", code)]
+	if missing_items:
+		return f"seed_consumer_dist_catalog_expansion: SKIPPED — Item(s) not found yet, run seed_supplement_catalog_expansion/seed_cosmetics_catalog_expansion on this site first: {missing_items}"
+
+	receipts_created = 0
+	prices_created = 0
+	for item_code, (qty, basic_rate, sell_rate) in _EXPANSION_ITEMS.items():
+		if not frappe.db.exists("Stock Ledger Entry", {"warehouse": _DC_WAREHOUSE, "item_code": item_code}):
+			se = frappe.get_doc({"doctype": "Stock Entry", "stock_entry_type": "Material Receipt", "purpose": "Material Receipt", "company": _COMPANY_NAME})
+			se.append("items", {"item_code": item_code, "qty": qty, "t_warehouse": _DC_WAREHOUSE, "use_serial_batch_fields": 1, "basic_rate": basic_rate})
+			se.insert(ignore_permissions=True)
+			se.submit()
+			receipts_created += 1
+		if _ensure_item_price(item_code, "Standard Selling", sell_rate):
+			prices_created += 1
+
+	return f"seed_consumer_dist_catalog_expansion: {receipts_created} new Material Receipt(s), {prices_created} Item Price row(s) set/confirmed on Standard Selling, across {len(_EXPANSION_ITEMS)} item(s)."

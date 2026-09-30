@@ -165,6 +165,42 @@ _STOREFRONT_COPY = {
 			"managed by the connected ERP system."
 		),
 	},
+	"IBUPROFEN-400-TAB": {
+		"category": "Pain Relief / Anti-Inflammatory (OTC)",
+		"blurb": "Ibuprofen 400mg tablets for pain relief and inflammation. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"LORATADINE-10-TAB": {
+		"category": "Allergy / Antihistamine (OTC)",
+		"blurb": "Loratadine 10mg tablets, a non-drowsy antihistamine for allergy relief. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"COUGH-SYRUP-100ML": {
+		"category": "Cough & Cold (OTC)",
+		"blurb": "Herbal cough syrup, 100ml bottle, for cough relief. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"ANTACID-CHEW-TAB": {
+		"category": "Digestive Health (OTC)",
+		"blurb": "Antacid chewable tablets for heartburn and indigestion relief. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"PARACETAMOL-SYRUP-KIDS": {
+		"category": "Pediatric (OTC)",
+		"blurb": "Paracetamol pediatric syrup, 120mg/5ml, for children's pain relief and fever reduction. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"ORS-SACHET": {
+		"category": "Rehydration (OTC)",
+		"blurb": "Oral rehydration salts sachet for fluid and electrolyte replacement. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"ANTIFUNGAL-CREAM-15G": {
+		"category": "Topical / Skin Care (OTC)",
+		"blurb": "Antifungal cream, 15g tube, for topical fungal skin infections. Over-the-counter — no prescription required. Dispensed from Store A.",
+	},
+	"VITC-1000-EFF": {
+		"category": "Vitamins (OTC)",
+		"blurb": "Fast-dissolving effervescent tablet delivering 1000mg of Vitamin C per serving. Dispensed from Store A.",
+	},
+	"MULTIVIT-COMP-TAB": {
+		"category": "Vitamins (OTC)",
+		"blurb": "A daily multivitamin complex tablet covering Vitamin C, D3, Zinc and B-Complex. Dispensed from Store A.",
+	},
 }
 
 
@@ -698,8 +734,16 @@ def verify_online_pharmacy_access_control():
 		# --- Input-bound rejection tests (defense-in-depth, not full anti-abuse) ---
 		bad_item_rejected = False
 		try:
+			# P2 catalog-widening fix note: this was originally "VITC-1000-EFF" — but
+			# pharmacy_seeds.py's own seed_pharmacy_catalog_expansion() now DELIBERATELY also
+			# stocks VITC-1000-EFF at Store A with a real Item Price (a pharmacy plausibly sells
+			# general vitamins too), so it's no longer out-of-catalog here and would wrongly make
+			# this negative test fail. Swapped to FACIAL-CLEANSER-150ML — a real item, but a
+			# cosmetics product Pharmacy Chain has never stocked at any warehouse — to keep this
+			# test's actual security intent (a real item_code from a DIFFERENT demo's storefront
+			# must still be rejected) genuinely true rather than incidentally true.
 			place_pharmacy_order(
-				items=[{"item_code": "VITC-1000-EFF", "qty": 1}],  # a real item, but from a DIFFERENT golden demo's storefront
+				items=[{"item_code": "FACIAL-CLEANSER-150ML", "qty": 1}],  # a real item, but from a DIFFERENT golden demo's storefront
 				contact={"full_name": "X", "phone": "0911000003", "address_line1": "A", "city": "B"},
 			)
 		except frappe.ValidationError:

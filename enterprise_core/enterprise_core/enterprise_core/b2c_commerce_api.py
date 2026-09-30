@@ -147,18 +147,42 @@ _PAYMENT_METHOD = "Cash on Delivery"  # the ONLY accepted value — see module d
 # independently passes the real, data-driven `_safe_item_codes()` filter below.
 _STOREFRONT_COPY = {
 	"VITC-1000-EFF": {
-		"category": "Nutraceutical / Supplement",
+		"category": "Vitamins",
 		"blurb": (
 			"Fast-dissolving effervescent tablet delivering 1000mg of Vitamin C per serving. "
 			"Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co."
 		),
 	},
+	"VITD3-1000-SG": {
+		"category": "Vitamins",
+		"blurb": "Vitamin D3 1000 IU softgel for daily bone and immune support. Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co.",
+	},
+	"MULTIVIT-COMP-TAB": {
+		"category": "Vitamins",
+		"blurb": "A daily multivitamin complex tablet covering Vitamin C, D3, Zinc and B-Complex. Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co.",
+	},
+	"ZINC-50-TAB": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "Zinc gluconate 50mg tablet supporting normal immune function. Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co.",
+	},
+	"OMEGA3-1000-SG": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "Omega-3 fish oil 1000mg softgel. Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co.",
+	},
+	"PROBIOTIC-10B-CAP": {
+		"category": "Minerals & Specialty Supplements",
+		"blurb": "A 10 billion CFU probiotic capsule for daily digestive support. Made by Demo Supplement Co., distributed and sold by Demo Consumer Distribution Co.",
+	},
 	"FACIAL-CLEANSER-150ML": {
-		"category": "Personal Care / Cosmetics",
+		"category": "Skincare",
 		"blurb": (
 			"Gentle daily facial cleanser in a 150ml bottle, formulated for everyday use. "
 			"Distributed and sold by Demo Consumer Distribution Co."
 		),
+	},
+	"FACIAL-TONER-200ML": {
+		"category": "Skincare",
+		"blurb": "Hydrating facial toner in a 200ml bottle, formulated for everyday use. Distributed and sold by Demo Consumer Distribution Co.",
 	},
 }
 

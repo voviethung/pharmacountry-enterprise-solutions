@@ -208,9 +208,24 @@ def _ensure_online_pos_opening():
 	own server-side `validate_pos_opening_entry()` (filters only by pos_profile + status=Open, not
 	by user — confirmed by reading `sales_invoice.py` directly before writing this) before any real
 	sale can be recorded against it. Uses the dedicated `_ONLINE_POS_CASHIER_USER`, not `frappe.
-	session.user` — see that constant's own comment for the real conflict this avoids."""
-	if frappe.db.exists("POS Opening Entry", {"pos_profile": _ONLINE_POS_PROFILE, "status": "Open"}):
-		return False
+	session.user` — see that constant's own comment for the real conflict this avoids.
+
+	Real, previously-latent bug found (and fixed here) by the mandatory full regression sweep
+	re-run on a LATER calendar day than this entry was first opened: ERPNext's own
+	`validate_pos_opening_entry()` additionally requires `period_start_date` to equal
+	`frappe.utils.today()` exactly — an Open entry from a PRIOR day is still `status="Open"`
+	(ERPNext never auto-closes it) but is rejected by that same-day check on the very next real
+	sale, with "POS Opening Entry ... is outdated. Please close the POS and create a new POS
+	Opening Entry." The old guard here only checked `status == "Open"`, never staleness — exactly
+	the same idempotency-guard class of bug this session's lessons warn about elsewhere (a guard
+	that was correct once but stops being a correct proxy for "no action needed" as real time
+	passes). Fixed by also checking the entry is genuinely from TODAY, and closing (not deleting —
+	it's real submitted history) a stale one before opening a fresh one."""
+	existing = frappe.db.get_value("POS Opening Entry", {"pos_profile": _ONLINE_POS_PROFILE, "status": "Open"}, ["name", "period_start_date"], as_dict=True)
+	if existing:
+		if frappe.utils.get_date_str(existing.period_start_date) == frappe.utils.today():
+			return False
+		frappe.get_doc("POS Opening Entry", existing.name).db_set("status", "Closed")
 	entry = frappe.get_doc(
 		{
 			"doctype": "POS Opening Entry",

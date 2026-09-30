@@ -403,3 +403,128 @@ def seed_pharmacy_dashboard():
 	if not dashboard.get("stock_by_warehouse"):
 		frappe.throw("RX07 FAILED: central dashboard returned no stock data.")
 	return f"seed_pharmacy_dashboard: RX07 CONFIRMED — {len(dashboard['stock_by_warehouse'])} warehouse row(s), total sales {dashboard.get('total_sales_amount')}."
+
+
+# ---------------------------------------------------------------------------
+# Catalog expansion (P2 post-launch reviewer fix, NOT a master-plan DP item) — this golden
+# demo sold exactly ONE OTC product (PARA-500-TAB, reused from Golden Demo #1), which a
+# reviewer correctly flagged as making WEB-06 (pharmacy.pharmacountry.vn) look too thin to be
+# a real pharmacy. Adds 7 new real OTC items (a genuine pharmacy retail range — pain relief,
+# antihistamine, cough/cold, antacid, pediatric, rehydration, topical antifungal), each with
+# real stock received directly into Store A (the SAME warehouse WEB-06's own `_safe_item_codes()`
+# scopes to) and a real selling Item Price on the public "Standard Selling" price list (the
+# SAME price list Store A's own POS Profile already sells from) — plus real Store A stock for
+# 2 EXISTING real items from other golden demos (VITC-1000-EFF, MULTIVIT-COMP-TAB — a pharmacy
+# plausibly stocks general vitamins too), reusing their ALREADY-real Item Price rather than
+# creating a duplicate. Every batch gets a real, explicitly-set, comfortably non-expired
+# expiry_date via `frappe.db.set_value()` AFTER Stock Entry submission — never just the row's
+# own `expiry_date` field, which Golden Demo #24 (3PL) found ERPNext's own auto-batch-creation
+# path silently ignores (confirmed live: this exact bug was latent in this file's own
+# `_ensure_central_stock()`/`_test_rx03_expired_batch_blocked()` from the start, just never
+# surfaced because neither needed a SPECIFIC value, only "some future date" — Item.shelf_life_in_days
+# happened to cover for it). Deliberately isolated: never touches PARA-500-TAB, Store B, Central
+# Warehouse, or the RX03-EXPIRED-TEST marker batch this golden demo's own RX03 test depends on.
+# ---------------------------------------------------------------------------
+
+_NEW_OTC_ITEMS = {
+	# item_code: (item_name, shelf_life_days, receive_qty, receive_basic_rate, sell_price)
+	"IBUPROFEN-400-TAB": ("Ibuprofen 400mg Tablet", 1095, 400, 1000, 2000),
+	"LORATADINE-10-TAB": ("Loratadine 10mg Tablet (Antihistamine)", 1095, 300, 1200, 2500),
+	"COUGH-SYRUP-100ML": ("Herbal Cough Syrup 100ml", 730, 150, 25000, 45000),
+	"ANTACID-CHEW-TAB": ("Antacid Chewable Tablet", 1095, 500, 900, 1800),
+	"PARACETAMOL-SYRUP-KIDS": ("Paracetamol Pediatric Syrup 120mg/5ml", 730, 120, 20000, 38000),
+	"ORS-SACHET": ("Oral Rehydration Salts Sachet", 1095, 600, 2500, 5000),
+	"ANTIFUNGAL-CREAM-15G": ("Antifungal Cream 15g Tube", 730, 100, 22000, 42000),
+}
+
+# Existing real Items from other golden demos this pharmacy plausibly also stocks — reuses
+# their ALREADY-real Item Price on Standard Selling (set by supplement_seeds.py /
+# consumer_dist_seeds.py's own catalog-expansion steps) rather than creating a duplicate row.
+_REUSED_ITEMS_TO_STOCK = {
+	"VITC-1000-EFF": (20, 150000),
+	"MULTIVIT-COMP-TAB": (40, 140000),
+}
+
+_EXPIRY_BUFFER_DAYS = 60  # comfortably inside shelf_life_in_days, well clear of "today" either way
+
+
+def _ensure_otc_item(item_code, item_name, shelf_life_days):
+	if frappe.db.exists("Item", item_code):
+		return False
+	if not frappe.db.exists("Item Group", "Finished Goods"):
+		frappe.get_doc({"doctype": "Item Group", "item_group_name": "Finished Goods", "parent_item_group": "All Item Groups", "is_group": 0}).insert(ignore_permissions=True)
+	frappe.get_doc(
+		{
+			"doctype": "Item",
+			"item_code": item_code,
+			"item_name": item_name,
+			"item_group": "Finished Goods",
+			"stock_uom": "Nos",
+			"is_stock_item": 1,
+			"has_batch_no": 1,
+			"create_new_batch": 1,
+			"has_expiry_date": 1,
+			"shelf_life_in_days": shelf_life_days,
+		}
+	).insert(ignore_permissions=True)
+	return True
+
+
+def _receive_with_real_expiry(item_code, qty, basic_rate, shelf_life_days):
+	"""Receives real stock into Store A and then EXPLICITLY sets the resulting Batch's
+	expiry_date via frappe.db.set_value() — the Golden Demo #24 (3PL) lesson: a Stock Entry
+	Detail row's own `expiry_date` field is silently ignored by ERPNext's auto-batch-creation
+	path (`Item.create_new_batch=1`), which only ever computes
+	manufacturing_date + shelf_life_in_days on its own. Setting it directly, after submission,
+	once the real batch_no is known, guarantees a real, comfortably non-expired date rather
+	than trusting that side effect to happen to land right."""
+	se = frappe.get_doc({"doctype": "Stock Entry", "stock_entry_type": "Material Receipt", "purpose": "Material Receipt", "company": _COMPANY_NAME})
+	se.append("items", {"item_code": item_code, "qty": qty, "t_warehouse": _STORE_A_WH, "basic_rate": basic_rate})
+	se.insert(ignore_permissions=True)
+	se.submit()
+	batch_no = frappe.db.get_value("Stock Entry Detail", {"parent": se.name, "item_code": item_code}, "batch_no")
+	if not batch_no:
+		bundle = frappe.db.get_value("Stock Entry Detail", {"parent": se.name, "item_code": item_code}, "serial_and_batch_bundle")
+		batch_no = frappe.db.get_value("Serial and Batch Entry", {"parent": bundle}, "batch_no") if bundle else None
+	if batch_no:
+		expiry_date = frappe.utils.add_days(frappe.utils.nowdate(), max(shelf_life_days - _EXPIRY_BUFFER_DAYS, 30))
+		frappe.db.set_value("Batch", batch_no, "expiry_date", expiry_date)
+	return batch_no
+
+
+def seed_pharmacy_catalog_expansion():
+	"""P2 catalog-widening fix (post-launch reviewer feedback, not a master-plan DP item) — 7
+	new real OTC Items + real Store A stock + real Item Price on Standard Selling, plus real
+	Store A stock for 2 existing real items reused from other golden demos. Widens WEB-06's
+	catalog from 1 product to 10, isolated from PARA-500-TAB/Store B/RX03-EXPIRED-TEST. See the
+	module-level comment above this section for the full design rationale."""
+	if not frappe.db.exists("Warehouse", _STORE_A_WH):
+		return "seed_pharmacy_catalog_expansion: SKIPPED — run seed_pharmacy_master_data first."
+
+	items_created = 0
+	receipts_created = 0
+	prices_created = 0
+	for item_code, (item_name, shelf_life_days, qty, basic_rate, sell_price) in _NEW_OTC_ITEMS.items():
+		if _ensure_otc_item(item_code, item_name, shelf_life_days):
+			items_created += 1
+		if not frappe.db.exists("Stock Ledger Entry", {"warehouse": _STORE_A_WH, "item_code": item_code}):
+			_receive_with_real_expiry(item_code, qty, basic_rate, shelf_life_days)
+			receipts_created += 1
+		existing_price = frappe.db.get_value("Item Price", {"item_code": item_code, "price_list": "Standard Selling", "selling": 1}, "name")
+		if not existing_price:
+			frappe.get_doc({"doctype": "Item Price", "item_code": item_code, "price_list": "Standard Selling", "selling": 1, "price_list_rate": sell_price, "currency": "VND"}).insert(ignore_permissions=True)
+			prices_created += 1
+
+	reused_receipts = 0
+	for item_code, (qty, basic_rate) in _REUSED_ITEMS_TO_STOCK.items():
+		if not frappe.db.exists("Item", item_code):
+			continue  # SKIPPED — run that item's own catalog-expansion seed on this site first.
+		if not frappe.db.exists("Stock Ledger Entry", {"warehouse": _STORE_A_WH, "item_code": item_code}):
+			shelf_life = frappe.db.get_value("Item", item_code, "shelf_life_in_days") or 730
+			_receive_with_real_expiry(item_code, qty, basic_rate, shelf_life)
+			reused_receipts += 1
+
+	return (
+		f"seed_pharmacy_catalog_expansion: {items_created} new OTC Item(s), {receipts_created} new Store A receipt(s), "
+		f"{prices_created} new Item Price row(s), {reused_receipts} reused-item Store A receipt(s)."
+	)

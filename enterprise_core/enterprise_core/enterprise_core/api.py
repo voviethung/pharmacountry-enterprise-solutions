@@ -1435,6 +1435,149 @@ def verify_consumer_dist_golden_demo() -> dict:
 	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
 
 
+# ---------------------------------------------------------------------------
+# Catalog expansion verify functions (P2 post-launch reviewer fix, NOT master-plan DP items) —
+# a reviewer correctly flagged the 4 public sites backed by these golden demos
+# (catalog.pharmacountry.vn/WEB-01, shop.pharmacountry.vn/WEB-05, pharmacy.pharmacountry.vn/
+# WEB-06, brand.pharmacountry.vn/WEB-02) as too thin (1-2 products each). These 4 NEW,
+# additive verify functions check the new real Items/BOMs/Item Prices/stock added by each
+# golden demo's own new `seed_*_catalog_expansion()` step — deliberately kept SEPARATE from
+# the existing `verify_supplement_golden_demo()`/`verify_cosmetics_golden_demo()`/
+# `verify_pharmacy_golden_demo()`/`verify_consumer_dist_golden_demo()` above (never edited)
+# to avoid any risk of regressing an already-passing, already-idempotency-proven check.
+# ---------------------------------------------------------------------------
+
+
+def verify_supplement_catalog_expansion() -> dict:
+	"""Supplement Co side of the P2 catalog-widening fix — 5 new real products (Item + real
+	Formula/BOM each), 2 of which (VITD3-1000-SG, ZINC-50-TAB) additionally went through the
+	full production -> QC -> LIMS COA pipeline as new WEB-02 brand-site flagship SKUs."""
+	checks = []
+
+	def check(name, passed, detail):
+		checks.append({"check": name, "passed": bool(passed), "detail": detail})
+
+	new_items = ["VITD3-1000-SG", "ZINC-50-TAB", "MULTIVIT-COMP-TAB", "OMEGA3-1000-SG", "PROBIOTIC-10B-CAP"]
+	for item_code in new_items:
+		check(f"{item_code}: Item exists", frappe.db.exists("Item", item_code), None)
+		check(f"{item_code}: has an active default Formula (BOM)", frappe.db.exists("BOM", {"item": item_code, "is_active": 1, "is_default": 1}), None)
+
+	for item_code in ("VITD3-1000-SG", "ZINC-50-TAB"):
+		# Scoped via the Work Order that actually produced it, not a bare {"item": ...,
+		# "batch_qty": [">", 0]} filter — ambiguous once Demo Consumer Distribution Co. also
+		# receives its own second, unrelated batch of this same globally-reused Item (see
+		# supplement_seeds.py's _flagship_batch_from_work_order() docstring for the full
+		# cross-demo regression history this deliberately avoids repeating).
+		batch_rows = frappe.db.sql(
+			"""select sbe.batch_no from `tabWork Order` wo
+			join `tabStock Entry` se on se.work_order = wo.name and se.purpose = 'Manufacture' and se.docstatus = 1
+			join `tabStock Entry Detail` sed on sed.parent = se.name and sed.t_warehouse is not null
+			join `tabSerial and Batch Entry` sbe on sbe.parent = sed.serial_and_batch_bundle
+			where wo.production_item = %(item)s and wo.company = 'Demo Supplement Co.'
+			order by wo.creation asc limit 1""",
+			{"item": item_code},
+		)
+		batch = batch_rows[0][0] if batch_rows else None
+		check(f"{item_code}: a production batch exists", bool(batch), batch)
+		released = frappe.db.exists("Stock Ledger Entry", {"warehouse": "FG Released - DSC", "item_code": item_code}) if batch else False
+		check(f"{item_code}: batch reached FG Released (QC gate reused, same as VITC-1000-EFF)", released, None)
+		coa = frappe.db.exists("LIMS COA", {"batch_reference": batch, "status": "Approved"}) if batch else False
+		check(f"{item_code}: a COA was generated from an Approved LIMS Test (same depth as VITC-1000-EFF's S05)", coa, None)
+
+	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
+
+
+def verify_cosmetics_catalog_expansion() -> dict:
+	"""Cosmetics Co side of the P2 catalog-widening fix — one new real finished cosmetic
+	(FACIAL-TONER-200ML) with a real Formula (BOM), widening WEB-05's Skincare category."""
+	checks = []
+
+	def check(name, passed, detail):
+		checks.append({"check": name, "passed": bool(passed), "detail": detail})
+
+	check("FACIAL-TONER-200ML: Item exists", frappe.db.exists("Item", "FACIAL-TONER-200ML"), None)
+	check("FACIAL-TONER-200ML: has an active default Formula (BOM)", frappe.db.exists("BOM", {"item": "FACIAL-TONER-200ML", "is_active": 1, "is_default": 1}), None)
+	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
+
+
+def verify_pharmacy_catalog_expansion() -> dict:
+	"""Pharmacy Chain side of the P2 catalog-widening fix — 7 new real OTC Items with real
+	Store A stock (a real, explicitly-set, non-expired Batch.expiry_date) and a real selling
+	Item Price on Standard Selling, plus 2 existing real items (reused from other golden
+	demos) also given real Store A stock. Confirms the existing RX03-EXPIRED-TEST marker batch
+	and PARA-500-TAB's own stock were never touched by any of this."""
+	checks = []
+
+	def check(name, passed, detail):
+		checks.append({"check": name, "passed": bool(passed), "detail": detail})
+
+	new_items = ["IBUPROFEN-400-TAB", "LORATADINE-10-TAB", "COUGH-SYRUP-100ML", "ANTACID-CHEW-TAB", "PARACETAMOL-SYRUP-KIDS", "ORS-SACHET", "ANTIFUNGAL-CREAM-15G"]
+	today = frappe.utils.getdate(frappe.utils.nowdate())
+	for item_code in new_items:
+		check(f"{item_code}: Item exists", frappe.db.exists("Item", item_code), None)
+		check(f"{item_code}: has a real selling Item Price on Standard Selling", frappe.db.exists("Item Price", {"item_code": item_code, "price_list": "Standard Selling", "selling": 1}), None)
+		batch_rows = frappe.db.sql(
+			"""select b.name, b.expiry_date from `tabBatch` b
+			inner join `tabSerial and Batch Entry` sbe on sbe.batch_no = b.name
+			inner join `tabStock Ledger Entry` sle on sle.serial_and_batch_bundle = sbe.parent
+			where b.item = %(item)s and sle.warehouse = 'Store A - DPH' and sle.is_cancelled = 0
+			order by b.creation asc limit 1""",
+			{"item": item_code},
+			as_dict=True,
+		)
+		batch = batch_rows[0] if batch_rows else None
+		check(
+			f"{item_code}: has real, non-expired Store A stock (explicit Batch.expiry_date, not silently defaulted)",
+			bool(batch and batch.expiry_date and frappe.utils.getdate(batch.expiry_date) > today),
+			batch,
+		)
+
+	for item_code in ("VITC-1000-EFF", "MULTIVIT-COMP-TAB"):
+		check(f"{item_code}: also stocked at Store A (reused item)", frappe.db.exists("Stock Ledger Entry", {"warehouse": "Store A - DPH", "item_code": item_code}), None)
+
+	check("RX03-EXPIRED-TEST marker batch untouched (still exists)", frappe.db.exists("Batch", "RX03-EXPIRED-TEST"), None)
+	para_balance = frappe.db.sql("select sum(actual_qty) from `tabStock Ledger Entry` where warehouse='Store A - DPH' and item_code='PARA-500-TAB' and is_cancelled=0")[0][0] or 0
+	check("PARA-500-TAB Store A stock still positive (existing flagship untouched)", para_balance > 0, para_balance)
+
+	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
+
+
+def verify_consumer_dist_catalog_expansion() -> dict:
+	"""Consumer Distribution Co side of the P2 catalog-widening fix — this is the ONE company
+	WEB-01's/WEB-05's own `_safe_item_codes()` queries actually read from. Confirms all 6 new
+	items (5 supplement + 1 cosmetics) now satisfy the SAME 2 real, data-driven conditions
+	those live queries require: a real Stock Ledger Entry for this company, and a real selling
+	Item Price on Standard Selling — proving the richer catalog will actually surface on both
+	sites with zero frontend code change, not just that backend data exists in isolation."""
+	checks = []
+
+	def check(name, passed, detail):
+		checks.append({"check": name, "passed": bool(passed), "detail": detail})
+
+	expansion_items = ["VITD3-1000-SG", "ZINC-50-TAB", "MULTIVIT-COMP-TAB", "OMEGA3-1000-SG", "PROBIOTIC-10B-CAP", "FACIAL-TONER-200ML"]
+	for item_code in expansion_items:
+		has_sle = frappe.db.exists("Stock Ledger Entry", {"warehouse": _CONSUMER_DIST_DC_WAREHOUSE, "item_code": item_code})
+		has_price = frappe.db.exists("Item Price", {"item_code": item_code, "price_list": "Standard Selling", "selling": 1})
+		check(f"{item_code}: real Stock Ledger Entry at the Distribution Center", has_sle, None)
+		check(f"{item_code}: real selling Item Price on Standard Selling", has_price, None)
+
+	safe_codes = frappe.db.sql(
+		"""select distinct i.item_code from `tabItem` i
+		inner join `tabStock Ledger Entry` sle on sle.item_code = i.item_code and sle.company = %(company)s
+		inner join `tabItem Price` ip on ip.item_code = i.item_code and ip.selling = 1 and ip.price_list = 'Standard Selling'
+		where i.disabled = 0""",
+		{"company": _CONSUMER_DIST_COMPANY},
+	)
+	safe_codes = {r[0] for r in safe_codes}
+	check(
+		"WEB-01/WEB-05's own live _safe_item_codes() condition now covers all 8 real products (2 original + 6 new)",
+		{"VITC-1000-EFF", "FACIAL-CLEANSER-150ML"} | set(expansion_items) <= safe_codes,
+		sorted(safe_codes),
+	)
+
+	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
+
+
 def verify_premix_golden_demo() -> dict:
 	"""DP-679 — Golden Demo #26 (Premix / Feed Additive Manufacturing) integrity check.
 	PM01-PM07, exactly matching the master plan's lettered tests. The negative tests themselves
