@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "homeTitle": "PharmaCountry Enterprise Solutions — Công nghệ ERP đa ngành",
+    "homeDescription": "Bộ phận công nghệ và ERP doanh nghiệp của PharmaCountry — các giải pháp thực tế trên nền tảng Frappe/ERPNext cho sản xuất dược phẩm và nhiều ngành khác.",
+    "solutionsTitle": "Ngành & Giải pháp — PharmaCountry Enterprise Solutions",
+    "solutionsDescription": "Mọi giải pháp ngành thực tế do PharmaCountry Enterprise Solutions xây dựng, lấy trực tiếp từ hệ thống đăng ký giải pháp của chúng tôi.",
+    "aboutTitle": "Giới thiệu — PharmaCountry Enterprise Solutions",
+    "aboutDescription": "PharmaCountry Enterprise Solutions xây dựng những gì, và vì sao.",
+    "contactTitle": "Liên hệ — PharmaCountry Enterprise Solutions",
+    "contactDescription": "Liên hệ với đội ngũ PharmaCountry Enterprise Solutions."
+  },
+  "brand": {
+    "name": "PharmaCountry",
+    "subBrand": "Enterprise Solutions"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "solutions": "Giải pháp",
+    "solutionsFull": "Ngành & Giải pháp",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ",
+    "switchToVi": "Tiếng Việt",
+    "switchToEn": "English"
+  },
+  "footer": {
+    "tagline": "Phần mềm doanh nghiệp cho các ngành đạt chuẩn dược phẩm.",
+    "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
+    "builtOn": "Xây dựng trên nền tảng Frappe/ERPNext"
+  },
+  "categories": {
+    "Pharmaceutical": "Dược phẩm",
+    "Animal Feed": "Thức ăn chăn nuôi",
+    "Aquaculture": "Thủy sản",
+    "Cosmetics": "Mỹ phẩm",
+    "Medical Device": "Thiết bị y tế",
+    "Livestock": "Chăn nuôi",
+    "Nutraceutical": "Thực phẩm chức năng",
+    "Processing": "Chế biến",
+    "Veterinary": "Thú y"
+  },
+  "home": {
+    "eyebrow": "PharmaCountry Enterprise Solutions · Xây dựng trên nền tảng Frappe / ERPNext",
+    "title": "Phần mềm doanh nghiệp cho ngành dược và nhiều lĩnh vực khác, sẵn sàng vận hành thực tế.",
+    "lead": "PharmaCountry Enterprise Solutions là bộ phận công nghệ và ERP của PharmaCountry, xây dựng các hệ thống thực tế trên nền tảng Frappe/ERPNext cho sản xuất dược phẩm, quản lý chất lượng, chăn nuôi thú y, nuôi trồng thủy sản, mỹ phẩm, thiết bị y tế, bán lẻ dược phẩm và nhiều ngành khác. Mỗi giải pháp bên dưới là một hệ thống backend thực tế đang vận hành — không phải bản dựng minh họa.",
+    "ctaSolutions": "Khám phá Ngành & Giải pháp",
+    "ctaAbout": "Về PharmaCountry",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — công nghệ doanh nghiệp cho sản xuất dược phẩm và đa ngành",
+    "stats": {
+      "industryPacks": "Gói giải pháp ngành",
+      "goldenDemos": "Bản triển khai mẫu hoàn chỉnh",
+      "capabilityEngines": "Engine năng lực dùng chung",
+      "liveDemos": "Website công khai đang hoạt động",
+      "unavailable": "Số liệu nền tảng trực tiếp tạm thời không khả dụng — trang vẫn hiển thị bình thường thay vì báo lỗi."
+    },
+    "liveDemos": {
+      "heading": "Các trang sản phẩm đang hoạt động",
+      "description": "{count, plural, =0 {Chưa có website chuyên biệt nào hoạt động.} other {# website chuyên biệt theo từng ngành đã được xây dựng}}, hoạt động như các ứng dụng độc lập thực sự trên dữ liệu ERP của chúng tôi — phần lớn có thể truy cập công khai; cổng thông tin đại lý và cổng nhà cung cấp yêu cầu đăng nhập thực, được đánh dấu rõ bên dưới.",
+      "viewAll": "Xem tất cả các ngành →",
+      "liveBadge": "Đang hoạt động",
+      "loginBadge": "Yêu cầu đăng nhập",
+      "builtBadge": "Đã xây dựng · chưa triển khai công khai",
+      "goTo": "Truy cập trang →",
+      "empty": "Dữ liệu website trực tiếp tạm thời không khả dụng."
+    },
+    "howBuilt": {
+      "heading": "Nền tảng của chúng tôi được xây dựng như thế nào",
+      "engines": {
+        "label": "Engine năng lực",
+        "text": "15 engine năng lực dùng chung (ERP lõi, CRM, mua hàng, quản lý kho WMS, sản xuất, QMS, DMS, LIMS, EAM, quản lý trang trại, truy xuất nguồn gốc, thương mại, AI, nhân sự, R&D) vận hành mọi giải pháp ngành — xây dựng một lần, tái sử dụng ở mọi nơi."
+      },
+      "packs": {
+        "label": "Gói giải pháp ngành",
+        "text": "27 gói giải pháp ngành đã đăng ký, kết hợp một lĩnh vực thực tế — dược phẩm, thức ăn chăn nuôi, chăn nuôi, thủy sản, mỹ phẩm, thiết bị y tế, nhà thuốc, hậu cần 3PL và nhiều lĩnh vực khác — với các engine, vai trò và mô hình dữ liệu cần thiết."
+      },
+      "demos": {
+        "label": "Bản triển khai mẫu",
+        "text": "Phần lớn các gói giải pháp ngành đã có bản triển khai mẫu hoàn chỉnh, được kiểm chứng — dữ liệu khởi tạo thực tế và quy trình nghiệp vụ đầu-cuối có thể khám phá trực tiếp trong hệ thống. Một số ngành còn có website công khai riêng, như các website ở trên."
+      }
+    }
+  },
+  "solutions": {
+    "title": "Ngành & Giải pháp",
+    "introWithCount": "{count} gói giải pháp ngành thực tế, đang được kích hoạt, lấy trực tiếp từ hệ thống đăng ký gói giải pháp của chúng tôi — không phải danh sách cố định.",
+    "introLoading": "Đang tải hệ thống đăng ký gói giải pháp ngành thực tế.",
+    "loadError": "Dữ liệu gói giải pháp ngành trực tiếp tạm thời không khả dụng. Vui lòng thử lại sau.",
+    "legend": {
+      "heading": "Cách đọc các thẻ thông tin",
+      "live": "Đang hoạt động — ngành này có website công khai chuyên biệt riêng (một ứng dụng độc lập thực tế), được liên kết trực tiếp từ thẻ thông tin.",
+      "erp": "Demo hệ thống ERP — đã có bản triển khai mẫu hoàn chỉnh, được kiểm chứng (dữ liệu chủ và giao dịch nghiệp vụ đầu-cuối thực tế), có thể khám phá trực tiếp trong hệ thống thay vì qua một website marketing công khai. Website công khai chỉ được xây dựng cho một ngành khi thực sự cần thiết — phần lớn các ngành được thiết kế để khám phá trực tiếp qua hệ thống.",
+      "planned": "Chưa xây dựng — gói giải pháp ngành này đã được đăng ký trong cấu hình nhưng chưa có dữ liệu demo mẫu."
+    },
+    "badge": {
+      "live": "Đang hoạt động",
+      "erp": "Demo hệ thống ERP",
+      "planned": "Chưa xây dựng"
+    },
+    "notDeployed": "{label} — chưa triển khai công khai",
+    "requiresLogin": "Yêu cầu đăng nhập",
+    "erpNote": "Khám phá qua đăng nhập hệ thống nội bộ — không phải website công khai trong môi trường này.",
+    "languageNote": "Tên và mô tả ngành bên dưới được lấy trực tiếp từ hệ thống backend và hiện chỉ được biên soạn bằng tiếng Anh."
+  },
+  "about": {
+    "title": "Về PharmaCountry Enterprise Solutions",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — công nghệ và đội ngũ của chúng tôi",
+    "p1": "PharmaCountry là nền tảng kết nối nhu cầu dược phẩm trên toàn thế giới — một sàn giao dịch B2B phục vụ ngành dược phẩm toàn cầu tại hơn 100 quốc gia. PharmaCountry Enterprise Solutions là bộ phận công nghệ và ERP của chúng tôi: đội ngũ xây dựng phần mềm doanh nghiệp thực tế đứng sau hoạt động sản xuất, chất lượng và chuỗi cung ứng dược phẩm, đồng thời mở rộng nền tảng đó sang các ngành công nghiệp quy trình và quản lý chặt chẽ khác có liên quan.",
+    "p2": "Công nghệ của chúng tôi được xây dựng trên nền tảng Frappe/ERPNext — một framework ERP mã nguồn mở trưởng thành — được cấu hình thành các giải pháp ngành thực tế: sản xuất dược phẩm, quản lý chất lượng và tài liệu, quản lý thông tin phòng thí nghiệm (LIMS), quản lý thiết bị và tài sản, sản xuất thức ăn chăn nuôi và premix, quản lý trang trại chăn nuôi và thủy sản, sản xuất mỹ phẩm và thiết bị y tế, bán lẻ dược phẩm, kho lạnh 3PL và phân phối hàng tiêu dùng, cùng nhiều lĩnh vực khác.",
+    "p3": "Chúng tôi xây dựng dựa trên ba giá trị cốt lõi: Con người, Hợp tác và Phát triển — vì một thế giới khỏe mạnh hơn. Mọi giải pháp ngành được giới thiệu trên trang Giải pháp của chúng tôi đều dựa trên bộ dữ liệu thực tế và quy trình nghiệp vụ đầu-cuối đã được kiểm chứng, không phải bản dựng minh họa.",
+    "p4": "Để đảm bảo tính minh bạch: trang giới thiệu công nghệ này vận hành trên dữ liệu khởi tạo mang tính minh họa được tạo cho mục đích trình diễn, không phải giao dịch khách hàng thực tế — tên công ty, số lượng và số liệu hiển thị chỉ mang tính minh họa. Điều có thật là chính phần mềm: mọi quy trình, màn hình và tích hợp tại đây đều là mã nguồn hoạt động thực sự, được xây dựng trên cùng nền tảng Frappe/ERPNext mà chúng tôi sử dụng cho các triển khai thực tế.",
+    "contactHeading": "Liên hệ với chúng tôi",
+    "contactText": "Bạn có câu hỏi về một giải pháp ngành cụ thể, hoặc quan tâm đến những gì PharmaCountry Enterprise Solutions có thể xây dựng cho doanh nghiệp của bạn? Hãy liên hệ với chúng tôi qua trang Liên hệ.",
+    "contactLink": "Liên hệ ngay"
+  },
+  "contact": {
+    "title": "Liên hệ",
+    "intro": "Hãy cho chúng tôi biết về doanh nghiệp của bạn và những gì bạn muốn xây dựng — đội ngũ PharmaCountry Enterprise Solutions sẽ liên hệ lại với bạn.",
+    "labelName": "Họ và tên",
+    "labelEmail": "Địa chỉ email",
+    "labelCompany": "Công ty",
+    "labelMessage": "Nội dung",
+    "placeholderMessage": "Hãy cho chúng tôi biết về ngành của bạn, hệ thống hiện tại và vấn đề bạn muốn giải quyết.",
+    "submit": "Gửi liên hệ",
+    "submitting": "Đang gửi…",
+    "success": "Cảm ơn bạn — chúng tôi đã nhận được tin nhắn. Đội ngũ của chúng tôi sẽ liên hệ lại sớm.",
+    "errorGeneric": "Đã có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.",
+    "errorValidation": "Vui lòng nhập họ tên, email hợp lệ và nội dung tin nhắn.",
+    "companyOptional": "(không bắt buộc)"
+  }
+}

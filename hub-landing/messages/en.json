@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "homeTitle": "PharmaCountry Enterprise Solutions — Multi-Industry ERP Technology",
+    "homeDescription": "PharmaCountry's enterprise software and ERP technology division — real, working Frappe/ERPNext-based solutions for pharmaceutical manufacturing and beyond.",
+    "solutionsTitle": "Industries & Solutions — PharmaCountry Enterprise Solutions",
+    "solutionsDescription": "Every real industry solution built by PharmaCountry Enterprise Solutions, pulled live from our own solutions registry.",
+    "aboutTitle": "About — PharmaCountry Enterprise Solutions",
+    "aboutDescription": "What PharmaCountry Enterprise Solutions builds, and why.",
+    "contactTitle": "Contact — PharmaCountry Enterprise Solutions",
+    "contactDescription": "Get in touch with the PharmaCountry Enterprise Solutions team."
+  },
+  "brand": {
+    "name": "PharmaCountry",
+    "subBrand": "Enterprise Solutions"
+  },
+  "nav": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "solutionsFull": "Industries & Solutions",
+    "about": "About",
+    "contact": "Contact",
+    "switchToVi": "Tiếng Việt",
+    "switchToEn": "English"
+  },
+  "footer": {
+    "tagline": "Enterprise software for pharma-grade industries.",
+    "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
+    "builtOn": "Built on Frappe/ERPNext"
+  },
+  "categories": {
+    "Pharmaceutical": "Pharmaceutical",
+    "Animal Feed": "Animal Feed",
+    "Aquaculture": "Aquaculture",
+    "Cosmetics": "Cosmetics",
+    "Medical Device": "Medical Device",
+    "Livestock": "Livestock",
+    "Nutraceutical": "Nutraceutical",
+    "Processing": "Processing",
+    "Veterinary": "Veterinary"
+  },
+  "home": {
+    "eyebrow": "PharmaCountry Enterprise Solutions · Built on Frappe / ERPNext",
+    "title": "Enterprise software for pharma-grade industries, built to run.",
+    "lead": "PharmaCountry Enterprise Solutions is the technology and ERP division of PharmaCountry, building real, working Frappe/ERPNext-based systems for pharmaceutical manufacturing, quality management, animal health, aquaculture, cosmetics, medical devices, pharmacy retail, and more. Every solution below is a real, working backend — not a mockup.",
+    "ctaSolutions": "Explore Industries & Solutions",
+    "ctaAbout": "About PharmaCountry",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — enterprise technology across pharmaceutical and multi-industry manufacturing",
+    "stats": {
+      "industryPacks": "Industry Packs",
+      "goldenDemos": "Reference Implementations",
+      "capabilityEngines": "Shared Capability Engines",
+      "liveDemos": "Live Public Sites",
+      "unavailable": "Live platform statistics are temporarily unavailable — showing this page without them rather than failing to load."
+    },
+    "liveDemos": {
+      "heading": "Live Product Sites",
+      "description": "{count, plural, =0 {No dedicated sites are live yet.} other {# dedicated sites across our industries so far}}, built as real standalone applications against our own ERP data — most are publicly accessible; a dealer portal and a supplier portal require a real login, clearly marked below.",
+      "viewAll": "View all industries →",
+      "liveBadge": "Live",
+      "loginBadge": "Requires login",
+      "builtBadge": "Built · not yet publicly deployed",
+      "goTo": "Visit site →",
+      "empty": "Live demo data is temporarily unavailable."
+    },
+    "howBuilt": {
+      "heading": "How our platform is built",
+      "engines": {
+        "label": "Capability Engines",
+        "text": "15 shared capability engines (ERP core, CRM, procurement, WMS, manufacturing, QMS, DMS, LIMS, EAM, farm management, traceability, commerce, AI, HR, R&D) power every industry solution — built once, reused everywhere."
+      },
+      "packs": {
+        "label": "Industry Packs",
+        "text": "27 registered industry packs pair a real vertical — pharma, feed, livestock, aquaculture, cosmetics, medical devices, pharmacy, 3PL, and more — with the engines, roles, and data model it needs."
+      },
+      "demos": {
+        "label": "Reference Implementations",
+        "text": "Most industry packs already have a complete, verified reference implementation — real seeded data and end-to-end business flows explored directly in the system. Select industries also get a dedicated public website, like the ones above."
+      }
+    }
+  },
+  "solutions": {
+    "title": "Industries & Solutions",
+    "introWithCount": "{count} real, enabled industry packs, pulled live from our own industry pack registry — not a hardcoded list.",
+    "introLoading": "Loading our real industry pack registry.",
+    "loadError": "Live industry pack data is temporarily unavailable. Please try again shortly.",
+    "legend": {
+      "heading": "How to read these cards",
+      "live": "Live Demo — this industry also has its own dedicated public website (a real, standalone application), linked directly from the card.",
+      "erp": "ERP System Demo — a complete, verified reference implementation exists (real seeded master data and end-to-end business transactions), explored directly inside the system rather than through a public marketing site. A public website is only built for an industry when there is a genuine case for it — most industries are meant to be explored via the system itself.",
+      "planned": "Not Yet Built — this industry pack is registered in our configuration but doesn't have reference demo data built yet."
+    },
+    "badge": {
+      "live": "Live Demo",
+      "erp": "ERP System Demo",
+      "planned": "Not Yet Built"
+    },
+    "notDeployed": "{label} — not yet publicly deployed",
+    "requiresLogin": "Requires login",
+    "erpNote": "Explored via internal system login — not a public website in this environment.",
+    "languageNote": "Industry names and summaries below are sourced live from our backend registry and are currently authored in English only."
+  },
+  "about": {
+    "title": "About PharmaCountry Enterprise Solutions",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — our technology and team",
+    "p1": "PharmaCountry is the platform connecting pharmaceutical needs worldwide — a B2B marketplace serving the global pharmaceutical industry across 100+ countries. PharmaCountry Enterprise Solutions is our technology and ERP division: the team that builds the real, working enterprise software behind pharmaceutical manufacturing, quality, and supply chain operations, and extends that same foundation to adjacent regulated and process industries.",
+    "p2": "Our technology is built on Frappe/ERPNext, a mature open-source ERP framework, configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
+    "p3": "We build around three values: People, Partnerships, and Progress — for a healthier world. Every industry solution presented on our Solutions page is backed by a real, seeded dataset and verified end-to-end workflows, not mockups or placeholder screenshots.",
+    "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same Frappe/ERPNext foundation we use for real deployments.",
+    "contactHeading": "Get in touch",
+    "contactText": "Have a question about a specific industry solution, or interested in what PharmaCountry Enterprise Solutions could build for your business? Reach out through our contact page.",
+    "contactLink": "Contact us"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Tell us about your business and what you're looking to build — a member of the PharmaCountry Enterprise Solutions team will get back to you.",
+    "labelName": "Full name",
+    "labelEmail": "Email address",
+    "labelCompany": "Company",
+    "labelMessage": "Message",
+    "placeholderMessage": "Tell us about your industry, your current systems, and what you'd like to solve.",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "success": "Thank you — your message has been received. Our team will get back to you soon.",
+    "errorGeneric": "Something went wrong sending your message. Please try again in a moment.",
+    "errorValidation": "Please fill in your name, a valid email, and a message.",
+    "companyOptional": "(optional)"
+  }
+}

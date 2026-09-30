@@ -71,17 +71,57 @@ export interface IndustrySolution {
   live_demos: LiveDemo[];
 }
 
-class FrappeApiError extends Error {}
+export class FrappeApiError extends Error {
+  status: number;
+  constructor(message: string, status = 0) {
+    super(message);
+    this.status = status;
+  }
+}
 
-function callFrappeApi<T>(
-  method: string,
-  params?: Record<string, string>
-): Promise<T> {
+function extractErrorMessage(parsed: unknown, status: number, method: string): string {
+  if (parsed && typeof parsed === "object") {
+    const obj = parsed as Record<string, unknown>;
+    if (typeof obj._server_messages === "string") {
+      try {
+        const messages = JSON.parse(obj._server_messages) as string[];
+        const first = messages[0] ? JSON.parse(messages[0]) : null;
+        if (first?.message) return String(first.message);
+      } catch {
+        // fall through to generic message below
+      }
+    }
+    if (typeof obj.exc_type === "string" && typeof obj.exception === "string") {
+      return String(obj.exception);
+    }
+  }
+  return `Frappe API "${method}" returned HTTP ${status}`;
+}
+
+interface CallOptions {
+  method?: "GET" | "POST";
+  params?: Record<string, string>;
+  body?: unknown;
+}
+
+// Same Node raw-`http`-module Host-header workaround as WEB-01..07's own `lib/api.ts` files
+// (see this file's top-of-file comment) — now extended to also support a real POST + JSON body,
+// the same way WEB-05's `b2c_commerce_api.ts` client does for `placeWebOrder`, for the Hub's own
+// new Contact-form -> Lead write.
+function callFrappeApi<T>(method: string, options: CallOptions = {}): Promise<T> {
+  const { method: httpMethod = "GET", params, body } = options;
   const url = new URL(`/api/method/${method}`, FRAPPE_BASE_URL);
   if (params) {
     for (const [key, value] of Object.entries(params)) {
       url.searchParams.set(key, value);
     }
+  }
+
+  const payload = httpMethod === "POST" && body !== undefined ? JSON.stringify(body) : undefined;
+  const headers: Record<string, string> = { Host: FRAPPE_SITE_HOST, Accept: "application/json" };
+  if (payload) {
+    headers["Content-Type"] = "application/json; charset=utf-8";
+    headers["Content-Length"] = Buffer.byteLength(payload).toString();
   }
 
   return new Promise((resolve, reject) => {
@@ -90,28 +130,30 @@ function callFrappeApi<T>(
         hostname: url.hostname,
         port: url.port || 80,
         path: `${url.pathname}${url.search}`,
-        method: "GET",
-        headers: { Host: FRAPPE_SITE_HOST, Accept: "application/json" },
+        method: httpMethod,
+        headers,
       },
       (res) => {
         const chunks: Buffer[] = [];
         res.on("data", (chunk) => chunks.push(chunk));
         res.on("end", () => {
           const status = res.statusCode || 0;
+          let parsed: unknown = null;
+          try {
+            parsed = JSON.parse(Buffer.concat(chunks).toString("utf-8"));
+          } catch {
+            // non-JSON body — parsed stays null, generic message used below
+          }
           if (status < 200 || status >= 300) {
-            reject(new FrappeApiError(`Frappe API "${method}" returned HTTP ${status}`));
+            reject(new FrappeApiError(extractErrorMessage(parsed, status, method), status));
             return;
           }
-          try {
-            const body = JSON.parse(Buffer.concat(chunks).toString("utf-8"));
-            resolve(body.message as T);
-          } catch (err) {
-            reject(err);
-          }
+          resolve((parsed as { message: T } | null)?.message as T);
         });
       }
     );
-    req.on("error", reject);
+    req.on("error", (err) => reject(new FrappeApiError(err.message, 0)));
+    if (payload) req.write(payload);
     req.end();
   });
 }
@@ -125,5 +167,31 @@ export function getPlatformStats(): Promise<PlatformStats> {
 export function getIndustrySolutions(): Promise<IndustrySolution[]> {
   return callFrappeApi<IndustrySolution[]>(
     "enterprise_core.enterprise_core.public_api.get_industry_solutions"
+  );
+}
+
+export interface ContactLeadInput {
+  fullName: string;
+  email: string;
+  company?: string;
+  message: string;
+}
+
+// The Hub's own guest-write call, backing the new /contact page. Mirrors WEB-05's
+// `placeWebOrder()` client-side shape: only ever sends the 4 fields the real backend
+// (`public_api.py`'s `submit_contact_lead()`) explicitly validates and accepts — see that
+// function's own docstring for the full narrow-elevation security model it enforces server-side.
+export function submitContactLead(input: ContactLeadInput): Promise<{ success: boolean }> {
+  return callFrappeApi<{ success: boolean }>(
+    "enterprise_core.enterprise_core.public_api.submit_contact_lead",
+    {
+      method: "POST",
+      body: {
+        full_name: input.fullName,
+        email: input.email,
+        company: input.company || "",
+        message: input.message,
+      },
+    }
   );
 }
