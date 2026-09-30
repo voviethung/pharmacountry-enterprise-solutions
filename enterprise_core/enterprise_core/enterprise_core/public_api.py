@@ -118,7 +118,7 @@ def _serialize_item(item_code):
 	item = frappe.db.get_value(
 		"Item",
 		item_code,
-		["item_code", "item_name", "stock_uom"],
+		["item_code", "item_name", "stock_uom", "sales_uom"],
 		as_dict=True,
 	)
 	if not item:
@@ -133,7 +133,12 @@ def _serialize_item(item_code):
 	return {
 		"item_code": item.item_code,
 		"item_name": item.item_name,
-		"uom": item.stock_uom,
+		# `sales_uom` (e.g. "Tube") is the customer-facing selling unit when an Item defines
+		# one — falling back to `stock_uom` only for items with no sales-side override. Fixes
+		# a real bug where VITC-1000-EFF displayed "/ Kg" (its internal manufacturing/stock
+		# tracking unit) next to a per-tube retail price, which read as nonsensical to a
+		# visitor even after the price itself was corrected.
+		"uom": item.sales_uom or item.stock_uom,
 		"category": copy.get("category", "Consumer Product"),
 		"description": copy.get("blurb", ""),
 		"price": price.price_list_rate if price else None,

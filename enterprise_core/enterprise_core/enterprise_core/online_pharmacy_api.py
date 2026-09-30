@@ -160,8 +160,9 @@ _STOREFRONT_COPY = {
 		"category": "Pain Relief / Fever Reducer (OTC)",
 		"blurb": (
 			"Paracetamol 500mg tablets for pain relief and fever reduction. Over-the-counter — no "
-			"prescription required. Dispensed from Demo Pharmacy Chain Co.'s Store A, the same real "
-			"store this chain's own point-of-sale sells from in person."
+			"prescription required. Dispensed from Demo Pharmacy Chain Co.'s Store A, the same store "
+			"this chain's own point-of-sale sells from in person, live demo data generated and "
+			"managed by the connected ERP system."
 		),
 	},
 }
@@ -277,14 +278,16 @@ def _pick_batches_fefo(item_code, qty, warehouse=_STORE_WAREHOUSE):
 
 
 def _serialize_catalog_item(item_code):
-	item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom"], as_dict=True)
+	item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom", "sales_uom"], as_dict=True)
 	if not item:
 		return None
 	copy = _STOREFRONT_COPY.get(item_code, {})
 	return {
 		"item_code": item.item_code,
 		"item_name": item.item_name,
-		"uom": item.stock_uom,
+		# `sales_uom` over `stock_uom` for display, consistent with public_api.py/
+		# b2c_commerce_api.py's own fix for the same class of bug (see their comments).
+		"uom": item.sales_uom or item.stock_uom,
 		"category": copy.get("category", "Pharmacy Product"),
 		"description": copy.get("blurb", ""),
 		"price": _current_price(item_code),

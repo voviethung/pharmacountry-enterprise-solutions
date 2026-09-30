@@ -154,14 +154,17 @@ def get_catalog_with_my_pricing():
 	price_list = frappe.db.get_value("Customer", customer, "default_price_list") or _PUBLIC_PRICE_LIST
 	items = []
 	for item_code in _safe_item_codes():
-		item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom"], as_dict=True)
+		item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom", "sales_uom"], as_dict=True)
 		if not item:
 			continue
 		items.append(
 			{
 				"item_code": item.item_code,
 				"item_name": item.item_name,
-				"uom": item.stock_uom,
+				# `sales_uom` (e.g. "Tube") over `stock_uom` for display — same fix as
+				# public_api.py's `_serialize_item()`, see its comment for the real bug this
+				# addresses (VITC-1000-EFF showing "/ Kg" next to a per-tube price).
+				"uom": item.sales_uom or item.stock_uom,
 				"my_price": _item_price(item_code, price_list),
 				"price_list": price_list,
 				"currency": "VND",

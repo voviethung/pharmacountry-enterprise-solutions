@@ -195,24 +195,38 @@ def _current_price(item_code):
 	return price
 
 
-def _available_qty(item_code):
-	return frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": _DC_WAREHOUSE}, "actual_qty") or 0
+def _available_qty(item_code, display_uom=None, stock_uom=None):
+	qty = frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": _DC_WAREHOUSE}, "actual_qty") or 0
+	# Bin.actual_qty is always in the Item's stock_uom. Convert to the customer-facing
+	# display_uom (e.g. "Tube") when it differs, using the Item's own real UOM Conversion
+	# Detail row — never a guessed/hardcoded factor.
+	if display_uom and stock_uom and display_uom != stock_uom:
+		factor = frappe.db.get_value(
+			"UOM Conversion Detail", {"parent": item_code, "uom": display_uom}, "conversion_factor"
+		)
+		if factor:
+			qty = qty / factor
+	return qty
 
 
 def _serialize_catalog_item(item_code):
-	item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom"], as_dict=True)
+	item = frappe.db.get_value("Item", item_code, ["item_code", "item_name", "stock_uom", "sales_uom"], as_dict=True)
 	if not item:
 		return None
+	display_uom = item.sales_uom or item.stock_uom
 	copy = _STOREFRONT_COPY.get(item_code, {})
 	return {
 		"item_code": item.item_code,
 		"item_name": item.item_name,
-		"uom": item.stock_uom,
+		# `sales_uom` (e.g. "Tube") is the customer-facing selling unit when an Item defines
+		# one — falling back to `stock_uom` only for items with no sales-side override. Fixes
+		# a real bug where VITC-1000-EFF displayed "/ Kg" next to a per-tube retail price.
+		"uom": display_uom,
 		"category": copy.get("category", "Consumer Product"),
 		"description": copy.get("blurb", ""),
 		"price": _current_price(item_code),
 		"currency": "VND",
-		"available_qty": _available_qty(item_code),
+		"available_qty": _available_qty(item_code, display_uom, item.stock_uom),
 	}
 
 
