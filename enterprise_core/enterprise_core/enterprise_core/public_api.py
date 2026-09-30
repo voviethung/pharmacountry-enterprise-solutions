@@ -666,3 +666,218 @@ def get_platform_stats():
 		),
 		"live_demo_count": sum(len(v) for v in _LIVE_DEMO_PACKS.values()),
 	}
+
+
+# ============================================================================
+# Hub Contact Form — REAL BUSINESS-CRM WRITE (user-requested rebrand, not in the master plan's
+# WEB-01..07 list — see documents/project_status.md's rebrand entry for the full rationale).
+# Backs the Hub's new `/contact` page (`nextjs-demo/hub-landing/app/[locale]/contact/`).
+#
+# THIS IS A NEW RISK CATEGORY FOR *THIS FILE* (though not for the platform overall) — read
+# before touching this section:
+#   Every other function in this module (WEB-01/WEB-02/the Hub's own read-only endpoints above)
+#   is `allow_guest=True` + READ-ONLY. This is `allow_guest=True` + a REAL WRITE — an anonymous
+#   caller creates a real `Lead` document in ERPNext's native CRM module. That combination
+#   (guest + write) was already solved once in this platform, in `b2c_commerce_api.py`'s
+#   `place_web_order()` (WEB-05) — this function reuses the EXACT SAME narrow-elevation pattern
+#   rather than inventing a new one:
+#     1. EXPLICIT, VALIDATED INPUT ONLY. Exactly 4 fields are ever read from the request —
+#        `full_name`, `email`, `company`, `message` — each length- and shape-checked BEFORE
+#        anything is written (see `_validate_contact_lead()`). No other key in the request body
+#        is ever read, so a caller cannot inject an arbitrary Lead field (e.g. `status`,
+#        `lead_owner`, `source`, or any other DocField) — the Lead document this function builds
+#        has a hardcoded field set, not a pass-through of the request body.
+#     2. NARROW, RESTORED-ON-EXIT ELEVATION, NOT AMBIENT PRIVILEGE. `Guest` has no create
+#        permission on `Lead` (CRM module, System-Manager/Sales-user scoped by default) — exactly
+#        the same real permissions gap `place_web_order()`'s own docstring documents for
+#        `Sales Order`/`Address`. The fix is identical: `frappe.set_user("Administrator")`
+#        scoped to ONLY the `lead.insert()` call, restored in a `finally` clause even on failure.
+#        Every value written in that one-line block was already fully validated above it, before
+#        the elevation — nothing request-controlled is interpreted while elevated.
+#     3. SANE INPUT BOUNDS, HONESTLY NOT REAL ANTI-ABUSE. Same disclosure as WEB-05's own
+#        docstring point 5 — length caps on every field are real validation, not rate limiting,
+#        a CAPTCHA, or spam/fraud detection. A real production deployment of a public contact
+#        form would need those too; not pretended here.
+#     4. NO ENUMERABLE RESPONSE. The created Lead's own (sequential, guessable) `name`
+#        (`CRM-LEAD-2026-NNNNN`) is never returned to the caller — same "never leak a sequential
+#        internal id to a guest" discipline as WEB-05's `order_token` design, even though a Lead
+#        is lower-stakes than a Sales Order. The response is just a boolean confirmation.
+#
+# LEAD FIELD CHOICE — checked live against the real `Lead` DocType (CRM module) via
+# `bench execute frappe.get_meta` against `pharmacountry.vn` before writing this, not guessed:
+#   - `status` is the ONLY field the DocType itself marks `reqd=1`; set to the real, valid
+#     select option `"Lead"` (the first/default status for a brand-new, uncontacted lead — the
+#     DocType's own `status` field options are `Lead, Open, Replied, Opportunity, Quotation,
+#     Lost Quotation, Interested, Converted, Do Not Contact`).
+#   - `lead_name`, `company_name`, `email_id` are real, standard Data fields on Lead — the
+#     submitter's name, company, and email map directly onto them.
+#   - There is no simple "message" text field on Lead itself; the real, standard way ERPNext
+#     models free-text notes on a Lead is the `notes` CHILD TABLE (`CRM Note`, fields
+#     `note`/`added_by`/`added_on`, confirmed live via the same `get_meta` call) — the visitor's
+#     message is appended there as one `CRM Note` row, not stuffed into an unrelated field.
+_MAX_CONTACT_NAME_LEN = 120
+_MAX_CONTACT_COMPANY_LEN = 120
+_MAX_CONTACT_EMAIL_LEN = 180
+_MAX_CONTACT_MESSAGE_LEN = 2000
+
+
+def _validate_contact_lead(full_name, email, company, message):
+	full_name = (full_name or "").strip()
+	email = (email or "").strip()
+	company = (company or "").strip()
+	message = (message or "").strip()
+
+	if not full_name or len(full_name) > _MAX_CONTACT_NAME_LEN:
+		frappe.throw(f"A valid name (1-{_MAX_CONTACT_NAME_LEN} characters) is required.")
+	if not email or "@" not in email or len(email) > _MAX_CONTACT_EMAIL_LEN:
+		frappe.throw("A valid email address is required.")
+	if len(company) > _MAX_CONTACT_COMPANY_LEN:
+		frappe.throw(f"Company name must be {_MAX_CONTACT_COMPANY_LEN} characters or fewer.")
+	if not message or len(message) > _MAX_CONTACT_MESSAGE_LEN:
+		frappe.throw(f"A message (1-{_MAX_CONTACT_MESSAGE_LEN} characters) is required.")
+
+	return {
+		"full_name": full_name,
+		"email": email,
+		"company": company,
+		"message": message,
+	}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def submit_contact_lead(full_name: str = "", email: str = "", company: str = "", message: str = ""):
+	"""Creates a REAL `Lead` document (ERPNext CRM module) from the Hub's public `/contact` form.
+	See this section's module docstring for the full threat model. Exactly 4 request fields are
+	ever read (all re-validated here, never trusted from the frontend alone even though the
+	Next.js route handler in front of this also validates); nothing else in the request is
+	interpreted, and the one real write is scoped to a single narrow, restored-on-exit
+	`Administrator` elevation."""
+	contact = _validate_contact_lead(full_name, email, company, message)
+
+	lead = frappe.get_doc(
+		{
+			"doctype": "Lead",
+			"lead_name": contact["full_name"],
+			"company_name": contact["company"] or contact["full_name"],
+			"email_id": contact["email"],
+			"status": "Lead",
+			"notes": [
+				{
+					"note": (
+						f"Submitted via PharmaCountry Enterprise Solutions Hub contact form "
+						f"(pharmacountry.vn/contact).\n\n{contact['message']}"
+					),
+				}
+			],
+		}
+	)
+
+	# Narrow, documented, restored-on-exit "service account" elevation — identical pattern to
+	# b2c_commerce_api.py's place_web_order(), see this section's module docstring point 2.
+	# Scoped to exactly this one statement; every value it writes was already validated above,
+	# before this block, and the original session user is restored even on failure.
+	_original_user = frappe.session.user
+	frappe.set_user("Administrator")
+	try:
+		lead.insert()
+	finally:
+		frappe.set_user(_original_user)
+
+	# Deliberately no Lead `name`/id in the response — see module docstring point 4.
+	return {"success": True}
+
+
+def verify_hub_contact_lead_access_control():
+	"""Real, empirical proof for the Hub contact form's guest-write security model — part of the
+	platform's standard verify_* regression sweep. Always runs as Guest (this endpoint never
+	requires a session)."""
+	original_user = frappe.session.user
+	checks = []
+
+	def check(name, passed, detail=None):
+		checks.append({"check": name, "passed": bool(passed), "detail": detail})
+
+	try:
+		frappe.set_user("Guest")
+
+		before_count = frappe.db.count("Lead")
+		probe_email = f"verify.hub.contact.{frappe.generate_hash(length=8)}@example.com"
+		result = submit_contact_lead(
+			full_name="Hub Contact Verify Test",
+			email=probe_email,
+			company="Verify Co.",
+			message="Automated regression-sweep probe for the Hub contact form.",
+		)
+		check("submit_contact_lead() returns a plain success confirmation, no internal id", result == {"success": True}, result)
+
+		after_count = frappe.db.count("Lead")
+		check("Exactly one real Lead document was created", after_count == before_count + 1, {"before": before_count, "after": after_count})
+
+		created = frappe.db.get_value(
+			"Lead", {"email_id": probe_email}, ["lead_name", "company_name", "email_id", "status"], as_dict=True
+		)
+		check(
+			"The created Lead contains exactly the submitted fields (name/company/email) and the expected status",
+			bool(created)
+			and created.lead_name == "Hub Contact Verify Test"
+			and created.company_name == "Verify Co."
+			and created.email_id == probe_email
+			and created.status == "Lead",
+			created,
+		)
+
+		# --- Field-injection resistance: an unexpected key in the payload must have ZERO effect. ---
+		# submit_contact_lead()'s own signature only accepts full_name/email/company/message — any
+		# extra kwarg would raise a TypeError before ever reaching frappe.get_doc(), proving there is
+		# no pass-through of arbitrary request fields into the Lead document.
+		injection_blocked = False
+		try:
+			submit_contact_lead(
+				full_name="Injection Test",
+				email="injection@example.com",
+				company="X",
+				message="test",
+				status="Converted",  # type: ignore[call-arg]  # deliberately invalid extra kwarg
+			)
+		except TypeError:
+			injection_blocked = True
+		except Exception:
+			injection_blocked = False
+		check("An unexpected extra field in the request is rejected, never silently applied", injection_blocked, None)
+
+		# --- Validation rejects bad input, never silently creates a malformed Lead. ---
+		bad_email_rejected = False
+		try:
+			submit_contact_lead(full_name="X", email="not-an-email", company="", message="test")
+		except frappe.ValidationError:
+			bad_email_rejected = True
+		except Exception:
+			bad_email_rejected = False
+		check("An email address without '@' is rejected", bad_email_rejected, None)
+
+		empty_message_rejected = False
+		try:
+			submit_contact_lead(full_name="X", email="valid@example.com", company="", message="")
+		except frappe.ValidationError:
+			empty_message_rejected = True
+		except Exception:
+			empty_message_rejected = False
+		check("An empty message is rejected", empty_message_rejected, None)
+
+		oversized_message_rejected = False
+		try:
+			submit_contact_lead(
+				full_name="X",
+				email="valid@example.com",
+				company="",
+				message="x" * (_MAX_CONTACT_MESSAGE_LEN + 1),
+			)
+		except frappe.ValidationError:
+			oversized_message_rejected = True
+		except Exception:
+			oversized_message_rejected = False
+		check(f"A message beyond {_MAX_CONTACT_MESSAGE_LEN} characters is rejected", oversized_message_rejected, None)
+	finally:
+		frappe.set_user(original_user)
+
+	return {"all_passed": all(c["passed"] for c in checks), "checks": checks}
