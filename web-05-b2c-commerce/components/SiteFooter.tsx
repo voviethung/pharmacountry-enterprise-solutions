@@ -4,8 +4,8 @@ export default function SiteFooter() {
       <div className="mx-auto max-w-5xl px-4 py-6 text-xs text-slate-500 space-y-1">
         <p>
           Demo Consumer Distribution Co. — this is a demo storefront (ENTERPRISE_PLATFORM WEB-05,
-          Phase 7). All products, prices, and orders are real ERP records in a demo instance, not a
-          real commercial store.
+          Phase 7). All products, prices, and orders shown here are live demo data generated and
+          managed by the connected ERP system — this is a demo instance, not a commercial store.
         </p>
         <p>
           Payment: Cash on Delivery only — this demo does not integrate any real payment gateway.

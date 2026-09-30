@@ -20,7 +20,7 @@ export default async function ShopPage() {
     <div className="mx-auto max-w-5xl px-4 py-10">
       <h1 className="text-2xl font-bold text-slate-900">Shop</h1>
       <p className="mt-1 text-sm text-slate-600">
-        Real products and real live prices, read directly from our ERP system.
+        Live demo data — products and prices generated and managed directly by our connected ERP system.
       </p>
 
       {loadError && (

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Demo Supplement Co. — Vitamin C Effervescent Tablets",
   description:
-    "Enterprise Platform Phase 7 WEB-02 demo — a consumer brand site for a real supplement manufacturer, telling the brand's own story with real formula and lab-verification data served from a guest-only Frappe API.",
+    "Enterprise Platform Phase 7 WEB-02 demo — a consumer brand site for a demo supplement manufacturer, telling the brand's own story with live demo formula and lab-verification data generated and managed by the connected ERP system, served from a guest-only Frappe API.",
 };
 
 // This root layout also calls the real Frappe backend directly (see loadHeaderProfile below)

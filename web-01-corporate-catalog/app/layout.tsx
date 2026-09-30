@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WEB-01 Corporate Catalog Demo",
   description:
-    "Enterprise Platform Phase 7 WEB-01 demo — corporate site + product catalog for a real distributor company, served from a guest-only Frappe API.",
+    "Enterprise Platform Phase 7 WEB-01 demo — corporate site + product catalog for a demo distributor company, powered by live demo data generated and managed by the connected ERP system, served from a guest-only Frappe API.",
 };
 
 // The company name/country are used in the header/footer on every page, so they're fetched

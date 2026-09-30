@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WEB-06 Online Pharmacy Demo",
   description:
-    "Enterprise Platform Phase 7 WEB-06 demo — a real, anonymous-guest online pharmacy storefront (browse real batch-honest stock, cart, checkout with a real server-computed price and native expiry-block protection) for a real pharmacy chain, served from a guest-writable Frappe API.",
+    "Enterprise Platform Phase 7 WEB-06 demo — a live, anonymous-guest online pharmacy storefront (browse live, batch-honest stock generated and managed by the connected ERP, cart, checkout with a real server-computed price and native expiry-block protection) for a demo pharmacy chain, served from a guest-writable Frappe API.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

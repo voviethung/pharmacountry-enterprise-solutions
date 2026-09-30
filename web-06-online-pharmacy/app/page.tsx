@@ -21,13 +21,13 @@ export default async function HomePage() {
           WEB-06 — Online Pharmacy Demo
         </p>
         <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-          Order from Demo Pharmacy Chain Co.&apos;s Store A — the same real shop, online.
+          Order from Demo Pharmacy Chain Co.&apos;s Store A — the same shop, online.
         </h1>
         <p className="mx-auto max-w-2xl text-slate-600">
-          Browse real, over-the-counter products with real, live per-store stock, and check out as a
-          guest — no account needed. Every price and every batch you&apos;re actually charged/shipped
-          is confirmed by our real pharmacy ERP system at checkout, including a genuine expiry-safety
-          check on every order.
+          Browse our over-the-counter products, backed by live per-store stock generated and
+          managed by our connected ERP system, and check out as a guest — no account needed. Every
+          price and every batch you&apos;re actually charged/shipped is confirmed by our pharmacy
+          ERP system at checkout, including a genuine expiry-safety check on every order.
         </p>
         <div>
           <Link
@@ -75,8 +75,9 @@ export default async function HomePage() {
             fabricate a prescription workflow (see the README for why).
           </li>
           <li>
-            Stock shown is real, live, per-store data from Store A, and already excludes any batch
-            that has expired — an order can never be filled from expired stock.
+            Stock shown is live, per-store data from Store A, generated and managed by our
+            connected ERP system, and already excludes any batch that has expired — an order can
+            never be filled from expired stock.
           </li>
           <li>Payment is Cash on Delivery only — no real payment gateway is used anywhere on this site.</li>
           <li>

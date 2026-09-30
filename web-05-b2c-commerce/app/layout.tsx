@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WEB-05 B2C Commerce Demo",
   description:
-    "Enterprise Platform Phase 7 WEB-05 demo — a real, anonymous-guest B2C storefront (browse, cart, checkout with a real server-computed price) for a real distributor company, served from a guest-writable Frappe API.",
+    "Enterprise Platform Phase 7 WEB-05 demo — a live, anonymous-guest B2C storefront (browse, cart, checkout with a real server-computed price) for a demo distributor company, powered by live demo data generated and managed by the connected ERP system, served from a guest-writable Frappe API.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

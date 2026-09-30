@@ -31,7 +31,7 @@ export default async function WhereToBuyPage() {
       <p className="mt-4 text-lg text-stone-600 leading-relaxed">
         {product.item_name} is sold through a nationwide network of pharmacies and health
         retailers across {profile.country} — we manufacture it, and a network of distribution
-        partners gets it onto real shelves near you.
+        partners gets it onto shelves near you.
       </p>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -56,10 +56,10 @@ export default async function WhereToBuyPage() {
           <strong className="text-stone-900">Note on this demo:</strong> this page is
           illustrative brand copy — it does not link to a real store locator or e-commerce
           checkout. This platform separately includes a real distributor-facing site (
-          <strong>WEB-01, &ldquo;Corporate + Product Catalog&rdquo;</strong>) that genuinely
-          resells this same product with a real, live selling price drawn from ERP data; this
-          brand site deliberately does not duplicate that price-list experience, and the two
-          are not integrated with each other for this demo stage.
+          <strong>WEB-01, &ldquo;Corporate + Product Catalog&rdquo;</strong>) that lists this
+          same product with a live selling price generated and managed by the connected ERP
+          system; this brand site deliberately does not duplicate that price-list experience,
+          and the two are not integrated with each other for this demo stage.
         </p>
       </section>
     </div>

@@ -20,8 +20,8 @@ export default async function ShopPage() {
     <div className="mx-auto max-w-5xl px-4 py-10">
       <h1 className="text-2xl font-bold text-slate-900">Shop — Store A</h1>
       <p className="mt-1 text-sm text-slate-600">
-        Real products, real live per-store prices and stock, read directly from our pharmacy ERP
-        system.
+        Live demo products, prices, and per-store stock, generated and managed directly by our
+        connected pharmacy ERP system.
       </p>
 
       {loadError && (

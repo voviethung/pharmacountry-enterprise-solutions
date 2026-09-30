@@ -24,9 +24,9 @@ export default async function HomePage() {
           Buy Vitamin C and Facial Cleanser direct from Demo Consumer Distribution Co.
         </h1>
         <p className="mx-auto max-w-2xl text-slate-600">
-          Browse real products, add them to your cart, and check out as a guest — no account
-          needed. Every price you see is real, live data from our ERP system; the price you&apos;re
-          actually charged is confirmed by our system at checkout.
+          Browse our catalog, add items to your cart, and check out as a guest — no account
+          needed. Every price you see is live demo data generated and managed by our connected
+          ERP system; the price you&apos;re actually charged is confirmed by our system at checkout.
         </p>
         <div>
           <Link
