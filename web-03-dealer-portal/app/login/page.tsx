@@ -27,8 +27,7 @@ export default async function LoginPage() {
           <LoginForm />
         </div>
         <p className="mt-4 text-center text-xs text-slate-400">
-          Test dealer credentials are documented in this app&apos;s README — never hardcoded on this
-          page.
+          This is a public demo platform — use the Demo Access credentials above to explore freely.
         </p>
       </div>
     </div>
