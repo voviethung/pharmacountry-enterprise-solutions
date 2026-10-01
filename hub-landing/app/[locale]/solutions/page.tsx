@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getIndustrySolutions, liveDemoUrlFor, type IndustrySolution } from "@/lib/api";
 import { getPackTags } from "@/lib/industryPackTags";
+import { localizedPackName, localizedPackSummary, localizedDemoLabel } from "@/lib/packDisplayText";
 import SolutionsExplorer, { type ExplorerCard } from "@/components/SolutionsExplorer";
 
 export async function generateMetadata({
@@ -37,28 +38,35 @@ export default async function SolutionsPage({
     loadError = true;
   }
 
+  // Sort by the LOCALIZED name so Vietnamese alphabetical order matches what's actually shown,
+  // not the raw English backend string.
   const sorted = [...solutions].sort((a, b) => {
     const rank = (s: IndustrySolution) =>
       s.has_live_demo ? 0 : s.has_golden_demo ? 1 : 2;
     const diff = rank(a) - rank(b);
-    return diff !== 0 ? diff : a.pack_name.localeCompare(b.pack_name);
+    if (diff !== 0) return diff;
+    return localizedPackName(a.pack_code, a.pack_name, locale).localeCompare(
+      localizedPackName(b.pack_code, b.pack_name, locale)
+    );
   });
 
   // Resolve each live-demo's real URL SERVER-SIDE (liveDemoUrlFor() reads env vars via
-  // lib/api.ts, which uses Node's `http` module and must never reach the client bundle) and
-  // attach curated Operation/Software tags, producing a plain, fully-serializable array to hand
-  // to the client-side filter component below.
+  // lib/api.ts, which uses Node's `http` module and must never reach the client bundle), attach
+  // curated Operation/Software tags, and translate the backend's always-English pack_name/
+  // summary/demo label (see lib/packDisplayText.ts) — producing a plain, fully-serializable,
+  // already-localized array to hand to the client-side filter component below.
   const cards: ExplorerCard[] = sorted.map((solution) => {
     const tags = getPackTags(solution.pack_code) ?? { operations: [], software: [] };
     return {
       pack_code: solution.pack_code,
-      pack_name: solution.pack_name,
+      pack_name: localizedPackName(solution.pack_code, solution.pack_name, locale),
       industry_category: solution.industry_category,
-      summary: solution.summary,
+      summary: localizedPackSummary(solution.pack_code, solution.summary, locale),
       has_golden_demo: solution.has_golden_demo,
       has_live_demo: solution.has_live_demo,
       live_demos: solution.live_demos.map((demo) => ({
         ...demo,
+        label: localizedDemoLabel(demo.key, demo.label, locale),
         url: liveDemoUrlFor(demo.key),
       })),
       operations: tags.operations,

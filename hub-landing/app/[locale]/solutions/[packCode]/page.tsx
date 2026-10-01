@@ -7,6 +7,7 @@ import {
   type IndustryPackDetail,
 } from "@/lib/api";
 import { getPackContent, NOT_YET_BUILT_NOTE } from "@/lib/industryPackContent";
+import { localizedPackName, localizedPackSummary, localizedDemoLabel } from "@/lib/packDisplayText";
 import { visualForCategory } from "@/lib/industryIcons";
 import {
   ArrowLeft,
@@ -48,8 +49,8 @@ export async function generateMetadata({
     return { title: t("notFoundTitle") };
   }
   return {
-    title: `${detail.pack_name} — PharmaCountry Enterprise Solutions`,
-    description: detail.summary,
+    title: `${localizedPackName(detail.pack_code, detail.pack_name, locale)} — PharmaCountry Enterprise Solutions`,
+    description: localizedPackSummary(detail.pack_code, detail.summary, locale),
   };
 }
 
@@ -62,6 +63,7 @@ export default async function SolutionDetailPage({
   setRequestLocale(locale);
   const t = await getTranslations("solutionDetail");
   const tSolutions = await getTranslations("solutions");
+  const tCategories = await getTranslations("categories");
 
   const detail = await loadDetail(packCode);
 
@@ -80,6 +82,14 @@ export default async function SolutionDetailPage({
   const content = getPackContent(detail.pack_code, locale);
   const { icon: Icon, bg, fg } = visualForCategory(detail.industry_category);
   const isNotYetBuilt = !detail.has_golden_demo;
+  const packName = localizedPackName(detail.pack_code, detail.pack_name, locale);
+  const packSummary = localizedPackSummary(detail.pack_code, detail.summary, locale);
+  let categoryLabel = detail.industry_category;
+  try {
+    categoryLabel = tCategories(detail.industry_category);
+  } catch {
+    // fall back to the raw English category if it's ever missing from messages/*.json
+  }
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
@@ -91,13 +101,13 @@ export default async function SolutionDetailPage({
         </span>
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-[#158A57]">
-            {detail.industry_category}
+            {categoryLabel}
           </p>
-          <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">{detail.pack_name}</h1>
+          <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">{packName}</h1>
         </div>
       </div>
 
-      <p className="mt-6 text-slate-700 leading-relaxed">{detail.summary}</p>
+      <p className="mt-6 text-slate-700 leading-relaxed">{packSummary}</p>
 
       {detail.has_live_demo && (
         <div className="mt-8 rounded-lg border border-[#158A57]/30 bg-[#158A57]/5 p-6">
@@ -109,10 +119,11 @@ export default async function SolutionDetailPage({
           <div className="mt-4 space-y-2">
             {detail.live_demos.map((demo) => {
               const url = liveDemoUrlFor(demo.key);
+              const label = localizedDemoLabel(demo.key, demo.label, locale);
               if (!url) {
                 return (
                   <p key={demo.key} className="text-sm font-medium text-slate-400">
-                    {tSolutions("notDeployed", { label: demo.label })}
+                    {tSolutions("notDeployed", { label })}
                   </p>
                 );
               }
@@ -124,7 +135,7 @@ export default async function SolutionDetailPage({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-md bg-[#158A57] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0A4A2D] transition-colors mr-2 mb-2"
                 >
-                  {demo.label}
+                  {label}
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
                   {demo.requires_login && (
                     <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold">

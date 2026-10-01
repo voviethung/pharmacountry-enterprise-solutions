@@ -7,6 +7,7 @@ import {
   liveDemoUrlFor,
 } from "@/lib/api";
 import { visualForCategory } from "@/lib/industryIcons";
+import { localizedPackName, localizedPackSummary, localizedDemoLabel } from "@/lib/packDisplayText";
 import {
   Boxes,
   Network,
@@ -272,15 +273,20 @@ export default async function HomePage({
                       <span className="h-1.5 w-1.5 rounded-full bg-[#1FA76B]" />
                       {t("liveDemos.liveBadge")}
                     </span>
-                    <h3 className="mt-3 font-semibold text-slate-900">{pack.pack_name}</h3>
-                    <p className="mt-2 text-sm text-slate-600">{pack.summary}</p>
+                    <h3 className="mt-3 font-semibold text-slate-900">
+                      {localizedPackName(pack.pack_code, pack.pack_name, locale)}
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-600">
+                      {localizedPackSummary(pack.pack_code, pack.summary, locale)}
+                    </p>
                     <div className="mt-4 space-y-2">
                       {pack.demos.map((demo) => {
                         const url = liveDemoUrlFor(demo.key);
+                        const label = localizedDemoLabel(demo.key, demo.label, locale);
                         if (!url) {
                           return (
                             <p key={demo.key} className="text-sm font-medium text-slate-400">
-                              {demo.label} — {t("liveDemos.builtBadge")}
+                              {label} — {t("liveDemos.builtBadge")}
                             </p>
                           );
                         }
@@ -293,7 +299,7 @@ export default async function HomePage({
                             className="flex items-center justify-between text-sm font-medium text-[#0A4A2D] hover:text-[#158A57]"
                           >
                             <span>
-                              {demo.label}
+                              {label}
                               {demo.requires_login && (
                                 <span className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
                                   {t("liveDemos.loginBadge")}
