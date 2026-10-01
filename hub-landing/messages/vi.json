@@ -1,7 +1,7 @@
 {
   "meta": {
     "homeTitle": "PharmaCountry Enterprise Solutions — Công nghệ ERP đa ngành",
-    "homeDescription": "Bộ phận công nghệ doanh nghiệp của PharmaCountry — các giải pháp thực tế cho sản xuất dược phẩm và nhiều ngành khác, kết nối nhu cầu dược phẩm toàn cầu.",
+    "homeDescription": "Bộ phận công nghệ doanh nghiệp của PharmaCountry — phần mềm thực tế cho sản xuất dược phẩm và nhiều ngành khác.",
     "solutionsTitle": "Ngành & Giải pháp — PharmaCountry Enterprise Solutions",
     "solutionsDescription": "Mọi giải pháp ngành thực tế do PharmaCountry Enterprise Solutions xây dựng, lấy trực tiếp từ hệ thống đăng ký giải pháp của chúng tôi.",
     "aboutTitle": "Giới thiệu — PharmaCountry Enterprise Solutions",
@@ -25,7 +25,7 @@
   "footer": {
     "tagline": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
-    "globalTagline": "Kết nối nhu cầu dược phẩm toàn cầu"
+    "globalTagline": "Thuộc hệ sinh thái PharmaCountry"
   },
   "categories": {
     "Pharmaceutical": "Dược phẩm",
@@ -40,9 +40,9 @@
     "Horizontal / Cross-Industry": "Liên ngành"
   },
   "home": {
-    "eyebrow": "PharmaCountry Enterprise Solutions · Kết nối nhu cầu dược phẩm toàn cầu",
-    "title": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
-    "lead": "ERP, sản xuất, chất lượng, phòng thí nghiệm, chuỗi cung ứng và quản lý trang trại — được xây dựng thành một hệ thống liền mạch, thực tế, phục vụ các doanh nghiệp dược phẩm, y tế, thú y, thức ăn chăn nuôi, chăn nuôi và thủy sản. Mỗi giải pháp bên dưới là một hệ thống backend thực tế đang vận hành — không phải bản dựng minh họa.",
+    "eyebrow": "PharmaCountry Enterprise Solutions",
+    "title": "Phần mềm cho doanh nghiệp sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
+    "lead": "ERP, sản xuất, chất lượng, phòng thí nghiệm, chuỗi cung ứng và quản lý trang trại — được xây dựng thành một hệ thống liền mạch, thực tế, phục vụ các doanh nghiệp dược phẩm, y tế, thú y, thức ăn chăn nuôi, chăn nuôi và thủy sản. Mỗi giải pháp bên dưới là một hệ thống thực tế đang vận hành — không phải bản dựng minh họa.",
     "ctaSolutions": "Khám phá Ngành & Giải pháp",
     "ctaExploreDemos": "Khám phá Demo trực tiếp",
     "ctaRequestDemo": "Yêu cầu Demo",
@@ -141,7 +141,7 @@
     "notDeployed": "{label} — chưa triển khai công khai",
     "requiresLogin": "Yêu cầu đăng nhập",
     "erpNote": "Khám phá qua đăng nhập hệ thống nội bộ — không phải website công khai trong môi trường này.",
-    "languageNote": "Tên và mô tả ngành bên dưới được lấy trực tiếp từ hệ thống backend và hiện chỉ được biên soạn bằng tiếng Anh.",
+    "languageNote": "Tên và mô tả ngành bên dưới được lấy trực tiếp từ hệ thống của chúng tôi và hiện chỉ được biên soạn bằng tiếng Anh.",
     "viewDetails": "Khám phá giải pháp",
     "requestDemo": "Yêu cầu Demo",
     "filters": {

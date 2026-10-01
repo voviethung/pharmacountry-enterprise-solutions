@@ -1,7 +1,7 @@
 {
   "meta": {
     "homeTitle": "PharmaCountry Enterprise Solutions — Multi-Industry ERP Technology",
-    "homeDescription": "PharmaCountry's enterprise software and technology division — real, working solutions for pharmaceutical manufacturing and beyond, connecting pharmaceutical needs worldwide.",
+    "homeDescription": "PharmaCountry's enterprise software and technology division — real, working software for pharmaceutical manufacturing and beyond.",
     "solutionsTitle": "Industries & Solutions — PharmaCountry Enterprise Solutions",
     "solutionsDescription": "Every real industry solution built by PharmaCountry Enterprise Solutions, pulled live from our own solutions registry.",
     "aboutTitle": "About — PharmaCountry Enterprise Solutions",
@@ -25,7 +25,7 @@
   "footer": {
     "tagline": "Enterprise software for regulated manufacturing, distribution, and farm operations.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
-    "globalTagline": "Connecting pharmaceutical needs worldwide"
+    "globalTagline": "Part of the PharmaCountry ecosystem"
   },
   "categories": {
     "Pharmaceutical": "Pharmaceutical",
@@ -40,9 +40,9 @@
     "Horizontal / Cross-Industry": "Horizontal / Cross-Industry"
   },
   "home": {
-    "eyebrow": "PharmaCountry Enterprise Solutions · Connecting Pharmaceutical Needs Worldwide",
-    "title": "Enterprise software for regulated manufacturing, distribution & farm operations.",
-    "lead": "ERP, manufacturing, quality, laboratory, supply chain, and farm management — built as one connected, working system for pharmaceutical, healthcare, veterinary, animal feed, livestock, and aquaculture businesses. Every solution below is a real backend running today, not a mockup.",
+    "eyebrow": "PharmaCountry Enterprise Solutions",
+    "title": "Software for businesses in regulated manufacturing, distribution, and farm operations.",
+    "lead": "ERP, manufacturing, quality, laboratory, supply chain, and farm management — built as one connected, working system for pharmaceutical, healthcare, veterinary, animal feed, livestock, and aquaculture businesses. Every solution below is a real, running system today, not a mockup.",
     "ctaSolutions": "Explore Industries & Solutions",
     "ctaExploreDemos": "Explore Live Demos",
     "ctaRequestDemo": "Request a Demo",
@@ -141,7 +141,7 @@
     "notDeployed": "{label} — not yet publicly deployed",
     "requiresLogin": "Requires login",
     "erpNote": "Explored via internal system login — not a public website in this environment.",
-    "languageNote": "Industry names and summaries below are sourced live from our backend registry and are currently authored in English only.",
+    "languageNote": "Industry names and summaries below are sourced live from our own records and are currently authored in English only.",
     "viewDetails": "Explore Solution",
     "requestDemo": "Request Demo",
     "filters": {
