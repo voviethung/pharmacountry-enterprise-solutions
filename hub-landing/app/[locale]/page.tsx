@@ -55,6 +55,17 @@ const AI_ITEMS = [
   { key: "enterpriseSearch", icon: Search, humanApproval: false },
 ] as const;
 
+// Real photos for the Live Demo pack cards (generated from IMAGE_PROMPTS.md's 5
+// per-category prompts), keyed by the live pack's own `pack_code`. Any pack not listed here
+// (none currently) falls back to the colored icon band below.
+const LIVE_PACK_IMAGES: Record<string, string> = {
+  "IP-CONSUMER-DIST": "/images/live-consumer-dist.png",
+  "IP-SUPPLEMENT": "/images/live-supplement.png",
+  "IP-INGREDIENT-TRADING": "/images/live-ingredient-trading.png",
+  "IP-PHARMACY": "/images/live-pharmacy.png",
+  "IP-VETERINARY": "/images/live-farm.png",
+};
+
 // Force dynamic rendering — this page calls the real Frappe backend on every request. Without
 // this, Next.js prerenders it once at Docker build time (when the backend isn't reachable from
 // inside the build container) and serves that stale/fallback snapshot forever.
@@ -230,20 +241,32 @@ export default async function HomePage({
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* One card PER PACK (not per demo) — see loadLiveDemoPacks()'s own comment. A
-                colored header band (the category's real icon + accent color, scaled up) gives
-                each card real visual weight until a real per-category photo replaces it (see
-                IMAGE_PROMPTS.md). */}
+            {/* One card PER PACK (not per demo) — see loadLiveDemoPacks()'s own comment. A real
+                photo (generated from IMAGE_PROMPTS.md's 5 per-category prompts) heads each card;
+                a colored icon band remains as a fallback for any pack not in LIVE_PACK_IMAGES. */}
             {livePacks.map((pack) => {
               const { icon: PackIcon, bg, fg } = visualForCategory(pack.industry_category);
+              const photo = LIVE_PACK_IMAGES[pack.pack_code];
               return (
                 <div
                   key={pack.pack_code}
                   className="group overflow-hidden rounded-lg border border-slate-200 bg-white hover:border-[#3DBB89] hover:shadow-sm transition-all"
                 >
-                  <div className={`flex h-28 items-center justify-center ${bg}`}>
-                    <PackIcon className={`h-12 w-12 ${fg}`} strokeWidth={1.25} />
-                  </div>
+                  {photo ? (
+                    <div className="relative h-36 w-full overflow-hidden">
+                      <Image
+                        src={photo}
+                        alt=""
+                        fill
+                        sizes="(min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform group-hover:scale-105"
+                      />
+                    </div>
+                  ) : (
+                    <div className={`flex h-28 items-center justify-center ${bg}`}>
+                      <PackIcon className={`h-12 w-12 ${fg}`} strokeWidth={1.25} />
+                    </div>
+                  )}
                   <div className="p-6">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-[#158A57]/10 px-2.5 py-1 text-xs font-semibold text-[#0A4A2D]">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#1FA76B]" />
