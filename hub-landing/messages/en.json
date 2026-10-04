@@ -24,8 +24,7 @@
   },
   "footer": {
     "tagline": "Software for businesses in regulated manufacturing, distribution, retail chain operations, and farming.",
-    "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
-    "globalTagline": "Part of the PharmaCountry ecosystem"
+    "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved."
   },
   "categories": {
     "Pharmaceutical": "Pharmaceutical",
@@ -210,7 +209,7 @@
   "about": {
     "title": "About PharmaCountry Enterprise Solutions",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — our technology and team",
-    "p1": "PharmaCountry is the platform connecting pharmaceutical needs worldwide — a B2B marketplace serving the global pharmaceutical industry across 100+ countries. PharmaCountry Enterprise Solutions is our technology and ERP division: the team that builds the real, working enterprise software behind pharmaceutical manufacturing, quality, and supply chain operations, and extends that same foundation to adjacent regulated and process industries.",
+    "p1": "PharmaCountry Enterprise Solutions is the team that builds the real, working enterprise software behind pharmaceutical manufacturing, quality, and supply chain operations — and extends that same technology foundation to adjacent regulated and process industries.",
     "p2": "Our own proprietary technology is configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
     "p3": "We build around three values: People, Partnerships, and Progress — for a healthier world. Every industry solution presented on our Solutions page is backed by a real, seeded dataset and verified end-to-end workflows, not mockups or placeholder screenshots.",
     "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same technology foundation we use for real deployments.",

@@ -24,8 +24,7 @@
   },
   "footer": {
     "tagline": "Phần mềm cho doanh nghiệp sản xuất, phân phối, vận hành chuỗi bán lẻ và trang trại trong các ngành quản lý chặt chẽ.",
-    "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
-    "globalTagline": "Thuộc hệ sinh thái PharmaCountry"
+    "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền."
   },
   "categories": {
     "Pharmaceutical": "Dược phẩm",
@@ -210,7 +209,7 @@
   "about": {
     "title": "Về PharmaCountry Enterprise Solutions",
     "heroImageAlt": "PharmaCountry Enterprise Solutions — công nghệ và đội ngũ của chúng tôi",
-    "p1": "PharmaCountry là nền tảng kết nối nhu cầu dược phẩm trên toàn thế giới — một sàn giao dịch B2B phục vụ ngành dược phẩm toàn cầu tại hơn 100 quốc gia. PharmaCountry Enterprise Solutions là bộ phận công nghệ và ERP của chúng tôi: đội ngũ xây dựng phần mềm doanh nghiệp thực tế đứng sau hoạt động sản xuất, chất lượng và chuỗi cung ứng dược phẩm, đồng thời mở rộng nền tảng đó sang các ngành công nghiệp quy trình và quản lý chặt chẽ khác có liên quan.",
+    "p1": "PharmaCountry Enterprise Solutions là đội ngũ xây dựng phần mềm doanh nghiệp thực tế đứng sau hoạt động sản xuất, chất lượng và chuỗi cung ứng dược phẩm — đồng thời mở rộng nền tảng công nghệ đó sang các ngành công nghiệp quy trình và quản lý chặt chẽ khác có liên quan.",
     "p2": "Công nghệ độc quyền của chúng tôi được cấu hình thành các giải pháp ngành thực tế: sản xuất dược phẩm, quản lý chất lượng và tài liệu, quản lý thông tin phòng thí nghiệm (LIMS), quản lý thiết bị và tài sản, sản xuất thức ăn chăn nuôi và premix, quản lý trang trại chăn nuôi và thủy sản, sản xuất mỹ phẩm và thiết bị y tế, bán lẻ dược phẩm, kho lạnh 3PL và phân phối hàng tiêu dùng, cùng nhiều lĩnh vực khác.",
     "p3": "Chúng tôi xây dựng dựa trên ba giá trị cốt lõi: Con người, Hợp tác và Phát triển — vì một thế giới khỏe mạnh hơn. Mọi giải pháp ngành được giới thiệu trên trang Giải pháp của chúng tôi đều dựa trên bộ dữ liệu thực tế và quy trình nghiệp vụ đầu-cuối đã được kiểm chứng, không phải bản dựng minh họa.",
     "p4": "Để đảm bảo tính minh bạch: trang giới thiệu công nghệ này vận hành trên dữ liệu khởi tạo mang tính minh họa được tạo cho mục đích trình diễn, không phải giao dịch khách hàng thực tế — tên công ty, số lượng và số liệu hiển thị chỉ mang tính minh họa. Điều có thật là chính phần mềm: mọi quy trình, màn hình và tích hợp tại đây đều là mã nguồn hoạt động thực sự, được xây dựng trên cùng nền tảng công nghệ mà chúng tôi sử dụng cho các triển khai thực tế.",

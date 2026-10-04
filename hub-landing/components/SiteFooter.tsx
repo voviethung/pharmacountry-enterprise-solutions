@@ -30,9 +30,8 @@ export default function SiteFooter() {
             </Link>
           </nav>
         </div>
-        <div className="border-t border-slate-200 pt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-slate-500">
+        <div className="border-t border-slate-200 pt-5 text-sm text-slate-500">
           <p>{t("rights", { year })}</p>
-          <p>{t("globalTagline")}</p>
         </div>
       </div>
     </footer>
