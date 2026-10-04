@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import { getCurrentSession } from "@/lib/auth";
 
 // Force dynamic rendering — this reads the session cookie and redirects based on live
@@ -6,7 +6,12 @@ import { getCurrentSession } from "@/lib/auth";
 // present, no backend reachable) and bake that snapshot in for every visitor forever.
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await getCurrentSession();
-  redirect(session ? "/dashboard" : "/login");
+  redirect({ href: session ? "/dashboard" : "/login", locale });
 }

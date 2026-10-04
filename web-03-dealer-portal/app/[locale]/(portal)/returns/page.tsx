@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyReturns, getMyDeliveriesEligibleForReturn, formatVnd } from "@/lib/api";
 import RequestReturnForm from "@/components/RequestReturnForm";
@@ -5,7 +6,15 @@ import RequestReturnForm from "@/components/RequestReturnForm";
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function ReturnsPage() {
+export default async function ReturnsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("returns");
+
   const session = await requireSession();
   const [returns, deliveries] = await Promise.all([
     getMyReturns(session.frappeSid),
@@ -15,14 +24,12 @@ export default async function ReturnsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">Returns</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Only your own deliveries can be selected below — the backend re-checks this server-side.
-        </p>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
+        <p className="mt-1 text-sm text-slate-500">{t("subtitle")}</p>
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="mb-3 text-sm font-semibold text-slate-900">File a new return</h2>
+        <h2 className="mb-3 text-sm font-semibold text-slate-900">{t("fileNewReturnHeading")}</h2>
         <RequestReturnForm deliveries={deliveries} />
       </div>
 
@@ -30,10 +37,10 @@ export default async function ReturnsPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Return</Th>
-              <Th>Against delivery</Th>
-              <Th>Date</Th>
-              <Th>Amount</Th>
+              <Th>{t("thReturn")}</Th>
+              <Th>{t("thAgainstDelivery")}</Th>
+              <Th>{t("thDate")}</Th>
+              <Th>{t("thAmount")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -48,7 +55,7 @@ export default async function ReturnsPage() {
             {returns.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
-                  No returns filed yet.
+                  {t("emptyReturns")}
                 </td>
               </tr>
             )}

@@ -25,11 +25,14 @@ export async function POST(request: Request) {
     username = String(body.username || "");
     password = String(body.password || "");
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    // Machine-readable code, not English prose — this Route Handler runs outside next-intl's
+    // locale context, so the consuming client component (LoginForm.tsx) translates this code
+    // via its own `errors.<code>` message key instead.
+    return NextResponse.json({ error_code: "invalid_request_body" }, { status: 400 });
   }
 
   if (!username || !password) {
-    return NextResponse.json({ error: "Username and password are required." }, { status: 400 });
+    return NextResponse.json({ error_code: "missing_credentials" }, { status: 400 });
   }
 
   try {
@@ -62,14 +65,15 @@ export async function POST(request: Request) {
     return response;
   } catch (err) {
     if (err instanceof FrappeLoginError) {
-      return NextResponse.json({ error: err.message }, { status: 401 });
+      // FrappeLoginError's own message ("Invalid username or password." / "Could not reach the
+      // backend.") is itself a hardcoded English string from lib/frappeAuth.ts — never passed
+      // through raw. Both cases surface the same client-facing code; see this app's i18n
+      // migration notes for why the two aren't distinguished here.
+      return NextResponse.json({ error_code: "invalid_credentials" }, { status: 401 });
     }
     if (err instanceof DealerApiError) {
-      return NextResponse.json(
-        { error: "This account is not a provisioned dealer login." },
-        { status: 403 }
-      );
+      return NextResponse.json({ error_code: "not_provisioned" }, { status: 403 });
     }
-    return NextResponse.json({ error: "Login failed. Please try again." }, { status: 500 });
+    return NextResponse.json({ error_code: "server_error" }, { status: 500 });
   }
 }

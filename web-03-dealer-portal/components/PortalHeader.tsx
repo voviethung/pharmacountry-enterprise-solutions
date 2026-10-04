@@ -1,22 +1,26 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import LogoutButton from "./LogoutButton";
+import LocaleSwitcher from "./LocaleSwitcher";
 
-const NAV = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/catalog", label: "Catalog & Stock" },
-  { href: "/orders", label: "My Orders" },
-  { href: "/invoices", label: "My Invoices" },
-  { href: "/debt", label: "My Debt" },
-  { href: "/returns", label: "Returns" },
-];
+export default async function PortalHeader({ customerName }: { customerName: string }) {
+  const t = await getTranslations("portalHeader");
 
-export default function PortalHeader({ customerName }: { customerName: string }) {
+  const NAV = [
+    { href: "/dashboard", label: t("navDashboard") },
+    { href: "/catalog", label: t("navCatalog") },
+    { href: "/orders", label: t("navOrders") },
+    { href: "/invoices", label: t("navInvoices") },
+    { href: "/debt", label: t("navDebt") },
+    { href: "/returns", label: t("navReturns") },
+  ];
+
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">
-            Dealer Portal
+            {t("brandLabel")}
           </p>
           <p className="text-sm font-medium text-slate-900">{customerName}</p>
         </div>
@@ -26,6 +30,7 @@ export default function PortalHeader({ customerName }: { customerName: string })
               {item.label}
             </Link>
           ))}
+          <LocaleSwitcher />
           <LogoutButton />
         </nav>
       </div>

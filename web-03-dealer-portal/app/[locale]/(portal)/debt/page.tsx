@@ -1,10 +1,19 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyDebt, formatVnd } from "@/lib/api";
 
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function DebtPage() {
+export default async function DebtPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("debt");
+
   const session = await requireSession();
   const debt = await getMyDebt(session.frappeSid);
 
@@ -16,24 +25,29 @@ export default async function DebtPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">My Debt / Credit Position</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Real outstanding receivable balance and credit limit for {session.customerName} only.
+          {t("subtitle", { customerName: session.customerName })}
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card label="Outstanding balance" value={formatVnd(debt.outstanding_balance)} />
-        <Card label="Credit limit" value={debt.credit_limit !== null ? formatVnd(debt.credit_limit) : "No limit set"} />
+        <Card label={t("cardOutstanding")} value={formatVnd(debt.outstanding_balance)} />
         <Card
-          label="Available credit"
+          label={t("cardCreditLimit")}
+          value={debt.credit_limit !== null ? formatVnd(debt.credit_limit) : t("cardNoLimit")}
+        />
+        <Card
+          label={t("cardAvailableCredit")}
           value={debt.available_credit !== null ? formatVnd(debt.available_credit) : "—"}
         />
       </div>
 
       {utilization !== null && (
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <p className="mb-2 text-sm font-medium text-slate-700">Credit utilization: {utilization}%</p>
+          <p className="mb-2 text-sm font-medium text-slate-700">
+            {t("utilizationLabel", { percent: utilization })}
+          </p>
           <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
             <div
               className={`h-full rounded-full ${utilization > 90 ? "bg-red-500" : utilization > 70 ? "bg-amber-500" : "bg-emerald-500"}`}

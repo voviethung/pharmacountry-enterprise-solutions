@@ -1,30 +1,39 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyInvoices, formatVnd } from "@/lib/api";
 
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function InvoicesPage() {
+export default async function InvoicesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("invoices");
+
   const session = await requireSession();
   const invoices = await getMyInvoices(session.frappeSid);
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-slate-900">My Invoices</h1>
+      <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
       <p className="mt-1 text-sm text-slate-500">
-        Only Sales Invoices belonging to {session.customerName} — never another dealer&apos;s.
+        {t("subtitle", { customerName: session.customerName })}
       </p>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Invoice</Th>
-              <Th>Date</Th>
-              <Th>Due</Th>
-              <Th>Total</Th>
-              <Th>Outstanding</Th>
-              <Th>Status</Th>
+              <Th>{t("thInvoice")}</Th>
+              <Th>{t("thDate")}</Th>
+              <Th>{t("thDue")}</Th>
+              <Th>{t("thTotal")}</Th>
+              <Th>{t("thOutstanding")}</Th>
+              <Th>{t("thStatus")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -41,7 +50,7 @@ export default async function InvoicesPage() {
             {invoices.length === 0 && (
               <tr>
                 <td colSpan={6} className="px-4 py-6 text-center text-slate-400">
-                  No invoices yet.
+                  {t("emptyInvoices")}
                 </td>
               </tr>
             )}

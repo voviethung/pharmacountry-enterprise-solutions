@@ -11,7 +11,9 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {
-    return NextResponse.json({ error: "Not logged in." }, { status: 401 });
+    // Machine-readable code, not English prose — see app/api/auth/login/route.ts's own comment
+    // on why (this Route Handler runs outside next-intl's locale context).
+    return NextResponse.json({ error_code: "not_logged_in" }, { status: 401 });
   }
 
   let items: { item_code: string; qty: number }[];
@@ -20,16 +22,22 @@ export async function POST(request: Request) {
     items = body.items;
     if (!Array.isArray(items) || items.length === 0) throw new Error("empty");
   } catch {
-    return NextResponse.json({ error: "At least one order line is required." }, { status: 400 });
+    return NextResponse.json({ error_code: "validation_failed" }, { status: 400 });
   }
 
   try {
     const result = await placeOrder(session.frappeSid, session.csrfToken, items);
     return NextResponse.json({ ok: true, order: result });
   } catch (err) {
-    const message = err instanceof DealerApiError ? err.message : "Could not place the order.";
-    // A real ERPNext validation failure (e.g. the native credit-limit block) surfaces here with
-    // its own real message — never swallowed or replaced with a generic success.
-    return NextResponse.json({ error: message }, { status: 422 });
+    if (err instanceof DealerApiError) {
+      // A real ERPNext validation failure (e.g. the native credit-limit block) surfaces here
+      // with its own real, dynamic message straight from the live backend — this is real data
+      // from Frappe, not a hardcoded UI string, so it is passed through unchanged rather than
+      // mapped to a translated error code (never swallowed or replaced with a generic message).
+      return NextResponse.json({ error: err.message }, { status: 422 });
+    }
+    // Only this generic fallback (e.g. a network failure reaching the backend) is this app's own
+    // hardcoded string, so only this one becomes a translatable error_code.
+    return NextResponse.json({ error_code: "server_error" }, { status: 422 });
   }
 }

@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { DeliverySummary } from "@/lib/api";
+
+const KNOWN_ERROR_CODES = new Set(["not_logged_in", "validation_failed", "server_error"]);
 
 export default function RequestReturnForm({ deliveries }: { deliveries: DeliverySummary[] }) {
   const router = useRouter();
+  const t = useTranslations("returns");
+  const tErrors = useTranslations("errors");
   const [deliveryNote, setDeliveryNote] = useState(deliveries[0]?.name ?? "");
   const [qty, setQty] = useState("1");
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +18,7 @@ export default function RequestReturnForm({ deliveries }: { deliveries: Delivery
   const [loading, setLoading] = useState(false);
 
   if (deliveries.length === 0) {
-    return <p className="text-sm text-slate-400">No deliveries available to return yet.</p>;
+    return <p className="text-sm text-slate-400">{t("noDeliveries")}</p>;
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -29,14 +34,22 @@ export default function RequestReturnForm({ deliveries }: { deliveries: Delivery
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Could not file the return.");
+        // Real backend validation errors come through as `data.error` verbatim (dynamic
+        // content); this app's own hardcoded fallback strings come through as `data.error_code`
+        // instead, translated client-side — see app/api/returns/route.ts.
+        if (typeof data.error === "string" && data.error) {
+          setError(data.error);
+        } else {
+          const code = typeof data.error_code === "string" ? data.error_code : null;
+          setError(tErrors(code && KNOWN_ERROR_CODES.has(code) ? code : "unknown"));
+        }
         setLoading(false);
         return;
       }
-      setSuccess(`Return ${data.return.name} filed.`);
+      setSuccess(t("successMessage", { name: data.return.name }));
       router.refresh();
     } catch {
-      setError("Could not reach the portal. Please try again.");
+      setError(tErrors("network"));
     } finally {
       setLoading(false);
     }
@@ -63,7 +76,7 @@ export default function RequestReturnForm({ deliveries }: { deliveries: Delivery
           value={qty}
           onChange={(e) => setQty(e.target.value)}
           className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
-          aria-label="Quantity to return"
+          aria-label={t("quantityAriaLabel")}
         />
       </div>
       {error && (
@@ -77,7 +90,7 @@ export default function RequestReturnForm({ deliveries }: { deliveries: Delivery
         disabled={loading}
         className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-60"
       >
-        {loading ? "Filing return…" : "File return"}
+        {loading ? t("filingReturn") : t("fileReturnButton")}
       </button>
     </form>
   );

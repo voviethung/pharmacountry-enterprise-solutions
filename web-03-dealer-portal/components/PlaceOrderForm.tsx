@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { CatalogItem } from "@/lib/api";
 
 interface Line {
@@ -9,8 +10,12 @@ interface Line {
   qty: string;
 }
 
+const KNOWN_ERROR_CODES = new Set(["not_logged_in", "validation_failed", "server_error"]);
+
 export default function PlaceOrderForm({ items }: { items: CatalogItem[] }) {
   const router = useRouter();
+  const t = useTranslations("orders");
+  const tErrors = useTranslations("errors");
   const [lines, setLines] = useState<Line[]>([{ item_code: items[0]?.item_code ?? "", qty: "1" }]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -43,17 +48,29 @@ export default function PlaceOrderForm({ items }: { items: CatalogItem[] }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        // Real ERPNext validation errors (e.g. the native credit-limit block) surface here
-        // verbatim — never hidden behind a generic "something went wrong."
-        setError(data.error || "Could not place the order.");
+        // Real ERPNext validation errors (e.g. the native credit-limit block) come through as
+        // `data.error` verbatim — real, dynamic backend content, never hidden behind a generic
+        // "something went wrong." This app's OWN hardcoded fallback strings come through as
+        // `data.error_code` instead, translated client-side.
+        if (typeof data.error === "string" && data.error) {
+          setError(data.error);
+        } else {
+          const code = typeof data.error_code === "string" ? data.error_code : null;
+          setError(tErrors(code && KNOWN_ERROR_CODES.has(code) ? code : "unknown"));
+        }
         setLoading(false);
         return;
       }
-      setSuccess(`Order ${data.order.name} placed — total ${data.order.grand_total.toLocaleString("vi-VN")} VND.`);
+      setSuccess(
+        t("successMessage", {
+          name: data.order.name,
+          total: data.order.grand_total.toLocaleString("vi-VN"),
+        })
+      );
       setLines([{ item_code: items[0]?.item_code ?? "", qty: "1" }]);
       router.refresh();
     } catch {
-      setError("Could not reach the portal. Please try again.");
+      setError(tErrors("network"));
     } finally {
       setLoading(false);
     }
@@ -88,13 +105,13 @@ export default function PlaceOrderForm({ items }: { items: CatalogItem[] }) {
               onClick={() => removeLine(index)}
               className="text-sm text-slate-400 hover:text-red-600"
             >
-              Remove
+              {t("removeLine")}
             </button>
           )}
         </div>
       ))}
       <button type="button" onClick={addLine} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-        + Add another item
+        {t("addLine")}
       </button>
 
       {error && (
@@ -109,7 +126,7 @@ export default function PlaceOrderForm({ items }: { items: CatalogItem[] }) {
         disabled={loading}
         className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-60"
       >
-        {loading ? "Placing order…" : "Place order"}
+        {loading ? t("placingOrder") : t("placeOrderButton")}
       </button>
     </form>
   );

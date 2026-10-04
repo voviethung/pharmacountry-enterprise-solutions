@@ -1,11 +1,20 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyDebt, getMyOrders, getMyInvoices, formatVnd } from "@/lib/api";
 
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("dashboard");
+
   const session = await requireSession();
   const [debt, orders, invoices] = await Promise.all([
     getMyDebt(session.frappeSid),
@@ -19,32 +28,39 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">Welcome back, {session.customerName}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Logged in as {session.user}. Territory-scoped, dealer-scoped data only — never another
-          dealer&apos;s.
-        </p>
+        <h1 className="text-xl font-bold text-slate-900">
+          {t("welcome", { name: session.customerName })}
+        </h1>
+        <p className="mt-1 text-sm text-slate-500">{t("loggedInAs", { user: session.user })}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Outstanding balance" value={formatVnd(debt.outstanding_balance)} />
+        <StatCard label={t("statOutstandingBalance")} value={formatVnd(debt.outstanding_balance)} />
         <StatCard
-          label="Available credit"
+          label={t("statAvailableCredit")}
           value={debt.available_credit !== null ? formatVnd(debt.available_credit) : "—"}
-          sub={debt.credit_limit !== null ? `of ${formatVnd(debt.credit_limit)} limit` : undefined}
+          sub={
+            debt.credit_limit !== null
+              ? t("statAvailableCreditSub", { limit: formatVnd(debt.credit_limit) })
+              : undefined
+          }
         />
-        <StatCard label="Open orders" value={String(openOrders)} sub={`${orders.length} total`} />
+        <StatCard
+          label={t("statOpenOrders")}
+          value={String(openOrders)}
+          sub={t("statOpenOrdersSub", { count: orders.length })}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <QuickLink href="/catalog" title="Browse catalog" desc="Your own negotiated pricing and live stock." />
-        <QuickLink href="/orders" title="Place a new order" desc="Order against your own catalog and price list." />
+        <QuickLink href="/catalog" title={t("quickLinkCatalogTitle")} desc={t("quickLinkCatalogDesc")} />
+        <QuickLink href="/orders" title={t("quickLinkOrdersTitle")} desc={t("quickLinkOrdersDesc")} />
         <QuickLink
           href="/invoices"
-          title="My invoices"
-          desc={`${outstandingInvoices} invoice(s) with an outstanding balance.`}
+          title={t("quickLinkInvoicesTitle")}
+          desc={t("quickLinkInvoicesDesc", { count: outstandingInvoices })}
         />
-        <QuickLink href="/returns" title="Returns" desc="File a return against one of your own deliveries." />
+        <QuickLink href="/returns" title={t("quickLinkReturnsTitle")} desc={t("quickLinkReturnsDesc")} />
       </div>
     </div>
   );

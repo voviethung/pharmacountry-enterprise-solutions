@@ -1,10 +1,19 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getCatalogWithMyPricing, getStockAvailability, formatVnd } from "@/lib/api";
 
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function CatalogPage() {
+export default async function CatalogPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("catalog");
+
   const session = await requireSession();
   const [items, stock] = await Promise.all([
     getCatalogWithMyPricing(session.frappeSid),
@@ -14,20 +23,19 @@ export default async function CatalogPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-slate-900">Catalog & Stock</h1>
+      <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
       <p className="mt-1 text-sm text-slate-500">
-        Prices below are YOUR dealer price list ({items[0]?.price_list ?? "—"}) — not the public
-        retail price.
+        {t("subtitle", { priceList: items[0]?.price_list ?? "—" })}
       </p>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Item</Th>
-              <Th>UOM</Th>
-              <Th>Your price</Th>
-              <Th>Available stock</Th>
+              <Th>{t("thItem")}</Th>
+              <Th>{t("thUom")}</Th>
+              <Th>{t("thPrice")}</Th>
+              <Th>{t("thStock")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">

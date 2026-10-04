@@ -1,27 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 // Real, working seeded demo accounts — see this app's README ("Test dealer credentials").
-// Non-production, demo-only accounts with no real business data at stake.
+// Non-production, demo-only accounts with no real business data at stake. The email/password
+// values themselves are real demo credentials and are never translated.
 const DEMO_ACCOUNTS = [
   {
     key: "alpha",
-    label: "Demo Alpha (generous credit)",
     email: "dealer.alpha.portal@pharmacountry.vn",
     password: "Demo@1234",
   },
   {
     key: "beta",
-    label: "Demo Beta (tight credit limit)",
     email: "dealer.beta.portal@pharmacountry.vn",
     password: "Demo@1234",
   },
-];
+] as const;
+
+// Route Handlers run outside next-intl's locale context, so app/api/auth/login/route.ts returns
+// a stable machine-readable `error_code` instead of English prose. Only codes present in
+// messages/*.json's "errors" namespace are translated directly; anything else (or a future code
+// this client doesn't know about yet) falls back to "errors.unknown".
+const KNOWN_ERROR_CODES = new Set([
+  "invalid_credentials",
+  "invalid_request_body",
+  "missing_credentials",
+  "not_provisioned",
+  "server_error",
+]);
 
 export default function LoginForm() {
   const router = useRouter();
+  const t = useTranslations("login");
+  const tErrors = useTranslations("errors");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -38,14 +52,15 @@ export default function LoginForm() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Login failed.");
+        const code = typeof data.error_code === "string" ? data.error_code : null;
+        setError(tErrors(code && KNOWN_ERROR_CODES.has(code) ? code : "unknown"));
         setLoading(false);
         return;
       }
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Could not reach the portal. Please try again.");
+      setError(tErrors("network"));
       setLoading(false);
     }
   }
@@ -65,16 +80,16 @@ export default function LoginForm() {
     <div className="space-y-4">
       <div className="rounded-md border border-indigo-200 bg-indigo-50 p-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">
-          Demo Access
+          {t("demoAccessLabel")}
         </p>
-        <p className="mt-1 text-xs text-indigo-800">
-          Try it now with real seeded demo accounts — no real business data at stake.
-        </p>
+        <p className="mt-1 text-xs text-indigo-800">{t("demoAccessIntro")}</p>
         <ul className="mt-2 space-y-1 text-xs text-indigo-900">
           {DEMO_ACCOUNTS.map((account) => (
             <li key={account.key}>
-              <span className="font-medium">{account.label}:</span> {account.email} ·{" "}
-              {account.password}
+              <span className="font-medium">
+                {account.key === "alpha" ? t("demoAccountAlphaLabel") : t("demoAccountBetaLabel")}:
+              </span>{" "}
+              {account.email} · {account.password}
             </li>
           ))}
         </ul>
@@ -87,7 +102,7 @@ export default function LoginForm() {
               disabled={loading}
               className="flex-1 rounded-md border border-indigo-300 bg-white px-2 py-1.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60"
             >
-              Log in as Demo {account.key === "alpha" ? "Alpha" : "Beta"}
+              {account.key === "alpha" ? t("demoLoginButtonAlpha") : t("demoLoginButtonBeta")}
             </button>
           ))}
         </div>
@@ -95,7 +110,7 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-slate-700">
-          Email
+          {t("emailLabel")}
         </label>
         <input
           id="username"
@@ -110,7 +125,7 @@ export default function LoginForm() {
       </div>
       <div>
         <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-          Password
+          {t("passwordLabel")}
         </label>
         <input
           id="password"
@@ -132,7 +147,7 @@ export default function LoginForm() {
         disabled={loading}
         className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-60"
       >
-        {loading ? "Signing in…" : "Sign in"}
+        {loading ? t("signingIn") : t("signInButton")}
       </button>
     </form>
     </div>

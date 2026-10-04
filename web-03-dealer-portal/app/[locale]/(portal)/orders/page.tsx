@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyOrders, getCatalogWithMyPricing, formatVnd } from "@/lib/api";
 import PlaceOrderForm from "@/components/PlaceOrderForm";
@@ -6,7 +7,15 @@ import PlaceOrderForm from "@/components/PlaceOrderForm";
 // Force dynamic rendering — session-gated and calls the real Frappe backend on every request.
 export const dynamic = "force-dynamic";
 
-export default async function OrdersPage() {
+export default async function OrdersPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("orders");
+
   const session = await requireSession();
   const [orders, catalog] = await Promise.all([
     getMyOrders(session.frappeSid),
@@ -16,14 +25,14 @@ export default async function OrdersPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">My Orders</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Only Sales Orders belonging to {session.customerName} — never another dealer&apos;s.
+          {t("subtitle", { customerName: session.customerName })}
         </p>
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="mb-3 text-sm font-semibold text-slate-900">Place a new order</h2>
+        <h2 className="mb-3 text-sm font-semibold text-slate-900">{t("placeNewOrderHeading")}</h2>
         <PlaceOrderForm items={catalog} />
       </div>
 
@@ -31,10 +40,10 @@ export default async function OrdersPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Order</Th>
-              <Th>Date</Th>
-              <Th>Status</Th>
-              <Th>Total</Th>
+              <Th>{t("thOrder")}</Th>
+              <Th>{t("thDate")}</Th>
+              <Th>{t("thStatus")}</Th>
+              <Th>{t("thTotal")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -53,7 +62,7 @@ export default async function OrdersPage() {
             {orders.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
-                  No orders yet.
+                  {t("emptyOrders")}
                 </td>
               </tr>
             )}

@@ -12,7 +12,9 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {
-    return NextResponse.json({ error: "Not logged in." }, { status: 401 });
+    // Machine-readable code, not English prose — see app/api/auth/login/route.ts's own comment
+    // on why (this Route Handler runs outside next-intl's locale context).
+    return NextResponse.json({ error_code: "not_logged_in" }, { status: 401 });
   }
 
   let deliveryNote: string;
@@ -23,14 +25,18 @@ export async function POST(request: Request) {
     qty = body.qty ? Number(body.qty) : undefined;
     if (!deliveryNote) throw new Error("missing");
   } catch {
-    return NextResponse.json({ error: "A delivery note is required." }, { status: 400 });
+    return NextResponse.json({ error_code: "validation_failed" }, { status: 400 });
   }
 
   try {
     const result = await requestReturn(session.frappeSid, session.csrfToken, deliveryNote, qty);
     return NextResponse.json({ ok: true, return: result });
   } catch (err) {
-    const message = err instanceof DealerApiError ? err.message : "Could not file the return.";
-    return NextResponse.json({ error: message }, { status: 422 });
+    if (err instanceof DealerApiError) {
+      // Real, dynamic backend validation message (e.g. the delivery-note-ownership re-check) —
+      // passed through unchanged, same rationale as app/api/orders/route.ts.
+      return NextResponse.json({ error: err.message }, { status: 422 });
+    }
+    return NextResponse.json({ error_code: "server_error" }, { status: 422 });
   }
 }
