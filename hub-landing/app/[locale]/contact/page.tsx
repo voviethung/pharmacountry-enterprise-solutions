@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Mail, MapPin, Link2 } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 
-// Real, single, consistent contact address for this site — matches the pharmacountry.vn domain
-// this Hub is deployed on. Not tied to any one person's name/direct line (per this rebrand's own
-// honesty constraint: general company contact info is fine, a fabricated individual is not).
-const CONTACT_EMAIL = "hello@pharmacountry.vn";
+// Real, single, consistent contact address for this site. Not tied to any one person's
+// name/direct line (per this rebrand's own honesty constraint: general company contact info is
+// fine, a fabricated individual is not).
+const CONTACT_EMAIL = "contact.pharmacountry@gmail.com";
 
 export async function generateMetadata({
   params,
@@ -85,18 +85,6 @@ export default async function ContactPage({
                   {t("companyInfo.locationLabel")}
                 </p>
                 <p className="mt-1 text-sm text-slate-900">{t("companyInfo.locationValue")}</p>
-              </div>
-            </div>
-
-            {/* No real LinkedIn URL exists for this account yet — shown as a plain label (no
-                href) rather than a fabricated link, per this rebrand's own honesty constraint. */}
-            <div className="flex items-start gap-3">
-              <Link2 className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" strokeWidth={1.75} />
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                  {t("companyInfo.linkedinLabel")}
-                </p>
-                <p className="mt-1 text-sm text-slate-500">{t("companyInfo.linkedinNote")}</p>
               </div>
             </div>
           </div>
