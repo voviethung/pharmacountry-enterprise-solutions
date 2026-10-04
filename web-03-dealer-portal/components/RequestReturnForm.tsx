@@ -57,11 +57,11 @@ export default function RequestReturnForm({ deliveries }: { deliveries: Delivery
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <select
           value={deliveryNote}
           onChange={(e) => setDeliveryNote(e.target.value)}
-          className="flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
+          className="min-w-0 flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         >
           {deliveries.map((d) => (
             <option key={d.name} value={d.name}>

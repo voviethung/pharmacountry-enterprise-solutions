@@ -79,11 +79,11 @@ export default function PlaceOrderForm({ items }: { items: CatalogItem[] }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       {lines.map((line, index) => (
-        <div key={index} className="flex items-center gap-2">
+        <div key={index} className="flex flex-wrap items-center gap-2">
           <select
             value={line.item_code}
             onChange={(e) => updateLine(index, { item_code: e.target.value })}
-            className="flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
+            className="min-w-0 flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
           >
             {items.map((item) => (
               <option key={item.item_code} value={item.item_code}>
