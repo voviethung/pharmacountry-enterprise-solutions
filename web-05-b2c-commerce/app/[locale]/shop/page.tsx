@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getStorefrontCatalog, formatVnd } from "@/lib/api";
 import AddToCartButton from "@/components/AddToCartButton";
 
@@ -7,7 +8,15 @@ import AddToCartButton from "@/components/AddToCartButton";
 // snapshot forever.
 export const dynamic = "force-dynamic";
 
-export default async function ShopPage() {
+export default async function ShopPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("shop");
+
   let items: Awaited<ReturnType<typeof getStorefrontCatalog>> = [];
   let loadError = false;
   try {
@@ -18,15 +27,11 @@ export default async function ShopPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-slate-900">Shop</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        Live demo data — products and prices generated and managed directly by our connected ERP system.
-      </p>
+      <h1 className="text-2xl font-bold text-slate-900">{t("title")}</h1>
+      <p className="mt-1 text-sm text-slate-600">{t("subtitle")}</p>
 
       {loadError && (
-        <p className="mt-6 rounded-md bg-red-50 p-4 text-sm text-red-700">
-          Could not load the catalog right now — please try again shortly.
-        </p>
+        <p className="mt-6 rounded-md bg-red-50 p-4 text-sm text-red-700">{t("loadError")}</p>
       )}
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -39,7 +44,9 @@ export default async function ShopPage() {
               {formatVnd(item.price)} <span className="text-sm font-normal text-slate-500">/ {item.uom}</span>
             </p>
             <p className="mt-1 text-xs text-slate-500">
-              {item.available_qty > 0 ? `${Math.floor(item.available_qty)} in stock` : "Out of stock"}
+              {item.available_qty > 0
+                ? t("inStock", { count: Math.floor(item.available_qty) })
+                : t("outOfStock")}
             </p>
             <div className="mt-4">
               <AddToCartButton item={item} />
@@ -48,11 +55,7 @@ export default async function ShopPage() {
         ))}
       </div>
 
-      <p className="mt-8 text-xs text-slate-500">
-        Prices shown here are the current catalog price at the time this page was loaded. The price
-        you&apos;re actually charged is always confirmed by our system at checkout — it may reflect a
-        currently active promotion, and it can never be overridden by this website.
-      </p>
+      <p className="mt-8 text-xs text-slate-500">{t("priceNote")}</p>
     </div>
   );
 }

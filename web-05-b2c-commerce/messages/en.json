@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "title": "WEB-05 B2C Commerce Demo",
+    "description": "Enterprise Platform Phase 7 WEB-05 demo — a live, anonymous-guest B2C storefront (browse, cart, checkout with a real server-computed price) for a demo distributor company, powered by live demo data generated and managed by the connected ERP system, served from a guest-writable Frappe API."
+  },
+  "nav": {
+    "shop": "Shop",
+    "track": "Track Order",
+    "cart": "Cart"
+  },
+  "brand": {
+    "name": "Demo Consumer Distribution Co.",
+    "suffix": "— Online Store"
+  },
+  "home": {
+    "eyebrow": "WEB-05 — B2C Commerce Demo",
+    "title": "Buy Vitamin C and Facial Cleanser direct from Demo Consumer Distribution Co.",
+    "lead": "Browse our catalog, add items to your cart, and check out as a guest — no account needed. Every price you see is live demo data generated and managed by our connected ERP system; the price you're actually charged is confirmed by our system at checkout.",
+    "ctaShopNow": "Shop Now",
+    "featuredHeading": "Featured Products",
+    "catalogUnavailable": "Catalog is temporarily unavailable — please try again shortly.",
+    "howItWorks": {
+      "heading": "How ordering works on this demo",
+      "noAccount": "No account or login required — add items to your cart and check out as a guest.",
+      "cod": "Payment is Cash on Delivery only — no real payment gateway is used anywhere on this site.",
+      "trackNote": "After checkout you'll get an order reference — use it with your phone number on the <trackLink>Track Order</trackLink> page to check your order's status."
+    }
+  },
+  "shop": {
+    "title": "Shop",
+    "subtitle": "Live demo data — products and prices generated and managed directly by our connected ERP system.",
+    "loadError": "Could not load the catalog right now — please try again shortly.",
+    "inStock": "{count} in stock",
+    "outOfStock": "Out of stock",
+    "priceNote": "Prices shown here are the current catalog price at the time this page was loaded. The price you're actually charged is always confirmed by our system at checkout — it may reflect a currently active promotion, and it can never be overridden by this website."
+  },
+  "addToCart": {
+    "qtyAriaLabel": "Quantity for {name}",
+    "outOfStock": "Out of stock",
+    "added": "Added ✓",
+    "addToCart": "Add to Cart"
+  },
+  "cart": {
+    "emptyTitle": "Your cart is empty",
+    "emptyBody": "Add a product from the shop to get started.",
+    "goToShop": "Go to Shop",
+    "title": "Your Cart",
+    "qtyAriaLabel": "Quantity for {name}",
+    "remove": "Remove",
+    "estimatedTotalNote": "Estimated total (indicative — confirmed by our system at checkout)",
+    "continueShopping": "← Continue shopping",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "checkout": {
+    "emptyTitle": "Your cart is empty",
+    "goToShop": "Go to Shop",
+    "title": "Checkout",
+    "subtitle": "No account needed — just tell us where to deliver your order.",
+    "orderSummary": "Order summary",
+    "estimatedTotal": "Estimated total",
+    "estimateNote": "This is an estimate. The real, final price is computed by our system from the current catalog price at the moment you submit this order — it is never taken from this page.",
+    "labelFullName": "Full name",
+    "labelPhone": "Phone number",
+    "phoneHint": "Keep this handy — you'll need it (with your order reference) to track your order later.",
+    "labelEmail": "Email (optional)",
+    "labelAddress": "Delivery address",
+    "addressPlaceholder": "Street address",
+    "labelCity": "City / Province",
+    "paymentNote": "Payment method: <strong>Cash on Delivery</strong> — the only option this demo supports. No card details or real payment information is ever collected by this site.",
+    "submitting": "Placing order…",
+    "placeOrder": "Place Order"
+  },
+  "confirmation": {
+    "noOrderTitle": "No recent order found",
+    "noOrderBody": "This page only shows the order you just placed, in this browser. If you already have an order reference, use Track Order instead.",
+    "goToShop": "Go to Shop",
+    "trackOrder": "Track Order",
+    "orderPlaced": "Order placed",
+    "thankYou": "Thank you!",
+    "orderRefIntro": "Your order reference is",
+    "saveRefNote": "Save this reference and the phone number you checked out with — you'll need BOTH to look up your order later on the Track Order page.",
+    "orderDetails": "Order details",
+    "totalLabel": "Total ({method})",
+    "deliveryEstimate": "Estimated delivery: {date}",
+    "continueShopping": "Continue shopping"
+  },
+  "track": {
+    "title": "Track Your Order",
+    "subtitle": "Enter the order reference you received at checkout AND the phone number you checked out with. Both are required — we never look up an order by reference alone, to protect your privacy.",
+    "labelOrderRef": "Order reference",
+    "orderRefPlaceholder": "e.g. WEB05-XXXXXXXXXX",
+    "labelPhone": "Phone number used at checkout",
+    "submit": "Track Order",
+    "loading": "Looking up…",
+    "orderedByLine": "Ordered by {name} on {date}",
+    "totalLabel": "Total ({method})",
+    "deliveryAddressLabel": "Delivery address:",
+    "deliveryEstimate": "Estimated delivery: {date}"
+  },
+  "footer": {
+    "line1": "Demo Consumer Distribution Co. — this is a demo storefront (ENTERPRISE_PLATFORM WEB-05, Phase 7). All products, prices, and orders shown here are live demo data generated and managed by the connected ERP system — this is a demo instance, not a commercial store.",
+    "line2": "Payment: Cash on Delivery only — this demo does not integrate any real payment gateway. No card details are ever collected by this site."
+  },
+  "errors": {
+    "malformed_body": "Malformed request. Please try again.",
+    "missing_fields": "Please fill in all required fields.",
+    "backend_rejected": "We couldn't complete this request. Please check your details and try again.",
+    "checkout_failed": "Checkout failed. Please try again.",
+    "missing_tracking_fields": "Please enter both your order reference and phone number.",
+    "lookup_failed": "Could not look up this order. Please try again.",
+    "network": "Could not reach the server. Please try again.",
+    "generic": "Something went wrong. Please try again."
+  }
+}

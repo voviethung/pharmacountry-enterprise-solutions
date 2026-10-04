@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "title": "WEB-05 — Cửa hàng B2C trực tuyến (Demo)",
+    "description": "Enterprise Platform Phase 7 WEB-05 demo — cửa hàng B2C dành cho khách mua hàng ẩn danh (xem sản phẩm, thêm vào giỏ, thanh toán với mức giá do hệ thống tính toán) cho một công ty phân phối demo, sử dụng dữ liệu demo trực tiếp do hệ thống ERP kết nối tạo và quản lý, phục vụ từ một API Frappe cho phép khách ghi dữ liệu."
+  },
+  "nav": {
+    "shop": "Mua sắm",
+    "track": "Theo dõi đơn hàng",
+    "cart": "Giỏ hàng"
+  },
+  "brand": {
+    "name": "Demo Consumer Distribution Co.",
+    "suffix": "— Cửa hàng trực tuyến"
+  },
+  "home": {
+    "eyebrow": "WEB-05 — Demo Cửa hàng B2C",
+    "title": "Mua Vitamin C và Sữa rửa mặt trực tiếp từ Demo Consumer Distribution Co.",
+    "lead": "Xem danh mục sản phẩm, thêm vào giỏ hàng và thanh toán với tư cách khách — không cần tạo tài khoản. Mọi mức giá bạn thấy đều là dữ liệu demo trực tiếp do hệ thống ERP kết nối tạo và quản lý; mức giá bạn thực sự phải trả sẽ được hệ thống xác nhận lại khi thanh toán.",
+    "ctaShopNow": "Mua ngay",
+    "featuredHeading": "Sản phẩm nổi bật",
+    "catalogUnavailable": "Danh mục sản phẩm hiện tạm thời không khả dụng — vui lòng thử lại sau.",
+    "howItWorks": {
+      "heading": "Cách đặt hàng trên trang demo này",
+      "noAccount": "Không cần tài khoản hay đăng nhập — chỉ cần thêm sản phẩm vào giỏ và thanh toán với tư cách khách.",
+      "cod": "Chỉ hỗ trợ thanh toán khi nhận hàng (COD) — trang này không sử dụng bất kỳ cổng thanh toán thực nào.",
+      "trackNote": "Sau khi thanh toán, bạn sẽ nhận được mã đơn hàng — dùng mã này cùng với số điện thoại của bạn tại trang <trackLink>Theo dõi đơn hàng</trackLink> để kiểm tra tình trạng đơn hàng."
+    }
+  },
+  "shop": {
+    "title": "Mua sắm",
+    "subtitle": "Dữ liệu demo trực tiếp — sản phẩm và giá được tạo và quản lý trực tiếp bởi hệ thống ERP kết nối.",
+    "loadError": "Không thể tải danh mục sản phẩm lúc này — vui lòng thử lại sau.",
+    "inStock": "Còn {count} sản phẩm",
+    "outOfStock": "Hết hàng",
+    "priceNote": "Giá hiển thị ở đây là giá trong danh mục tại thời điểm trang được tải. Mức giá bạn thực sự phải trả luôn được hệ thống xác nhận lại khi thanh toán — có thể bao gồm chương trình khuyến mãi đang áp dụng, và trang web này không thể ghi đè mức giá đó."
+  },
+  "addToCart": {
+    "qtyAriaLabel": "Số lượng cho {name}",
+    "outOfStock": "Hết hàng",
+    "added": "Đã thêm ✓",
+    "addToCart": "Thêm vào giỏ hàng"
+  },
+  "cart": {
+    "emptyTitle": "Giỏ hàng của bạn đang trống",
+    "emptyBody": "Thêm một sản phẩm từ trang mua sắm để bắt đầu.",
+    "goToShop": "Đến trang mua sắm",
+    "title": "Giỏ hàng của bạn",
+    "qtyAriaLabel": "Số lượng cho {name}",
+    "remove": "Xóa",
+    "estimatedTotalNote": "Tổng tiền tạm tính (chỉ mang tính tham khảo — sẽ được hệ thống xác nhận lại khi thanh toán)",
+    "continueShopping": "← Tiếp tục mua sắm",
+    "proceedToCheckout": "Tiến hành thanh toán"
+  },
+  "checkout": {
+    "emptyTitle": "Giỏ hàng của bạn đang trống",
+    "goToShop": "Đến trang mua sắm",
+    "title": "Thanh toán",
+    "subtitle": "Không cần tài khoản — chỉ cần cho chúng tôi biết nơi giao hàng.",
+    "orderSummary": "Tóm tắt đơn hàng",
+    "estimatedTotal": "Tổng tiền tạm tính",
+    "estimateNote": "Đây chỉ là số tiền tạm tính. Giá cuối cùng thực tế được hệ thống tính toán từ giá danh mục hiện tại vào thời điểm bạn gửi đơn hàng — không bao giờ được lấy từ trang này.",
+    "labelFullName": "Họ và tên",
+    "labelPhone": "Số điện thoại",
+    "phoneHint": "Hãy giữ số này — bạn sẽ cần nó (cùng với mã đơn hàng) để theo dõi đơn hàng sau này.",
+    "labelEmail": "Email (không bắt buộc)",
+    "labelAddress": "Địa chỉ giao hàng",
+    "addressPlaceholder": "Địa chỉ cụ thể",
+    "labelCity": "Tỉnh / Thành phố",
+    "paymentNote": "Phương thức thanh toán: <strong>Thanh toán khi nhận hàng (COD)</strong> — đây là phương thức duy nhất trang demo này hỗ trợ. Trang web này không bao giờ thu thập thông tin thẻ hay thông tin thanh toán thực.",
+    "submitting": "Đang đặt hàng…",
+    "placeOrder": "Đặt hàng"
+  },
+  "confirmation": {
+    "noOrderTitle": "Không tìm thấy đơn hàng gần đây",
+    "noOrderBody": "Trang này chỉ hiển thị đơn hàng bạn vừa đặt, trên trình duyệt này. Nếu bạn đã có mã đơn hàng, hãy dùng chức năng Theo dõi đơn hàng.",
+    "goToShop": "Đến trang mua sắm",
+    "trackOrder": "Theo dõi đơn hàng",
+    "orderPlaced": "Đặt hàng thành công",
+    "thankYou": "Cảm ơn bạn!",
+    "orderRefIntro": "Mã đơn hàng của bạn là",
+    "saveRefNote": "Lưu lại mã này cùng với số điện thoại bạn đã dùng khi thanh toán — bạn sẽ cần CẢ HAI để tra cứu đơn hàng sau này tại trang Theo dõi đơn hàng.",
+    "orderDetails": "Chi tiết đơn hàng",
+    "totalLabel": "Tổng tiền ({method})",
+    "deliveryEstimate": "Dự kiến giao hàng: {date}",
+    "continueShopping": "Tiếp tục mua sắm"
+  },
+  "track": {
+    "title": "Theo dõi đơn hàng",
+    "subtitle": "Nhập mã đơn hàng bạn nhận được khi thanh toán VÀ số điện thoại bạn đã dùng khi thanh toán. Cả hai đều bắt buộc — chúng tôi không bao giờ tra cứu đơn hàng chỉ bằng mã, để bảo vệ quyền riêng tư của bạn.",
+    "labelOrderRef": "Mã đơn hàng",
+    "orderRefPlaceholder": "ví dụ: WEB05-XXXXXXXXXX",
+    "labelPhone": "Số điện thoại dùng khi thanh toán",
+    "submit": "Theo dõi đơn hàng",
+    "loading": "Đang tra cứu…",
+    "orderedByLine": "Đặt bởi {name} vào ngày {date}",
+    "totalLabel": "Tổng tiền ({method})",
+    "deliveryAddressLabel": "Địa chỉ giao hàng:",
+    "deliveryEstimate": "Dự kiến giao hàng: {date}"
+  },
+  "footer": {
+    "line1": "Demo Consumer Distribution Co. — đây là một cửa hàng demo (ENTERPRISE_PLATFORM WEB-05, Giai đoạn 7). Mọi sản phẩm, giá cả và đơn hàng hiển thị ở đây là dữ liệu demo trực tiếp do hệ thống ERP kết nối tạo và quản lý — đây là một môi trường demo, không phải cửa hàng thương mại thực tế.",
+    "line2": "Thanh toán: Chỉ hỗ trợ thanh toán khi nhận hàng (COD) — trang demo này không tích hợp bất kỳ cổng thanh toán thực nào. Trang web này không bao giờ thu thập thông tin thẻ."
+  },
+  "errors": {
+    "malformed_body": "Yêu cầu không hợp lệ. Vui lòng thử lại.",
+    "missing_fields": "Vui lòng điền đầy đủ thông tin bắt buộc.",
+    "backend_rejected": "Chúng tôi không thể xử lý yêu cầu này. Vui lòng kiểm tra lại thông tin và thử lại.",
+    "checkout_failed": "Đặt hàng không thành công. Vui lòng thử lại.",
+    "missing_tracking_fields": "Vui lòng nhập đầy đủ mã đơn hàng và số điện thoại.",
+    "lookup_failed": "Không thể tra cứu đơn hàng. Vui lòng thử lại.",
+    "network": "Không thể kết nối tới máy chủ. Vui lòng thử lại.",
+    "generic": "Đã xảy ra lỗi. Vui lòng thử lại."
+  }
+}

@@ -1,16 +1,13 @@
-export default function SiteFooter() {
+import { getTranslations } from "next-intl/server";
+
+export default async function SiteFooter() {
+  const t = await getTranslations("footer");
+
   return (
     <footer className="border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-5xl px-4 py-6 text-xs text-slate-500 space-y-1">
-        <p>
-          Demo Consumer Distribution Co. — this is a demo storefront (ENTERPRISE_PLATFORM WEB-05,
-          Phase 7). All products, prices, and orders shown here are live demo data generated and
-          managed by the connected ERP system — this is a demo instance, not a commercial store.
-        </p>
-        <p>
-          Payment: Cash on Delivery only — this demo does not integrate any real payment gateway.
-          No card details are ever collected by this site.
-        </p>
+        <p>{t("line1")}</p>
+        <p>{t("line2")}</p>
       </div>
     </footer>
   );

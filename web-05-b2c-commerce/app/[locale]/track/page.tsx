@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { formatVnd, type OrderStatus } from "@/lib/api";
 
+// Error codes the /api/track-order Route Handler can return (see
+// app/api/track-order/route.ts) — anything else falls back to the generic message below.
+const KNOWN_ERROR_CODES = new Set(["missing_tracking_fields", "backend_rejected", "lookup_failed"]);
+
 export default function TrackOrderPage() {
+  const t = useTranslations("track");
+  const tErrors = useTranslations("errors");
   const [orderToken, setOrderToken] = useState("");
   const [phone, setPhone] = useState("");
   const [result, setResult] = useState<OrderStatus | null>(null);
@@ -20,12 +27,13 @@ export default function TrackOrderPage() {
       const res = await fetch(`/api/track-order?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Order not found. Check your order reference and phone number.");
+        const code = typeof data?.error_code === "string" ? data.error_code : undefined;
+        setError(tErrors(code && KNOWN_ERROR_CODES.has(code) ? code : "generic"));
         return;
       }
       setResult(data as OrderStatus);
     } catch {
-      setError("Could not reach the server. Please try again.");
+      setError(tErrors("network"));
     } finally {
       setLoading(false);
     }
@@ -33,26 +41,22 @@ export default function TrackOrderPage() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-slate-900">Track Your Order</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        Enter the order reference you received at checkout AND the phone number you checked out
-        with. Both are required — we never look up an order by reference alone, to protect your
-        privacy.
-      </p>
+      <h1 className="text-2xl font-bold text-slate-900">{t("title")}</h1>
+      <p className="mt-1 text-sm text-slate-600">{t("subtitle")}</p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Order reference</label>
+          <label className="block text-sm font-medium text-slate-700">{t("labelOrderRef")}</label>
           <input
             required
             value={orderToken}
             onChange={(e) => setOrderToken(e.target.value)}
-            placeholder="e.g. WEB05-XXXXXXXXXX"
+            placeholder={t("orderRefPlaceholder")}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 font-mono"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Phone number used at checkout</label>
+          <label className="block text-sm font-medium text-slate-700">{t("labelPhone")}</label>
           <input
             required
             type="tel"
@@ -66,7 +70,7 @@ export default function TrackOrderPage() {
           disabled={loading}
           className="w-full rounded-md bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
         >
-          {loading ? "Looking up…" : "Track Order"}
+          {loading ? t("loading") : t("submit")}
         </button>
       </form>
 
@@ -76,7 +80,7 @@ export default function TrackOrderPage() {
         <div className="mt-6 rounded-lg border border-slate-200 p-5">
           <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">{result.status}</p>
           <p className="mt-1 text-sm text-slate-600">
-            Ordered by {result.contact_display} on {result.transaction_date}
+            {t("orderedByLine", { name: result.contact_display, date: result.transaction_date })}
           </p>
           <ul className="mt-3 space-y-1 text-sm">
             {result.items.map((i) => (
@@ -89,13 +93,15 @@ export default function TrackOrderPage() {
             ))}
           </ul>
           <div className="mt-2 flex justify-between border-t border-slate-200 pt-2 font-semibold">
-            <span>Total ({result.payment_method})</span>
+            <span>{t("totalLabel", { method: result.payment_method })}</span>
             <span>{formatVnd(result.grand_total)}</span>
           </div>
           <p className="mt-2 text-xs text-slate-500 whitespace-pre-line">
-            Delivery address: {result.address_display?.replace(/<br\s*\/?>/g, "\n")}
+            {t("deliveryAddressLabel")} {result.address_display?.replace(/<br\s*\/?>/g, "\n")}
           </p>
-          <p className="mt-1 text-sm text-slate-500">Estimated delivery: {result.delivery_date}</p>
+          <p className="mt-1 text-sm text-slate-500">
+            {t("deliveryEstimate", { date: result.delivery_date })}
+          </p>
         </div>
       )}
     </div>
