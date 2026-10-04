@@ -3,7 +3,8 @@
 // ever sees a client-supplied "which farm" value — only the resolved session's own `customer`,
 // ultimately backed by the real Frappe session cookie this app holds server-side.
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { getSession, SESSION_COOKIE_NAME, type FarmSession } from "./session";
 
 export async function getCurrentSession(): Promise<FarmSession | null> {
@@ -15,8 +16,16 @@ export async function getCurrentSession(): Promise<FarmSession | null> {
 /** Redirects to /login if there is no valid session — use at the top of every protected page. */
 export async function requireSession(): Promise<FarmSession> {
   const session = await getCurrentSession();
-  if (!session) redirect("/login");
-  return session;
+  if (session) return session;
+  // next-intl's react-server `redirect` (from @/i18n/navigation) requires an explicit `locale`
+  // — unlike its client-side counterpart, a Server Component has no browser URL to infer it
+  // from. `getLocale()` reads the current request's locale (set by middleware.ts) so this still
+  // lands on /vi/login or /en/login correctly, with no caller changes needed.
+  const locale = await getLocale();
+  redirect({ href: "/login", locale });
+  // Unreachable — `redirect()` always throws Next.js's internal redirect signal. This
+  // satisfies TypeScript's control-flow analysis for this function's declared return type.
+  throw new Error("unreachable");
 }
 
 export { SESSION_COOKIE_NAME };

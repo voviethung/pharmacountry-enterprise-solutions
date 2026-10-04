@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {
-    return NextResponse.json({ error: "Not logged in." }, { status: 401 });
+    return NextResponse.json({ error_code: "not_logged_in" }, { status: 401 });
   }
 
   let qty: number;
@@ -22,16 +22,23 @@ export async function POST(request: Request) {
     qty = Number(body.qty);
     if (!qty || qty <= 0) throw new Error("invalid qty");
   } catch {
-    return NextResponse.json({ error: "A valid quantity is required." }, { status: 400 });
+    return NextResponse.json({ error_code: "invalid_quantity" }, { status: 400 });
   }
 
   try {
     const result = await placeOrder(session.frappeSid, session.csrfToken, qty);
     return NextResponse.json({ ok: true, order: result });
   } catch (err) {
-    const message = err instanceof FarmApiError ? err.message : "Could not place the order.";
-    // A real ERPNext validation failure (e.g. the native credit-limit block) surfaces here with
-    // its own real message — never swallowed or replaced with a generic success.
-    return NextResponse.json({ error: message }, { status: 422 });
+    // A real ERPNext validation failure (e.g. the native credit-limit block) is genuine backend
+    // DATA (like an order amount), not this app's own authored UI copy — it is passed through
+    // verbatim in `detail` (never swallowed or replaced) alongside a stable, translatable
+    // `error_code` the client uses for the surrounding label text.
+    if (err instanceof FarmApiError) {
+      return NextResponse.json(
+        { error_code: "order_failed", detail: err.message },
+        { status: 422 }
+      );
+    }
+    return NextResponse.json({ error_code: "server_error" }, { status: 422 });
   }
 }

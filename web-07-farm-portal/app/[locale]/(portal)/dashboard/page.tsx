@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyOrders, getMyTechnicalVisits, getMyRecommendations, formatVnd } from "@/lib/api";
 
@@ -8,7 +9,15 @@ import { getMyOrders, getMyTechnicalVisits, getMyRecommendations, formatVnd } fr
 // every visitor forever. A login-gated page can never be static.
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("dashboard");
+
   const session = await requireSession();
   const [orders, visits, recommendations] = await Promise.all([
     getMyOrders(session.frappeSid),
@@ -22,28 +31,56 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">Welcome back, {session.customerName}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Logged in as {session.user}. Farm-scoped data only — never another farm&apos;s.
-        </p>
+        <h1 className="text-xl font-bold text-slate-900">
+          {t("welcome", { name: session.customerName })}
+        </h1>
+        <p className="mt-1 text-sm text-slate-500">{t("loggedInAs", { user: session.user })}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Orders placed" value={String(orders.length)} sub={`${openOrders} open`} />
-        <StatCard label="Technical visits" value={String(visits.length)} sub={`${upcomingFollowUps} with a follow-up date`} />
-        <StatCard label="Recommendations" value={String(recommendations.length)} sub="products recommended by your field rep" />
+        <StatCard
+          label={t("stats.ordersPlaced")}
+          value={String(orders.length)}
+          sub={t("stats.ordersOpen", { count: openOrders })}
+        />
+        <StatCard
+          label={t("stats.technicalVisits")}
+          value={String(visits.length)}
+          sub={t("stats.followUps", { count: upcomingFollowUps })}
+        />
+        <StatCard
+          label={t("stats.recommendations")}
+          value={String(recommendations.length)}
+          sub={t("stats.recommendationsSub")}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <QuickLink href="/orders" title="Place a new order" desc="Order against your own real veterinary product catalog." />
-        <QuickLink href="/visits" title="Technical visits" desc="Every field-rep visit made to your farm." />
-        <QuickLink href="/recommendations" title="Recommendations" desc="Treatment/feed products your field rep recommended." />
-        <QuickLink href="/history" title="Service history" desc="A unified timeline of your orders and visits." />
+        <QuickLink
+          href="/orders"
+          title={t("quickLinks.placeOrder.title")}
+          desc={t("quickLinks.placeOrder.desc")}
+        />
+        <QuickLink
+          href="/visits"
+          title={t("quickLinks.visits.title")}
+          desc={t("quickLinks.visits.desc")}
+        />
+        <QuickLink
+          href="/recommendations"
+          title={t("quickLinks.recommendations.title")}
+          desc={t("quickLinks.recommendations.desc")}
+        />
+        <QuickLink
+          href="/history"
+          title={t("quickLinks.history.title")}
+          desc={t("quickLinks.history.desc")}
+        />
       </div>
 
       {orders.length > 0 && (
         <div>
-          <h2 className="mb-3 text-sm font-semibold text-slate-900">Most recent order</h2>
+          <h2 className="mb-3 text-sm font-semibold text-slate-900">{t("mostRecentOrder")}</h2>
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <p className="font-medium text-slate-900">{orders[0].name}</p>
             <p className="mt-1 text-sm text-slate-500">

@@ -27,11 +27,11 @@ export async function POST(request: Request) {
     username = String(body.username || "");
     password = String(body.password || "");
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error_code: "invalid_request" }, { status: 400 });
   }
 
   if (!username || !password) {
-    return NextResponse.json({ error: "Username and password are required." }, { status: 400 });
+    return NextResponse.json({ error_code: "missing_credentials" }, { status: 400 });
   }
 
   try {
@@ -63,14 +63,17 @@ export async function POST(request: Request) {
     return response;
   } catch (err) {
     if (err instanceof FrappeLoginError) {
-      return NextResponse.json({ error: err.message }, { status: 401 });
+      // lib/frappeAuth.ts's FrappeLoginError message text distinguishes "wrong credentials"
+      // from "network/backend unreachable" — translated into a stable, UI-facing code here
+      // without changing that lib's own auth logic/messages.
+      const code = err.message.toLowerCase().includes("reach")
+        ? "backend_unreachable"
+        : "invalid_credentials";
+      return NextResponse.json({ error_code: code }, { status: 401 });
     }
     if (err instanceof FarmApiError) {
-      return NextResponse.json(
-        { error: "This account is not a provisioned farm login." },
-        { status: 403 }
-      );
+      return NextResponse.json({ error_code: "not_provisioned" }, { status: 403 });
     }
-    return NextResponse.json({ error: "Login failed. Please try again." }, { status: 500 });
+    return NextResponse.json({ error_code: "server_error" }, { status: 500 });
   }
 }

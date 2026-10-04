@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyOrderDetail, FarmApiError, formatVnd } from "@/lib/api";
 
@@ -10,10 +11,13 @@ export const dynamic = "force-dynamic";
 export default async function OrderDetailPage({
   params,
 }: {
-  params: Promise<{ name: string }>;
+  params: Promise<{ locale: string; name: string }>;
 }) {
+  const { locale, name } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("orderDetail");
+
   const session = await requireSession();
-  const { name } = await params;
 
   // get_my_order_detail() re-checks the order's own `customer` against the session-resolved farm
   // server-side; a nonexistent order OR one belonging to a different farm both surface as the SAME
@@ -32,7 +36,11 @@ export default async function OrderDetailPage({
       <div>
         <h1 className="text-xl font-bold text-slate-900">{order.name}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          {order.transaction_date} · Delivery {order.delivery_date} · Status {order.status}
+          {t("summaryLine", {
+            date: order.transaction_date,
+            deliveryDate: order.delivery_date,
+            status: order.status,
+          })}
         </p>
       </div>
 
@@ -40,10 +48,10 @@ export default async function OrderDetailPage({
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Item</Th>
-              <Th>Qty</Th>
-              <Th>Rate</Th>
-              <Th>Amount</Th>
+              <Th>{t("table.item")}</Th>
+              <Th>{t("table.qty")}</Th>
+              <Th>{t("table.rate")}</Th>
+              <Th>{t("table.amount")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -62,7 +70,7 @@ export default async function OrderDetailPage({
           <tfoot>
             <tr>
               <td colSpan={3} className="px-4 py-3 text-right text-sm font-semibold text-slate-700">
-                Grand total
+                {t("grandTotal")}
               </td>
               <td className="px-4 py-3 text-sm font-bold text-slate-900">{formatVnd(order.grand_total)}</td>
             </tr>
