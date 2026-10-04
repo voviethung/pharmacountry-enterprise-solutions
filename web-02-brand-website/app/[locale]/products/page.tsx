@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { getBrandProducts } from "@/lib/api";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { getBrandProducts, getBrandProfile } from "@/lib/api";
 
-export const metadata: Metadata = {
-  title: "Our Products",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return { title: t("productsTitle") };
+}
 
 // P2 post-launch reviewer fix: this app originally showcased exactly 1 SKU end-to-end. Two
 // more real products (VITD3-1000-SG, ZINC-50-TAB) were taken through the same real
@@ -17,19 +24,24 @@ export const metadata: Metadata = {
 // reachable from inside the build container) and serves that stale/fallback snapshot forever.
 export const dynamic = "force-dynamic";
 
-export default async function ProductsPage() {
-  const products = await getBrandProducts();
+export default async function ProductsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("products");
+  const [products, profile] = await Promise.all([getBrandProducts(), getBrandProfile()]);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <p className="text-xs font-medium uppercase tracking-wide text-orange-600">
-        Our Range
+        {t("eyebrow")}
       </p>
-      <h1 className="mt-2 text-3xl sm:text-4xl font-bold text-stone-900">Our Products</h1>
+      <h1 className="mt-2 text-3xl sm:text-4xl font-bold text-stone-900">{t("title")}</h1>
       <p className="mt-4 max-w-2xl text-lg text-stone-600 leading-relaxed">
-        Every product below is formulated, manufactured, and lab-tested end-to-end by Demo
-        Supplement Co. — the same real formula and real quality-testing data shown on WEB-01&apos;s
-        distributor catalog, told here from the brand&apos;s own point of view.
+        {t("intro", { companyName: profile.company_name })}
       </p>
 
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -51,9 +63,7 @@ export default async function ProductsPage() {
               {product.item_name}
             </h2>
             <p className="mt-2 text-sm text-stone-600 leading-relaxed">{product.tagline}</p>
-            <p className="mt-4 text-sm font-semibold text-emerald-800">
-              See formula &amp; lab results &rarr;
-            </p>
+            <p className="mt-4 text-sm font-semibold text-emerald-800">{t("seeFormula")}</p>
           </Link>
         ))}
       </div>

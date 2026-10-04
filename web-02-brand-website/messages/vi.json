@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "homeTitle": "Demo Supplement Co. — Viên Sủi Vitamin C",
+    "homeDescription": "Demo WEB-02 thuộc Enterprise Platform Phase 7 — trang web thương hiệu hướng tới người tiêu dùng của một nhà sản xuất thực phẩm chức năng demo, kể câu chuyện riêng của thương hiệu cùng dữ liệu công thức và kiểm nghiệm chất lượng thực tế do hệ thống ERP kết nối tạo ra và quản lý, phục vụ từ một API Frappe chỉ dành cho khách (guest-only).",
+    "ourStoryTitle": "Câu Chuyện Của Chúng Tôi",
+    "productTitle": "Sản Phẩm Của Chúng Tôi",
+    "productsTitle": "Sản Phẩm",
+    "whereToBuyTitle": "Mua Ở Đâu"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "products": "Sản Phẩm",
+    "ourStory": "Câu Chuyện",
+    "whereToBuy": "Mua Ở Đâu"
+  },
+  "footer": {
+    "tagline": "Trang web thương hiệu demo — WEB-02 (Enterprise Platform Phase 7)."
+  },
+  "home": {
+    "ctaMeetProduct": "Khám Phá Sản Phẩm",
+    "ctaOurStory": "Câu Chuyện Của Chúng Tôi",
+    "ourFlagshipLabel": "Sản Phẩm Chủ Lực",
+    "seeFullFormula": "Xem công thức đầy đủ & kết quả kiểm nghiệm →",
+    "quality": {
+      "eyebrow": "Chất Lượng Có Thể Kiểm Chứng",
+      "heading": "Mỗi lô hàng đều được kiểm nghiệm trước khi xuất xưởng",
+      "body": "Lô hàng gần nhất của chúng tôi đã được kiểm nghiệm độc lập tại phòng lab nội bộ vào ngày {verifiedOn}, đạt {testedValue} {unit} Vitamin C mỗi viên — nằm trong giới hạn công bố từ {minValue}–{maxValue} {unit}."
+    },
+    "findNearYou": {
+      "heading": "Tìm {productName} gần bạn",
+      "body": "Được phân phối qua mạng lưới nhà thuốc và cửa hàng chăm sóc sức khỏe trên toàn quốc."
+    }
+  },
+  "ourStory": {
+    "title": "Câu Chuyện Của Chúng Tôi",
+    "formulation": {
+      "heading": "Triết lý xây dựng công thức",
+      "before": "Chúng tôi giữ công thức ngắn gọn, dễ hiểu: sáu thành phần, mỗi thành phần đảm nhiệm một vai trò rõ ràng — một hoạt chất thực sự, phản ứng sủi bọt, một chất tạo ngọt dịu nhẹ, và một hương vị tự nhiên. Không có thành phần nào được thêm vào công thức mà không có trên nhãn, và không có gì trên nhãn bị làm tròn hay che giấu. Toàn bộ chi tiết thành phần, với tỷ lệ thực tế lấy từ công thức sản xuất của chính chúng tôi, có trên ",
+      "linkText": "trang sản phẩm"
+    },
+    "madeIn": {
+      "heading": "Sản xuất tại {country}",
+      "before": "{companyName} tự nghiên cứu công thức và sản xuất mọi lô hàng, với phòng lab nội bộ kiểm nghiệm từng lần xuất xưởng theo tiêu chuẩn hàm lượng đã công bố trước khi được phép xuất xưởng — xem kết quả kiểm nghiệm thực tế, mới nhất trên ",
+      "linkText": "trang sản phẩm"
+    }
+  },
+  "product": {
+    "whyPeopleTakeIt": "Vì sao nên dùng sản phẩm này",
+    "allergen": {
+      "label": "Lưu ý về dị ứng:",
+      "flagship": "công thức này có chứa lecithin từ đậu nành (xem chi tiết thành phần đầy đủ bên dưới) — được ghi rõ ở đây, không ẩn trong phần chữ nhỏ.",
+      "generic": "công thức này có chứa một thành phần gây dị ứng — xem chi tiết thành phần đầy đủ bên dưới để biết chính xác thành phần nào, được ghi rõ ở đây, không ẩn trong phần chữ nhỏ."
+    },
+    "publishedFormula": {
+      "heading": "Công thức đã công bố",
+      "desc": "Mỗi thành phần dưới đây, cùng tỷ lệ thực tế của nó trong công thức theo khối lượng, được lấy trực tiếp từ công thức sản xuất hiện hành, đang hoạt động trong hệ thống sản xuất của chúng tôi — không phải một con số ước lượng cho mục đích tiếp thị."
+    },
+    "labVerified": {
+      "heading": "Chất lượng được kiểm nghiệm",
+      "desc": "Chúng tôi công bố tiêu chuẩn hàm lượng nội bộ cùng kết quả kiểm nghiệm thực tế từ Phiếu Kết Quả Phân Tích (Certificate of Analysis) của lô hàng mới xuất xưởng gần nhất."
+    },
+    "specRangeLabel": "Giới hạn tiêu chuẩn đã công bố",
+    "latestResultLabel": "Kết quả kiểm nghiệm mới nhất",
+    "verifiedOn": "Kiểm nghiệm ngày {date}",
+    "verifiedLabel": "Đã kiểm nghiệm",
+    "productCodeLabel": "Mã Sản Phẩm",
+    "shelfLifeLabel": "Thời Hạn Sử Dụng",
+    "daysSuffix": "{count} ngày"
+  },
+  "products": {
+    "eyebrow": "Dòng Sản Phẩm",
+    "title": "Sản Phẩm Của Chúng Tôi",
+    "intro": "Mỗi sản phẩm dưới đây đều được {companyName} nghiên cứu công thức, sản xuất và kiểm nghiệm chất lượng từ đầu đến cuối — cùng công thức thực tế và dữ liệu kiểm nghiệm chất lượng thực tế được hiển thị trên danh mục nhà phân phối của WEB-01, nhưng được kể lại đây từ góc nhìn của chính thương hiệu.",
+    "seeFormula": "Xem công thức & kết quả kiểm nghiệm →"
+  },
+  "whereToBuy": {
+    "title": "Mua {productName} Ở Đâu",
+    "intro": "{productName} được phân phối qua mạng lưới nhà thuốc và cửa hàng chăm sóc sức khỏe trên toàn quốc {country} — chúng tôi sản xuất sản phẩm, và mạng lưới đối tác phân phối đưa sản phẩm đến gần bạn.",
+    "pharmacy": {
+      "heading": "Hệ Thống Nhà Thuốc",
+      "body": "Có bán tại các hệ thống nhà thuốc lớn trên toàn quốc. Hãy hỏi dược sĩ tại nhà thuốc gần bạn xem {productName} còn hàng hay có thể đặt hàng giúp bạn không."
+    },
+    "retail": {
+      "heading": "Cửa Hàng Sức Khỏe & Chăm Sóc Sức Khỏe",
+      "body": "Được phân phối tại các cửa hàng thực phẩm sức khỏe và chăm sóc sức khỏe độc lập, trong dòng sản phẩm hỗ trợ miễn dịch hàng ngày của chúng tôi."
+    },
+    "note": {
+      "label": "Lưu ý về bản demo này:",
+      "part1": "trang này là nội dung thương hiệu minh họa — không liên kết đến hệ thống tìm cửa hàng hay thanh toán thương mại điện tử thực tế. Nền tảng này có một trang riêng dành cho nhà phân phối (",
+      "strong": "WEB-01, “Danh Mục Doanh Nghiệp & Sản Phẩm”",
+      "part2": ") liệt kê cùng sản phẩm này với mức giá bán thực tế do hệ thống ERP kết nối tạo ra và quản lý; trang thương hiệu này chủ động không lặp lại trải nghiệm bảng giá đó, và hai trang chưa được tích hợp với nhau ở giai đoạn demo này."
+    }
+  }
+}

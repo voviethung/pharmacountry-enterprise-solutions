@@ -1,16 +1,30 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getBrandProduct } from "@/lib/api";
 
-export const metadata: Metadata = {
-  title: "Our Product",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return { title: t("productTitle") };
+}
 
 // Force dynamic rendering — this page calls the real Frappe backend on every request.
 // Without this, Next.js prerenders it once at Docker build time (when the backend isn't
 // reachable from inside the build container) and serves that stale/fallback snapshot forever.
 export const dynamic = "force-dynamic";
 
-export default async function ProductPage() {
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("product");
   const product = await getBrandProduct();
 
   return (
@@ -27,7 +41,7 @@ export default async function ProductPage() {
 
       {/* Benefits */}
       <section className="mt-12">
-        <h2 className="text-xl font-semibold text-stone-900">Why people take it</h2>
+        <h2 className="text-xl font-semibold text-stone-900">{t("whyPeopleTakeIt")}</h2>
         <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {product.benefits.map((b) => (
             <li
@@ -43,20 +57,17 @@ export default async function ProductPage() {
       {/* Allergen transparency */}
       {product.contains_allergen && (
         <section className="mt-8 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <strong className="font-semibold">Allergen notice:</strong> this formula contains
-          soy lecithin (see the full ingredient breakdown below) — flagged here clearly, not
-          buried in fine print.
+          <strong className="font-semibold">{t("allergen.label")}</strong>{" "}
+          {t("allergen.flagship")}
         </section>
       )}
 
       {/* Real formula / ingredients */}
       <section className="mt-12">
-        <h2 className="text-xl font-semibold text-stone-900">Our published formula</h2>
-        <p className="mt-2 text-sm text-stone-600">
-          Every ingredient below, and its real proportion of the formula by weight, is drawn
-          live from our own manufacturing system&apos;s current, active production formula —
-          not a marketing approximation.
-        </p>
+        <h2 className="text-xl font-semibold text-stone-900">
+          {t("publishedFormula.heading")}
+        </h2>
+        <p className="mt-2 text-sm text-stone-600">{t("publishedFormula.desc")}</p>
         <div className="mt-6 space-y-3">
           {product.ingredients.map((ing) => (
             <div key={ing.item_code} className="rounded-lg border border-stone-200 bg-white p-4">
@@ -83,11 +94,8 @@ export default async function ProductPage() {
       {/* Quality / lab verification */}
       {product.quality && (
         <section className="mt-12 rounded-xl border border-emerald-200 bg-emerald-50 p-6">
-          <h2 className="text-xl font-semibold text-stone-900">Lab-verified quality</h2>
-          <p className="mt-2 text-sm text-stone-600">
-            We publish our internal potency specification and the real, verified result from
-            our most recently released batch&apos;s Certificate of Analysis.
-          </p>
+          <h2 className="text-xl font-semibold text-stone-900">{t("labVerified.heading")}</h2>
+          <p className="mt-2 text-sm text-stone-600">{t("labVerified.desc")}</p>
           <dl className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
             {product.quality.specification.map((spec) => (
               <div key={spec.parameter_name}>
@@ -97,13 +105,13 @@ export default async function ProductPage() {
                 <dd className="mt-1 text-lg font-semibold text-stone-900">
                   {spec.min_value}&ndash;{spec.max_value} {spec.unit}
                 </dd>
-                <p className="mt-1 text-xs text-stone-500">Published specification range</p>
+                <p className="mt-1 text-xs text-stone-500">{t("specRangeLabel")}</p>
               </div>
             ))}
             {Object.entries(product.quality.latest_tested_values).map(([param, value]) => (
               <div key={param}>
                 <dt className="text-xs uppercase tracking-wide text-stone-500">
-                  Latest verified result
+                  {t("latestResultLabel")}
                 </dt>
                 <dd className="mt-1 text-lg font-semibold text-emerald-800">
                   {value}{" "}
@@ -112,8 +120,8 @@ export default async function ProductPage() {
                 </dd>
                 <p className="mt-1 text-xs text-stone-500">
                   {product.quality!.verified_on
-                    ? `Verified ${product.quality!.verified_on}`
-                    : "Verified"}
+                    ? t("verifiedOn", { date: product.quality!.verified_on })
+                    : t("verifiedLabel")}
                 </p>
               </div>
             ))}
@@ -124,13 +132,13 @@ export default async function ProductPage() {
       <section className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-500">
         <dl className="grid grid-cols-2 gap-4">
           <div>
-            <dt className="text-stone-400">Product Code</dt>
+            <dt className="text-stone-400">{t("productCodeLabel")}</dt>
             <dd className="mt-1 font-medium text-stone-900">{product.item_code}</dd>
           </div>
           <div>
-            <dt className="text-stone-400">Shelf Life</dt>
+            <dt className="text-stone-400">{t("shelfLifeLabel")}</dt>
             <dd className="mt-1 font-medium text-stone-900">
-              {product.shelf_life_days} days
+              {t("daysSuffix", { count: product.shelf_life_days })}
             </dd>
           </div>
         </dl>

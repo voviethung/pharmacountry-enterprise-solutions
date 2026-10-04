@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getBrandProduct, getBrandProfile } from "@/lib/api";
 
 // Force dynamic rendering — this page calls the real Frappe backend on every request.
@@ -6,7 +7,16 @@ import { getBrandProduct, getBrandProfile } from "@/lib/api";
 // reachable from inside the build container) and serves that stale/fallback snapshot forever.
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("home");
+  const tNav = await getTranslations("nav");
+
   const [profile, product] = await Promise.all([
     getBrandProfile(),
     getBrandProduct(),
@@ -30,13 +40,13 @@ export default async function HomePage() {
               href="/product"
               className="rounded-full bg-orange-600 px-6 py-3 text-sm font-semibold text-white hover:bg-orange-700 transition-colors"
             >
-              Meet Our Product
+              {t("ctaMeetProduct")}
             </Link>
             <Link
               href="/our-story"
               className="rounded-full border border-stone-300 px-6 py-3 text-sm font-semibold text-stone-700 hover:border-emerald-800 hover:text-emerald-800 transition-colors"
             >
-              Our Story
+              {t("ctaOurStory")}
             </Link>
           </div>
         </div>
@@ -51,7 +61,7 @@ export default async function HomePage() {
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-orange-600">
-              Our Flagship
+              {t("ourFlagshipLabel")}
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-stone-900">
               {product.item_name}
@@ -69,7 +79,7 @@ export default async function HomePage() {
               href="/product"
               className="mt-6 inline-block text-sm font-semibold text-emerald-800 hover:text-emerald-900"
             >
-              See the full formula &amp; lab results &rarr;
+              {t("seeFullFormula")}
             </Link>
           </div>
         </div>
@@ -79,21 +89,19 @@ export default async function HomePage() {
         <section className="border-t border-stone-200 bg-emerald-50">
           <div className="mx-auto max-w-5xl px-6 py-16 text-center">
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
-              Quality You Can Verify
+              {t("quality.eyebrow")}
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-stone-900">
-              Every batch is lab-tested before it ships
+              {t("quality.heading")}
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-stone-600">
-              Our most recent batch was independently verified in-house on{" "}
-              {product.quality.verified_on}, tested at{" "}
-              {product.quality.latest_tested_values["Vitamin C Content"]}
-              {" "}
-              {product.quality.specification[0]?.unit} of Vitamin C per tablet —
-              well within our published guarantee of{" "}
-              {product.quality.specification[0]?.min_value}&ndash;
-              {product.quality.specification[0]?.max_value}{" "}
-              {product.quality.specification[0]?.unit}.
+              {t("quality.body", {
+                verifiedOn: product.quality.verified_on ?? "",
+                testedValue: product.quality.latest_tested_values["Vitamin C Content"],
+                unit: product.quality.specification[0]?.unit ?? "",
+                minValue: product.quality.specification[0]?.min_value ?? "",
+                maxValue: product.quality.specification[0]?.max_value ?? "",
+              })}
             </p>
           </div>
         </section>
@@ -103,17 +111,15 @@ export default async function HomePage() {
         <div className="mx-auto max-w-5xl px-6 py-14 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h2 className="text-xl font-semibold text-stone-900">
-              Find {product.item_name} near you
+              {t("findNearYou.heading", { productName: product.item_name })}
             </h2>
-            <p className="mt-1 text-sm text-stone-600">
-              Sold through a nationwide network of pharmacies and health retailers.
-            </p>
+            <p className="mt-1 text-sm text-stone-600">{t("findNearYou.body")}</p>
           </div>
           <Link
             href="/where-to-buy"
             className="rounded-full bg-orange-600 px-6 py-3 text-sm font-semibold text-white hover:bg-orange-700 transition-colors whitespace-nowrap"
           >
-            Where to Buy
+            {tNav("whereToBuy")}
           </Link>
         </div>
       </section>
