@@ -19,8 +19,17 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
   return {
+    metadataBase: new URL("https://pharmacountry.vn"),
     title: t("homeTitle"),
     description: t("homeDescription"),
+    openGraph: {
+      type: "website",
+      siteName: "PharmaCountry Enterprise Solutions",
+      locale: locale === "vi" ? "vi_VN" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
   };
 }
 
