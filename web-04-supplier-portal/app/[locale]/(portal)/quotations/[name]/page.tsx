@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyQuotationDetail, SupplierApiError, formatMoney } from "@/lib/api";
 
@@ -29,6 +30,10 @@ export default async function QuotationDetailPage({
 
   return (
     <div className="space-y-6">
+      <Link href="/quotations" className="inline-block text-sm font-medium text-slate-600 hover:text-teal-700">
+        {t("back")}
+      </Link>
+
       <div>
         <h1 className="text-xl font-bold text-slate-900">{quotation.name}</h1>
         <p className="mt-1 text-sm text-slate-500">

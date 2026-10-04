@@ -87,7 +87,8 @@
     "thQty": "Qty",
     "thRate": "Rate",
     "thAmount": "Amount",
-    "grandTotal": "Grand total"
+    "grandTotal": "Grand total",
+    "back": "← My Orders"
   },
   "invoices": {
     "heading": "My Invoices",

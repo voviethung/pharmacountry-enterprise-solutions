@@ -87,7 +87,8 @@
     "thQty": "SL",
     "thRate": "Đơn giá",
     "thAmount": "Thành tiền",
-    "grandTotal": "Tổng cộng"
+    "grandTotal": "Tổng cộng",
+    "back": "← Đơn hàng của tôi"
   },
   "invoices": {
     "heading": "Hóa đơn của tôi",

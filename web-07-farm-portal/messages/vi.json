@@ -87,7 +87,8 @@
       "rate": "Đơn giá",
       "amount": "Thành tiền"
     },
-    "grandTotal": "Tổng cộng"
+    "grandTotal": "Tổng cộng",
+    "back": "← Đơn Hàng Của Tôi"
   },
   "recommendations": {
     "title": "Khuyến Nghị Điều Trị / Thức Ăn",

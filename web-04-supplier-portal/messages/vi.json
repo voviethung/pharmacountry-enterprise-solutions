@@ -57,10 +57,22 @@
       "criticalSupplier": "Nhà cung cấp trọng yếu"
     },
     "quickLinks": {
-      "rfqs": { "title": "RFQ của tôi", "desc": "Các RFQ bạn được mời phản hồi." },
-      "quotations": { "title": "Báo giá của tôi", "desc": "Mọi báo giá bạn đã gửi, có hoặc không gắn với RFQ." },
-      "purchaseOrders": { "title": "Đơn đặt hàng của tôi", "desc": "Các đơn đặt hàng được phát hành cho bạn." },
-      "deliveries": { "title": "Giao hàng của tôi", "desc": "Tình trạng giao hàng/vận chuyển và kiểm tra chất lượng (QC) của bạn." }
+      "rfqs": {
+        "title": "RFQ của tôi",
+        "desc": "Các RFQ bạn được mời phản hồi."
+      },
+      "quotations": {
+        "title": "Báo giá của tôi",
+        "desc": "Mọi báo giá bạn đã gửi, có hoặc không gắn với RFQ."
+      },
+      "purchaseOrders": {
+        "title": "Đơn đặt hàng của tôi",
+        "desc": "Các đơn đặt hàng được phát hành cho bạn."
+      },
+      "deliveries": {
+        "title": "Giao hàng của tôi",
+        "desc": "Tình trạng giao hàng/vận chuyển và kiểm tra chất lượng (QC) của bạn."
+      }
     }
   },
   "deliveries": {
@@ -105,7 +117,8 @@
         "qtyReceived": "SL đã nhận",
         "rate": "Đơn giá",
         "amount": "Thành tiền"
-      }
+      },
+      "back": "← Đơn đặt hàng của tôi"
     }
   },
   "qualification": {
@@ -144,7 +157,8 @@
         "amount": "Thành tiền",
         "leadTime": "Thời gian giao hàng",
         "rfq": "RFQ"
-      }
+      },
+      "back": "← Báo giá của tôi"
     }
   },
   "rfqs": {
@@ -166,7 +180,8 @@
         "qty": "SL",
         "uom": "ĐVT",
         "requestedDelivery": "Ngày giao yêu cầu"
-      }
+      },
+      "back": "← RFQ của tôi"
     }
   },
   "quotationForm": {

@@ -87,7 +87,8 @@
       "rate": "Rate",
       "amount": "Amount"
     },
-    "grandTotal": "Grand total"
+    "grandTotal": "Grand total",
+    "back": "← My Orders"
   },
   "recommendations": {
     "title": "Treatment / Feed Recommendations",

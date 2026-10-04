@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyOrderDetail, DealerApiError, formatVnd } from "@/lib/api";
 
@@ -31,6 +32,10 @@ export default async function OrderDetailPage({
 
   return (
     <div className="space-y-6">
+      <Link href="/orders" className="inline-block text-sm font-medium text-slate-600 hover:text-slate-900">
+        {t("back")}
+      </Link>
+
       <div>
         <h1 className="text-xl font-bold text-slate-900">{order.name}</h1>
         <p className="mt-1 text-sm text-slate-500">

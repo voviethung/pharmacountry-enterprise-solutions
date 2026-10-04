@@ -57,10 +57,22 @@
       "criticalSupplier": "Critical supplier"
     },
     "quickLinks": {
-      "rfqs": { "title": "My RFQs", "desc": "RFQs you've been invited to respond to." },
-      "quotations": { "title": "My Quotations", "desc": "Every quotation you've submitted, RFQ-linked or not." },
-      "purchaseOrders": { "title": "My Purchase Orders", "desc": "Purchase Orders issued to you." },
-      "deliveries": { "title": "My Deliveries", "desc": "Your shipment/delivery and QC status." }
+      "rfqs": {
+        "title": "My RFQs",
+        "desc": "RFQs you've been invited to respond to."
+      },
+      "quotations": {
+        "title": "My Quotations",
+        "desc": "Every quotation you've submitted, RFQ-linked or not."
+      },
+      "purchaseOrders": {
+        "title": "My Purchase Orders",
+        "desc": "Purchase Orders issued to you."
+      },
+      "deliveries": {
+        "title": "My Deliveries",
+        "desc": "Your shipment/delivery and QC status."
+      }
     }
   },
   "deliveries": {
@@ -105,7 +117,8 @@
         "qtyReceived": "Qty received",
         "rate": "Rate",
         "amount": "Amount"
-      }
+      },
+      "back": "← My Purchase Orders"
     }
   },
   "qualification": {
@@ -144,7 +157,8 @@
         "amount": "Amount",
         "leadTime": "Lead time",
         "rfq": "RFQ"
-      }
+      },
+      "back": "← My Quotations"
     }
   },
   "rfqs": {
@@ -166,7 +180,8 @@
         "qty": "Qty",
         "uom": "UOM",
         "requestedDelivery": "Requested delivery"
-      }
+      },
+      "back": "← My RFQs"
     }
   },
   "quotationForm": {
