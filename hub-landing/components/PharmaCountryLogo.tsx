@@ -20,6 +20,8 @@
 //     marketplace itself) — callers add their own sub-brand label as real, translatable text
 //     next to the SVG rather than baking English text into the graphic.
 
+import { useId } from "react";
+
 interface MarkProps {
   size?: number;
   className?: string;
@@ -82,8 +84,16 @@ export function PharmaCountryWordmark({
   height = 44,
   className = "",
 }: WordmarkProps) {
-  const gradId = "pmctWordmarkGradient";
-  const shineId = "pmctWordmarkShine";
+  // Unique per render — this component is mounted more than once on the same page (header +
+  // footer), and a hidden instance (e.g. the header's `hidden sm:block` copy on mobile) still
+  // leaves its <defs> in the DOM even though it isn't visually shown. A fixed id here would
+  // collide across instances, breaking SVG gradient resolution for whichever instance the
+  // browser resolves second (the diamond mark rendering hollow/unfilled, hiding "PMCT" — this
+  // was observed live on the footer wordmark on mobile, where only the footer instance is
+  // visible but the header's still-mounted-but-hidden instance shared its gradient id).
+  const uid = useId();
+  const gradId = `pmctWordmarkGradient-${uid}`;
+  const shineId = `pmctWordmarkShine-${uid}`;
   return (
     <svg
       width={width}

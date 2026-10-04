@@ -267,8 +267,13 @@
       "companyName": "PharmaCountry Enterprise Solutions",
       "companyDescription": "Bộ phận công nghệ và ERP doanh nghiệp của PharmaCountry, sàn giao dịch B2B dược phẩm toàn cầu.",
       "emailLabel": "Email",
+      "phoneLabel": "Điện thoại / Zalo",
+      "zaloLinkText": "Nhắn Zalo",
       "locationLabel": "Địa điểm",
-      "locationValue": "22/14 Phan Văn Hớn, Khu phố 7, Phường Đông Hưng Thuận, Thành phố Hồ Chí Minh"
+      "locationValue": "22/14 Phan Văn Hớn, Khu phố 7, Phường Đông Hưng Thuận, Thành phố Hồ Chí Minh",
+      "zaloQrLabel": "Quét mã Zalo",
+      "zaloQrAlt": "Mã QR Zalo của PharmaCountry",
+      "zaloQrHint": "Quét bằng app Zalo để kết bạn/nhắn tin trực tiếp."
     }
   }
 }
