@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 19:28:39.421799",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sample",
+  "specification",
+  "method",
+  "instrument",
+  "analyst",
+  "reviewed_by",
+  "approved_by",
+  "status",
+  "results",
+  "oos_triggered",
+  "linked_oos"
+ ],
+ "fields": [
+  {
+   "fieldname": "sample",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sample",
+   "options": "LIMS Sample",
+   "reqd": 1
+  },
+  {
+   "fieldname": "specification",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Specification",
+   "options": "LIMS Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "method",
+   "fieldtype": "Link",
+   "label": "Test Method",
+   "options": "LIMS Test Method",
+   "reqd": 1
+  },
+  {
+   "fieldname": "instrument",
+   "fieldtype": "Link",
+   "label": "Instrument",
+   "options": "LIMS Instrument"
+  },
+  {
+   "fieldname": "analyst",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Analyst",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User"
+  },
+  {
+   "default": "Assigned",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Assigned\nIn Progress\nResult Entered\nReviewed\nApproved"
+  },
+  {
+   "fieldname": "results",
+   "fieldtype": "Table",
+   "label": "Results",
+   "options": "LIMS Test Result"
+  },
+  {
+   "default": "0",
+   "fieldname": "oos_triggered",
+   "fieldtype": "Check",
+   "label": "OOS Triggered",
+   "read_only": 1
+  },
+  {
+   "fieldname": "linked_oos",
+   "fieldtype": "Link",
+   "label": "Linked QMS OOS/OOT",
+   "options": "QMS OOS OOT",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 19:28:39.421799",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "LIMS Test",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

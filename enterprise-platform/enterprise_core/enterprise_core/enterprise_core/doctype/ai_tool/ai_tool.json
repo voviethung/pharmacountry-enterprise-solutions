@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:tool_code",
+ "creation": "2026-09-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tool_code",
+  "label",
+  "description",
+  "python_function_path",
+  "required_permission_doctype",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "tool_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tool Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Label"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "description": "Dotted Python path to the READ-ONLY, permission-respecting function implementing this tool, e.g. enterprise_core.enterprise_core.ai_tools.get_overdue_capas. Called with a `user` kwarg — the calling user's own Frappe permissions, never elevated.",
+   "fieldname": "python_function_path",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Python Function Path",
+   "reqd": 1
+  },
+  {
+   "description": "Which DocType's read permissions gate this tool's data access — documents the permission boundary the tool enforces (via frappe.get_list, never frappe.get_all/raw SQL).",
+   "fieldname": "required_permission_doctype",
+   "fieldtype": "Link",
+   "label": "Required Permission (DocType)",
+   "options": "DocType"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "tool_code",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

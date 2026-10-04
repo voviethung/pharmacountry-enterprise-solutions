@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:batch_code",
+ "creation": "2026-09-28 21:27:33.052716",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "batch_code",
+  "grading",
+  "process_date",
+  "process_type",
+  "output_weight_kg"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "grading",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Grading",
+   "options": "Seafood Grading",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "process_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Process Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "process_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Process Type",
+   "options": "Whole\nHeadless\nPeeled\nButterfly",
+   "reqd": 1
+  },
+  {
+   "fieldname": "output_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Output Weight (kg)",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 21:27:33.052716",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Seafood Processing Batch",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "process_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 20:36:09.061669",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sow",
+  "boar",
+  "service_date",
+  "expected_farrow_date",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "sow",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sow",
+   "options": "Pig Breeding Animal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "boar",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Boar",
+   "options": "Pig Breeding Animal",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "service_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Service Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expected_farrow_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expected Farrow Date",
+   "read_only": 1
+  },
+  {
+   "default": "Served",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Served\nConfirmed Pregnant\nFarrowed\nFailed"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:36:09.061669",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Pig Breeding Service",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "service_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

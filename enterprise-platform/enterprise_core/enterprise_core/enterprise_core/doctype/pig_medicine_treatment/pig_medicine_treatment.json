@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 20:36:09.786780",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "batch",
+  "treatment_date",
+  "medicine_name",
+  "diagnosis",
+  "withdrawal_days",
+  "withdrawal_end_date",
+  "cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Batch",
+   "options": "Pig Grower Batch",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "treatment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Treatment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "medicine_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medicine Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Diagnosis"
+  },
+  {
+   "fieldname": "withdrawal_days",
+   "fieldtype": "Int",
+   "label": "Withdrawal Days",
+   "reqd": 1
+  },
+  {
+   "fieldname": "withdrawal_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Withdrawal End Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:36:09.786780",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Pig Medicine Treatment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "treatment_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

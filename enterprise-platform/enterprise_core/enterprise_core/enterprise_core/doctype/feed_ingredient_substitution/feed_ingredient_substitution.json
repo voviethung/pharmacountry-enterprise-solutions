@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2026-09-28 19:39:33.867703",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "formula_bom",
+  "original_item",
+  "substitute_item",
+  "reason",
+  "status",
+  "approved_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "formula_bom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Formula (BOM)",
+   "options": "BOM",
+   "reqd": 1
+  },
+  {
+   "fieldname": "original_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Original Ingredient",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "substitute_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Substitute Ingredient",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 19:39:33.867703",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Feed Ingredient Substitution",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manufacturing Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

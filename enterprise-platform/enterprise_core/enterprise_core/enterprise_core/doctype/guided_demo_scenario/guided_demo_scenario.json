@@ -1,0 +1,141 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:scenario_code",
+ "creation": "2026-09-29 17:09:22.495339",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "scenario_code",
+  "title",
+  "golden_demo_reference",
+  "primary_login_role",
+  "primary_login_user",
+  "objective",
+  "what_this_demonstrates",
+  "steps",
+  "allow_reset",
+  "reset_function_path",
+  "reset_function_arg",
+  "reset_instructions",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "scenario_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Scenario Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "description": "Which Industry Pack (golden demo) this walkthrough belongs to \u2014 reuses the real DP-303 registry rather than a parallel one.",
+   "fieldname": "golden_demo_reference",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Golden Demo / Industry Pack",
+   "options": "Industry Pack"
+  },
+  {
+   "description": "Master plan \u00a716 'T\u00e0i kho\u1ea3n role' \u2014 the main account a salesperson should sign in as to run this demo.",
+   "fieldname": "primary_login_role",
+   "fieldtype": "Data",
+   "label": "Primary Login Role / Account"
+  },
+  {
+   "fieldname": "primary_login_user",
+   "fieldtype": "Link",
+   "label": "Primary Login User",
+   "options": "User"
+  },
+  {
+   "fieldname": "objective",
+   "fieldtype": "Text",
+   "label": "Objective",
+   "reqd": 1
+  },
+  {
+   "description": "Master plan \u00a716's closing 'What this demonstrates' \u2014 the business value summary shown at the end of the walkthrough.",
+   "fieldname": "what_this_demonstrates",
+   "fieldtype": "Text",
+   "label": "What This Demonstrates",
+   "reqd": 1
+  },
+  {
+   "fieldname": "steps",
+   "fieldtype": "Table",
+   "label": "Steps",
+   "options": "Guided Demo Scenario Step"
+  },
+  {
+   "default": "0",
+   "description": "Only set True when reset_function_path points at a genuinely idempotent, verified-safe function \u2014 never a placeholder.",
+   "fieldname": "allow_reset",
+   "fieldtype": "Check",
+   "label": "Allow Reset"
+  },
+  {
+   "description": "Dotted path to a real, idempotent Python function, e.g. enterprise_core.enterprise_core.api.run_industry_pack_seeds. Called with reset_function_arg if set, else no arguments.",
+   "fieldname": "reset_function_path",
+   "fieldtype": "Data",
+   "label": "Reset Function Path"
+  },
+  {
+   "description": "Optional single positional argument passed to reset_function_path (e.g. an Industry Pack code).",
+   "fieldname": "reset_function_arg",
+   "fieldtype": "Data",
+   "label": "Reset Function Arg"
+  },
+  {
+   "description": "Always shown to the user, whether or not allow_reset is set \u2014 honest explanation of what reset does or why it's unavailable.",
+   "fieldname": "reset_instructions",
+   "fieldtype": "Small Text",
+   "label": "Reset Instructions / Limitation"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-29 17:09:22.495339",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Guided Demo Scenario",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "scenario_code",
+ "sort_order": "ASC",
+ "states": []
+}

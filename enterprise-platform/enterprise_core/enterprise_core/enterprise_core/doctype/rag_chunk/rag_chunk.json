@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "source_doctype",
+  "source_reference",
+  "document_code",
+  "document_title",
+  "version_no",
+  "column_break_1",
+  "chunk_index",
+  "chunk_text",
+  "embedding",
+  "source_status",
+  "is_current",
+  "indexed_on"
+ ],
+ "fields": [
+  {
+   "description": "Which real DocType this chunk was extracted from, e.g. 'DMS Document Version' — the permission boundary a retrieval query must check (via frappe.get_list(user=...) on this DocType) before this chunk may ever be returned to a caller.",
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "description": "The exact real record this chunk's text was extracted from (e.g. one DMS Document Version).",
+   "fieldname": "source_reference",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Source Reference",
+   "options": "source_doctype",
+   "reqd": 1
+  },
+  {
+   "description": "Denormalized parent DMS Document code, for citation display without an extra lookup.",
+   "fieldname": "document_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Document Code"
+  },
+  {
+   "fieldname": "document_title",
+   "fieldtype": "Data",
+   "label": "Document Title"
+  },
+  {
+   "description": "Version metadata (master plan §13.9's 'Version metadata' requirement) — which revision of the source document this chunk came from.",
+   "fieldname": "version_no",
+   "fieldtype": "Int",
+   "label": "Version No"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "chunk_index",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Chunk Index"
+  },
+  {
+   "fieldname": "chunk_text",
+   "fieldtype": "Text",
+   "label": "Chunk Text",
+   "reqd": 1
+  },
+  {
+   "description": "A MOCK embedding vector (fixed-dimension hashed bag-of-words term-frequency vector — see rag_pipeline.mock_embed()), stored as a JSON list of floats. NOT a real embedding-model output — this platform makes no live embedding-provider calls, mirroring ai_core._call_provider_adapter()'s own honest mock-LLM disclosure.",
+   "fieldname": "embedding",
+   "fieldtype": "Code",
+   "label": "Embedding (JSON)",
+   "options": "JSON",
+   "reqd": 1
+  },
+  {
+   "description": "The source record's status AT INDEX TIME (e.g. 'Effective', 'Obsolete', 'Draft') — a snapshot, kept in sync by re-indexing on every source revision/status change, never inferred live at query time.",
+   "fieldname": "source_status",
+   "fieldtype": "Data",
+   "label": "Source Status (at index time)"
+  },
+  {
+   "default": "0",
+   "description": "1 only when this chunk's source was genuinely CURRENT (Effective) at last index time. Retrieval MUST filter on this — master plan §13.9: 'Không index nội dung obsolete như current knowledge' (never serve Obsolete content as current).",
+   "fieldname": "is_current",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Current"
+  },
+  {
+   "fieldname": "indexed_on",
+   "fieldtype": "Datetime",
+   "label": "Indexed On"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "RAG Chunk",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

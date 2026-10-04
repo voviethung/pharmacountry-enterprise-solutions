@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:provider_code",
+ "creation": "2026-09-28 20:04:10.295559",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "provider_code",
+  "display_name",
+  "provider_type",
+  "base_url",
+  "api_key_secret",
+  "enabled",
+  "timeout_seconds",
+  "rate_limit_per_minute",
+  "data_policy",
+  "region",
+  "supports_streaming",
+  "supports_tools",
+  "supports_structured_output",
+  "supports_embeddings",
+  "supports_vision",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "provider_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Provider Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Display Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "provider_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Provider Type",
+   "options": "OpenAI\nAnthropic\nGroq\nGoogle Gemini\nOpenAI-Compatible\nLocal/Private\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "base_url",
+   "fieldtype": "Data",
+   "label": "Base URL"
+  },
+  {
+   "description": "A reference/name into a secrets store \u2014 master plan \u00a713.18 forbids storing the real key here or in any client-visible config.",
+   "fieldname": "api_key_secret",
+   "fieldtype": "Data",
+   "label": "API Key Secret Reference"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "default": "30",
+   "fieldname": "timeout_seconds",
+   "fieldtype": "Int",
+   "label": "Timeout (seconds)"
+  },
+  {
+   "fieldname": "rate_limit_per_minute",
+   "fieldtype": "Int",
+   "label": "Rate Limit (requests/min)"
+  },
+  {
+   "fieldname": "data_policy",
+   "fieldtype": "Select",
+   "label": "Data Policy",
+   "options": "No Training on Data\nMay Train on Data\nUnknown"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region"
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_streaming",
+   "fieldtype": "Check",
+   "label": "Supports Streaming"
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_tools",
+   "fieldtype": "Check",
+   "label": "Supports Tools"
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_structured_output",
+   "fieldtype": "Check",
+   "label": "Supports Structured Output"
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_embeddings",
+   "fieldtype": "Check",
+   "label": "Supports Embeddings"
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_vision",
+   "fieldtype": "Check",
+   "label": "Supports Vision"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-28 20:04:10.295559",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Provider",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "provider_code",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

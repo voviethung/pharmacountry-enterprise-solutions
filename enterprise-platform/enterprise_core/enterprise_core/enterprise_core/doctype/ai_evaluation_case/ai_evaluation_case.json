@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "field:case_code",
+ "creation": "2026-09-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "case_code",
+  "action_code",
+  "source_doctype",
+  "input_reference",
+  "expected_category",
+  "expected_severity",
+  "secondary_flag_name",
+  "expected_secondary_flag",
+  "expected_output_notes",
+  "is_synthetic",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "case_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Case Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "The AI Action this labeled case evaluates, e.g. 'deviation_analysis', 'classify_complaint'.",
+   "fieldname": "action_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Action Code",
+   "options": "AI Action",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "label": "Source DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "description": "The REAL business record this case's expected labels were taken/derived from (e.g. a real QMS Deviation or QMS Complaint) — never a fabricated record reference.",
+   "fieldname": "input_reference",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Input Reference",
+   "options": "source_doctype",
+   "reqd": 1
+  },
+  {
+   "description": "Ground-truth category a human reviewer would assign, checked deterministically against the action's real classification output.",
+   "fieldname": "expected_category",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expected Category"
+  },
+  {
+   "description": "Ground truth is normally the record's OWN real, already-recorded severity value (not fabricated) — used to check whether an independent text-based severity classifier would reproduce it.",
+   "fieldname": "expected_severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Expected Severity",
+   "options": "\nMinor\nMajor\nCritical"
+  },
+  {
+   "description": "What the generic expected_secondary_flag/predicted-secondary-flag boolean means for THIS action, e.g. 'capa_likely_needed' (deviation_analysis) or 'is_safety_critical' (classify_complaint). Kept generic/reusable rather than one field per action, mirroring AI Draft's own copilot-agnostic design.",
+   "fieldname": "secondary_flag_name",
+   "fieldtype": "Data",
+   "label": "Secondary Flag Name"
+  },
+  {
+   "default": "0",
+   "description": "Ground-truth value for the secondary_flag_name dimension — used for false-positive/false-negative tracking in AI Evaluation Run (master plan §13.14).",
+   "fieldname": "expected_secondary_flag",
+   "fieldtype": "Check",
+   "label": "Expected Secondary Flag"
+  },
+  {
+   "fieldname": "expected_output_notes",
+   "fieldtype": "Small Text",
+   "label": "Expected Output Notes"
+  },
+  {
+   "default": "0",
+   "description": "0 = the input_reference record already existed organically on this platform (labeled with its own real recorded fields). 1 = this case's record was newly seeded specifically for evaluation-set coverage (e.g. a severity/category this platform's real data didn't otherwise exhibit) — still a REAL, persisted record, just authored for this purpose rather than discovered.",
+   "fieldname": "is_synthetic",
+   "fieldtype": "Check",
+   "label": "Is Synthetic"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "AI Evaluation Case",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "case_code",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}
