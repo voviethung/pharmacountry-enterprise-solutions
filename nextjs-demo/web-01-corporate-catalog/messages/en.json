@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "homeTitle": "WEB-01 Corporate Catalog Demo",
+    "homeDescription": "Enterprise Platform Phase 7 WEB-01 demo — corporate site + product catalog for a demo distributor company, powered by live demo data generated and managed by the connected ERP system, served from a guest-only Frappe API.",
+    "catalogTitle": "Product Catalog"
+  },
+  "layout": {
+    "fallbackCompanyName": "Corporate Site (backend unavailable)"
+  },
+  "nav": {
+    "home": "Home",
+    "catalog": "Product Catalog",
+    "backToHub": "← Back to PharmaCountry.vn"
+  },
+  "footer": {
+    "tagline": "© {year} {companyName}. Demo corporate site — WEB-01 (Enterprise Platform Phase 7)."
+  },
+  "home": {
+    "distributorLabel": "Distributor",
+    "ctaViewCatalog": "View Product Catalog",
+    "featuredHeading": "Featured Products",
+    "viewAll": "View all →",
+    "stats": {
+      "productsInCatalog": "Products in catalog",
+      "pricingCurrency": "Pricing currency",
+      "headquarteredIn": "Headquartered in"
+    }
+  },
+  "catalog": {
+    "title": "Product Catalog",
+    "lead": "Live product data served from our ERP system's public catalog API.",
+    "empty": "No products are currently published."
+  },
+  "catalogItem": {
+    "back": "← Back to catalog",
+    "productCode": "Product Code",
+    "unit": "Unit",
+    "notFoundTitle": "Product not found",
+    "priceOnRequest": "Price on request"
+  }
+}

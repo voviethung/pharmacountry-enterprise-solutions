@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "Farm Portal — Demo Vet Pharma Co.",
+    "description": "Enterprise Platform Phase 7 WEB-07 demo — an authenticated farm customer / technical service portal: a real farm’s own orders, technical visits, treatment/feed recommendations and service history, backed by real Frappe session login and per-farm permission scoping."
+  },
+  "login": {
+    "heading": "Farm Customer Portal",
+    "subheading": "Sign in with your farm account to see your own orders, technical visits, treatment/feed recommendations and service history.",
+    "demoAccessLabel": "Demo Access",
+    "demoAccessDesc": "Try it now with real seeded demo accounts — no real business data at stake.",
+    "demoAccounts": {
+      "alpha": "Demo Alpha (cattle farm, generous credit)",
+      "beta": "Demo Beta (swine farm, tight credit limit)"
+    },
+    "loginAsDemo": "Log in as Demo {name}",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "footerNote": "This is a public demo platform — use the Demo Access credentials above to explore freely."
+  },
+  "portalHeader": {
+    "tag": "Farm Portal",
+    "nav": {
+      "dashboard": "Dashboard",
+      "orders": "My Orders",
+      "visits": "Technical Visits",
+      "recommendations": "Recommendations",
+      "history": "Service History"
+    },
+    "signOut": "Sign out",
+    "signingOut": "Signing out…",
+    "backToHub": "← Back to PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "loggedInAs": "Logged in as {user}. Farm-scoped data only — never another farm’s.",
+    "stats": {
+      "ordersPlaced": "Orders placed",
+      "ordersOpen": "{count} open",
+      "technicalVisits": "Technical visits",
+      "followUps": "{count} with a follow-up date",
+      "recommendations": "Recommendations",
+      "recommendationsSub": "products recommended by your field rep"
+    },
+    "quickLinks": {
+      "placeOrder": {
+        "title": "Place a new order",
+        "desc": "Order against your own real veterinary product catalog."
+      },
+      "visits": {
+        "title": "Technical visits",
+        "desc": "Every field-rep visit made to your farm."
+      },
+      "recommendations": {
+        "title": "Recommendations",
+        "desc": "Treatment/feed products your field rep recommended."
+      },
+      "history": {
+        "title": "Service history",
+        "desc": "A unified timeline of your orders and visits."
+      }
+    },
+    "mostRecentOrder": "Most recent order"
+  },
+  "history": {
+    "title": "Service History",
+    "subtitle": "A unified timeline of {name}’s own real orders and technical visits — nothing else, never another farm’s.",
+    "empty": "No service history yet."
+  },
+  "orders": {
+    "title": "My Orders",
+    "subtitle": "Only Sales Orders belonging to {name} — never another farm’s.",
+    "placeNewOrder": "Place a new order",
+    "table": {
+      "order": "Order",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total"
+    },
+    "empty": "No orders yet."
+  },
+  "orderDetail": {
+    "summaryLine": "{date} · Delivery {deliveryDate} · Status {status}",
+    "table": {
+      "item": "Item",
+      "qty": "Qty",
+      "rate": "Rate",
+      "amount": "Amount"
+    },
+    "grandTotal": "Grand total",
+    "back": "← My Orders"
+  },
+  "recommendations": {
+    "title": "Treatment / Feed Recommendations",
+    "subtitle": "Real products your field rep recommended during a technical visit to {name}. A recommendation is a technical visit that named a specific product — not a separate fabricated record.",
+    "visitOn": "Visit on {date}",
+    "indicatedFor": "Indicated for: {species} · {indication} · Withdrawal period: {period}",
+    "empty": "No recommendations recorded yet."
+  },
+  "visits": {
+    "title": "Technical Visits",
+    "subtitle": "Every real field-rep visit made to {name} — never another farm’s.",
+    "visitOn": "Visit on {date}",
+    "by": "by {person}",
+    "productsDiscussedLabel": "Products discussed:",
+    "notesLabel": "Notes:",
+    "recommended": "Recommended: {item}",
+    "followUpDue": "Follow-up due {date}",
+    "empty": "No technical visits recorded yet."
+  },
+  "placeOrderForm": {
+    "noProduct": "No orderable product is available right now.",
+    "indicatedFor": "Indicated for: {species} · Withdrawal period: {period}",
+    "quantityLabel": "Quantity ({uom})",
+    "placing": "Placing order…",
+    "submit": "Place order",
+    "success": "Order {name} placed — total {total} VND."
+  },
+  "common": {
+    "daysUnit": "days",
+    "dash": "—"
+  },
+  "errors": {
+    "invalid_request": "Invalid request. Please try again.",
+    "missing_credentials": "Username and password are required.",
+    "invalid_credentials": "Invalid username or password.",
+    "backend_unreachable": "Could not reach the backend. Please try again.",
+    "not_provisioned": "This account is not a provisioned farm login.",
+    "server_error": "Something went wrong. Please try again.",
+    "not_logged_in": "You are not logged in.",
+    "invalid_quantity": "A valid quantity is required.",
+    "order_failed": "Could not place the order:",
+    "network": "Could not reach the portal. Please try again.",
+    "generic": "Something went wrong. Please try again."
+  }
+}

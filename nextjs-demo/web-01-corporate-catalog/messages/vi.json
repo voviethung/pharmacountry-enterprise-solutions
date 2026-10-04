@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "homeTitle": "WEB-01 — Demo Website Doanh nghiệp & Danh mục Sản phẩm",
+    "homeDescription": "Demo WEB-01 thuộc Enterprise Platform Phase 7 — website doanh nghiệp kết hợp danh mục sản phẩm cho một công ty phân phối demo, sử dụng dữ liệu demo trực tiếp được tạo và quản lý bởi hệ thống ERP kết nối, cung cấp qua API khách (guest-only) của Frappe.",
+    "catalogTitle": "Danh mục sản phẩm"
+  },
+  "layout": {
+    "fallbackCompanyName": "Trang doanh nghiệp (hệ thống tạm thời không khả dụng)"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "catalog": "Danh mục sản phẩm",
+    "backToHub": "← Về PharmaCountry.vn"
+  },
+  "footer": {
+    "tagline": "© {year} {companyName}. Trang doanh nghiệp demo — WEB-01 (Enterprise Platform Phase 7)."
+  },
+  "home": {
+    "distributorLabel": "Nhà phân phối",
+    "ctaViewCatalog": "Xem danh mục sản phẩm",
+    "featuredHeading": "Sản phẩm nổi bật",
+    "viewAll": "Xem tất cả →",
+    "stats": {
+      "productsInCatalog": "Sản phẩm trong danh mục",
+      "pricingCurrency": "Đơn vị tiền tệ",
+      "headquarteredIn": "Trụ sở tại"
+    }
+  },
+  "catalog": {
+    "title": "Danh mục sản phẩm",
+    "lead": "Dữ liệu sản phẩm theo thời gian thực, được cung cấp từ API danh mục công khai của hệ thống ERP.",
+    "empty": "Hiện chưa có sản phẩm nào được công bố."
+  },
+  "catalogItem": {
+    "back": "← Quay lại danh mục",
+    "productCode": "Mã sản phẩm",
+    "unit": "Đơn vị tính",
+    "notFoundTitle": "Không tìm thấy sản phẩm",
+    "priceOnRequest": "Giá liên hệ"
+  }
+}

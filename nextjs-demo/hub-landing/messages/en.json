@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "homeTitle": "PharmaCountry Enterprise Solutions — Multi-Industry ERP Technology",
+    "homeDescription": "PharmaCountry's enterprise software and technology division — real, working software for pharmaceutical manufacturing and beyond.",
+    "solutionsTitle": "Industries & Solutions — PharmaCountry Enterprise Solutions",
+    "solutionsDescription": "Every real industry solution built by PharmaCountry Enterprise Solutions, pulled live from our own solutions registry.",
+    "aboutTitle": "About — PharmaCountry Enterprise Solutions",
+    "aboutDescription": "What PharmaCountry Enterprise Solutions builds, and why.",
+    "contactTitle": "Contact — PharmaCountry Enterprise Solutions",
+    "contactDescription": "Get in touch with the PharmaCountry Enterprise Solutions team."
+  },
+  "brand": {
+    "name": "PharmaCountry",
+    "subBrand": "Enterprise Solutions"
+  },
+  "nav": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "solutionsFull": "Industries & Solutions",
+    "about": "About",
+    "contact": "Contact",
+    "switchToVi": "Tiếng Việt",
+    "switchToEn": "English"
+  },
+  "footer": {
+    "tagline": "Software for businesses in regulated manufacturing, distribution, retail chain operations, and farming.",
+    "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved."
+  },
+  "categories": {
+    "Pharmaceutical": "Pharmaceutical",
+    "Animal Feed": "Animal Feed",
+    "Aquaculture": "Aquaculture",
+    "Cosmetics": "Cosmetics",
+    "Medical Device": "Medical Device",
+    "Livestock": "Livestock",
+    "Nutraceutical": "Nutraceutical",
+    "Processing": "Processing",
+    "Veterinary": "Veterinary",
+    "Horizontal / Cross-Industry": "Horizontal / Cross-Industry"
+  },
+  "home": {
+    "eyebrow": "PharmaCountry Enterprise Solutions",
+    "title": "Software for businesses in regulated manufacturing, distribution, retail chain operations, and farming.",
+    "lead": "ERP, manufacturing, quality, laboratory, supply chain, and farm management — built as one connected, working system for pharmaceutical, healthcare, veterinary, animal feed, livestock, and aquaculture businesses. Every solution below is a real, running system today, not a mockup.",
+    "ctaSolutions": "Explore Industries & Solutions",
+    "ctaExploreDemos": "Explore Live Demos",
+    "ctaRequestDemo": "Request a Demo",
+    "ctaAbout": "About This Platform",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — enterprise technology across pharmaceutical and multi-industry manufacturing",
+    "stats": {
+      "industryPacks": "Industry Packs",
+      "goldenDemos": "Reference Implementations",
+      "capabilityEngines": "Shared Capability Engines",
+      "liveDemos": "Live Public Sites",
+      "unavailable": "Live platform statistics are temporarily unavailable — showing this page without them rather than failing to load."
+    },
+    "liveDemos": {
+      "heading": "Live Product Sites",
+      "description": "{count, plural, =0 {No dedicated sites are live yet.} other {# dedicated sites across our industries so far}}, built as real standalone applications against our own ERP data — most are publicly accessible; a dealer portal and a supplier portal require a real login, clearly marked below.",
+      "viewAll": "View all industries →",
+      "liveBadge": "Live",
+      "loginBadge": "Requires login",
+      "builtBadge": "Built · not yet publicly deployed",
+      "goTo": "Visit site →",
+      "empty": "Live demo data is temporarily unavailable."
+    },
+    "howBuilt": {
+      "heading": "How our platform is built",
+      "engines": {
+        "label": "Capability Engines",
+        "text": "15 shared capability engines (ERP core, CRM, procurement, WMS, manufacturing, QMS, DMS, LIMS, EAM, farm management, traceability, commerce, AI, HR, R&D) power every industry solution — built once, reused everywhere."
+      },
+      "packs": {
+        "label": "Industry Packs",
+        "text": "27 registered industry packs pair a real vertical — pharma, feed, livestock, aquaculture, cosmetics, medical devices, pharmacy, 3PL, and more — with the engines, roles, and data model it needs."
+      },
+      "demos": {
+        "label": "Reference Implementations",
+        "text": "Most industry packs already have a complete, verified reference implementation — real seeded data and end-to-end business flows explored directly in the system. Select industries also get a dedicated public website, like the ones above."
+      }
+    },
+    "aiAutomation": {
+    "heading": "AI & Automation",
+    "lead": "AI is one of our 15 shared capability engines. It's real, working architecture — not a slide — built directly into the modules below.",
+    "honesty": {
+      "heading": "How AI works in this environment",
+      "text": "Every capability below runs on real architecture: a provider-agnostic routing layer, fallback between models, tenant-level AI policy enforcement, a governed tool registry, permission-scoped data access, and a full audit log of every request — plus a mandatory human-approval step wherever a draft could become a real record. That routing layer is designed to call a real language-model provider of your choice in a production deployment — OpenAI, Anthropic Claude, Groq, or a private, self-hosted model. In this public demo specifically, the model response itself is simulated, so you can see exactly how permissions, approvals, and audit logging behave without live model calls or API keys in a public environment."
+    },
+    "humanApprovalBadge": "Human approval required",
+    "items": {
+      "executiveAssistant": {
+        "title": "Executive Assistant",
+        "text": "Ask plain questions about real operational data — overdue CAPAs, batches on hold, near-expiry inventory, farm FCR performance, revenue trends — and get an answer built from a fixed set of vetted, read-only data tools, with source citations. Results are automatically scoped to what the asking user is actually permitted to see."
+      },
+      "qmsCopilot": {
+        "title": "QMS Copilot",
+        "text": "Assists with deviation investigation and CAPA (Corrective and Preventive Action) drafting. Every AI-drafted suggestion is held as a draft and requires a human reviewer's explicit approval — including a rule against self-approval — before it becomes part of the real quality record."
+      },
+      "dmsCopilot": {
+        "title": "DMS Copilot",
+        "text": "Compares document revisions and searches controlled documents for relevant content, helping document-control teams find what changed and where an answer already exists."
+      },
+      "manufacturingInsight": {
+        "title": "Manufacturing Insight",
+        "text": "Analyzes real production and batch data to flag delivery delays and yield anomalies worth a closer look."
+      },
+      "procurementAssistant": {
+        "title": "Procurement Assistant",
+        "text": "Compares supplier quotations and summarizes supplier history to support a purchasing decision. It never auto-approves a supplier or a purchase — that decision always stays with a human."
+      },
+      "farmAssistant": {
+        "title": "Livestock & Aquaculture Assistant",
+        "text": "Analyzes feed conversion ratio (FCR), mortality, and pond/farm anomalies across livestock and shrimp/fish farm operations, built on the same real harvest and farm-management data used elsewhere on this platform."
+      },
+      "enterpriseSearch": {
+        "title": "Permission-Aware Enterprise Search",
+        "text": "A real document indexing and retrieval (RAG) pipeline — documents are chunked, indexed, and retrieved to answer questions — with every result scoped to what the requesting user is actually permitted to see, the same permission model enforced everywhere else on this platform."
+      }
+    },
+    "governanceNote": "All of this runs through the same shared backbone: a governed tool registry, tenant-level AI policy, fallback routing between models, full audit logging of every request, and a growing set of evaluation datasets used to test AI response quality over time.",
+    "cta": "Ask us about the AI architecture"
+    }
+  },
+  "solutions": {
+    "title": "Industries & Solutions",
+    "introWithCount": "{count} real, enabled industry packs, pulled live from our own industry pack registry — not a hardcoded list.",
+    "introLoading": "Loading our real industry pack registry.",
+    "loadError": "Live industry pack data is temporarily unavailable. Please try again shortly.",
+    "legend": {
+      "heading": "How to read these cards",
+      "live": "Live Demo — this industry also has its own dedicated public website (a real, standalone application), linked directly from the card.",
+      "erp": "ERP System Demo — a complete, verified reference implementation exists (real seeded master data and end-to-end business transactions), explored directly inside the system rather than through a public marketing site. A public website is only built for an industry when there is a genuine case for it — most industries are meant to be explored via the system itself.",
+      "planned": "Not Yet Built — this industry pack is registered in our configuration but doesn't have reference demo data built yet."
+    },
+    "badge": {
+      "live": "Live Demo",
+      "erp": "ERP System Demo",
+      "planned": "Not Yet Built"
+    },
+    "notDeployed": "{label} — not yet publicly deployed",
+    "requiresLogin": "Requires login",
+    "erpNote": "Explored via internal system login — not a public website in this environment.",
+    "languageNote": "Industry names and summaries below are sourced live from our own records and are currently authored in English only.",
+    "viewDetails": "Explore Solution",
+    "requestDemo": "Request Demo",
+    "filters": {
+      "heading": "Filter Solutions",
+      "industryLabel": "Industry",
+      "operationLabel": "Operation",
+      "softwareLabel": "Software",
+      "all": "All",
+      "clear": "Clear filters",
+      "resultsCount": "{count, plural, =0 {No solutions match these filters} =1 {Showing 1 solution} other {Showing # solutions}}",
+      "noResults": "No solutions match these filters. Try clearing one or more of them."
+    },
+    "operations": {
+      "manufacturing": "Manufacturing",
+      "quality": "Quality",
+      "laboratory": "Laboratory",
+      "documentControl": "Document Control",
+      "assetMaintenance": "Asset Maintenance",
+      "farm": "Farm",
+      "processing": "Processing",
+      "distribution": "Distribution",
+      "retail": "Retail",
+      "warehousing": "Warehousing",
+      "trading": "Trading"
+    },
+    "software": {
+      "erp": "ERP",
+      "qms": "QMS",
+      "dms": "DMS",
+      "lims": "LIMS",
+      "eamCmms": "EAM / CMMS",
+      "wms": "WMS",
+      "farmManagement": "Farm Management",
+      "crm": "CRM",
+      "pos": "POS"
+    }
+  },
+  "solutionDetail": {
+    "back": "← Back to Industries & Solutions",
+    "notFoundTitle": "Industry pack not found",
+    "notFoundBody": "We couldn't find that industry pack in our live registry. It may have been renamed or disabled.",
+    "goldenDemoLabel": "Reference implementation",
+    "companyLabel": "Demo company",
+    "provesHeading": "What this demo proves",
+    "provesIntro": "{count} real, documented test scenarios verified against this reference implementation, including:",
+    "unconfirmedFlag": "Documented in our master plan as intended scope; not separately confirmed as built for this specific demo",
+    "flowHeading": "Business flow",
+    "bugsHeading": "Real issues found while building this demo",
+    "bugsIntro": "Radical transparency: these are real engineering incidents from this demo's own build, not illustrative examples.",
+    "seedStepsHeading": "Real seed data steps",
+    "seedStepsIntro": "{count} real seed steps ran, in order, to build this reference demo's data:",
+    "seedTypeMasterData": "Master data",
+    "seedTypeTransaction": "Transaction",
+    "seedTypeDemoScenario": "Demo scenario",
+    "enginesHeading": "Capability engines this pack uses",
+    "enginesIntro": "Resolved live from this pack's registered Edition — the real shared engines wired up for it:",
+    "enginesUnavailable": "This pack doesn't yet have an Edition wired up in our registry, so we can't show a verified capability-engine list for it — rather than guess, we simply don't show one.",
+    "liveSiteHeading": "Live public site",
+    "liveSiteBody": "This industry also has its own dedicated public website — a real, standalone application, not a mockup.",
+    "notBuiltHeading": "Not yet built",
+    "erpExploreNote": "This reference implementation is explored via internal system login rather than a public website — everything below is real, verified detail about what it actually contains.",
+    "engineeringEvidenceHeading": "Engineering Evidence",
+    "engineeringEvidenceIntro": "For technical reviewers: the exact test IDs, seed data steps, and platform engines behind the claims above. Click to expand.",
+    "evidenceTestIdsIntro": "Every test ID and what it verifies:"
+  },
+  "about": {
+    "title": "About PharmaCountry Enterprise Solutions",
+    "heroImageAlt": "PharmaCountry Enterprise Solutions — our technology and team",
+    "p1": "PharmaCountry Enterprise Solutions builds real, working enterprise software on one shared technology foundation, serving multiple regulated manufacturing industries — pharmaceuticals, animal feed, livestock, aquaculture, cosmetics, medical devices, and more.",
+    "p2": "Our own proprietary technology is configured into real, working industry solutions — pharmaceutical manufacturing, quality and document management, laboratory information management, equipment and asset management, animal feed and premix manufacturing, livestock and aquaculture farm management, cosmetics and medical device manufacturing, pharmacy retail, cold-chain 3PL warehousing, and consumer product distribution, among others.",
+    "p3": "We build around three values: People, Partnerships, and Progress — for a healthier world. Every industry solution presented on our Solutions page is backed by a real, seeded dataset and verified end-to-end workflows, not mockups or placeholder screenshots.",
+    "p4": "In the interest of transparency: this technology showcase runs on realistic seed data created for demonstration purposes, not live customer transactions — company names, quantities, and figures shown throughout are illustrative. What is real is the software itself: every workflow, screen, and integration here is functioning, working code, built on the same technology foundation we use for real deployments.",
+    "vendorProfile": {
+      "companyHeading": "Company & Location",
+      "companyText": "PharmaCountry Enterprise Solutions is based in Vietnam, building and supporting enterprise software for pharmaceutical, healthcare, and adjacent regulated and process industries.",
+      "techHeading": "Technology",
+      "techText": "This platform runs on a modern, enterprise-grade technology foundation, with customer-facing web applications — including this site — built using current web application standards. Business data is stored in a real, production-grade relational database, and the entire stack is deployed using containerized infrastructure, the same architecture behind every industry solution shown on this site.",
+      "deploymentHeading": "Deployment Options",
+      "deploymentIntro": "For a real customer engagement, PharmaCountry Enterprise Solutions supports three deployment models — standard for modern enterprise software:",
+      "deploymentCloudLabel": "Cloud",
+      "deploymentCloudText": "Hosted and managed by us.",
+      "deploymentDedicatedLabel": "Dedicated",
+      "deploymentDedicatedText": "A private instance on infrastructure of your choice.",
+      "deploymentOnPremLabel": "On-Premise",
+      "deploymentOnPremText": "Deployed inside your own data center.",
+      "deploymentNote": "This showcase itself runs as one specific cloud deployment — the deployment model for a real customer is a choice made together with you.",
+      "methodologyHeading": "Implementation Approach",
+      "methodologyIntro": "A real implementation typically follows a standard, proven sequence. Exact scope and timeline are agreed with each customer based on their industry and complexity — nothing here is a fixed timeline or quote.",
+      "methodologySteps": {
+        "discovery": { "label": "Discovery & Scoping", "text": "Understand your processes, data, and requirements." },
+        "configuration": { "label": "Configuration", "text": "Configure the platform's real modules to match your business." },
+        "migration": { "label": "Data Migration", "text": "Bring your existing data into the new system." },
+        "training": { "label": "Training", "text": "Prepare your team to operate the system confidently." },
+        "goLive": { "label": "Go-Live", "text": "Launch on real, live business data." }
+      },
+      "supportHeading": "Support",
+      "supportText": "Support is part of every engagement, from initial configuration through day-to-day operation after go-live. As with scope and timeline, the specifics of a support plan are agreed per engagement rather than fixed in advance.",
+      "securityHeading": "Security & Data Isolation",
+      "securityText": "Security and per-account data isolation are core to how this platform is built, not an afterthought. Every industry solution runs on our own role-based permission system, and per-account data isolation has been built and empirically verified across multiple live portals on this platform: the Dealer, Supplier, and Farm portals each restrict a logged-in user to their own data using the platform's own permission-scoping mechanism — verified by confirming that two different portal logins genuinely see non-overlapping records, not just a status flag claiming so. In a real multi-tenant deployment, each customer's data is further isolated at the instance level."
+    },
+    "contactHeading": "Get in touch",
+    "contactText": "Have a question about a specific industry solution, or interested in what PharmaCountry Enterprise Solutions could build for your business? Reach out through our contact page.",
+    "contactLink": "Contact us"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Tell us about your business and what you're looking to build — a member of the PharmaCountry Enterprise Solutions team will get back to you.",
+    "labelName": "Full name",
+    "labelEmail": "Email address",
+    "labelCompany": "Company",
+    "labelMessage": "Message",
+    "placeholderMessage": "Tell us about your industry, your current systems, and what you'd like to solve.",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "success": "Thank you — your message has been received. Our team will get back to you soon.",
+    "errorGeneric": "Something went wrong sending your message. Please try again in a moment.",
+    "errorValidation": "Please fill in your name, a valid email, and a message.",
+    "companyOptional": "(optional)",
+    "companyInfo": {
+      "heading": "Contact Information",
+      "companyName": "PharmaCountry Enterprise Solutions",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone / Zalo",
+      "zaloLinkText": "Message on Zalo",
+      "locationLabel": "Location",
+      "locationValue": "22/14 Phan Van Hon, Quarter 7, Dong Hung Thuan Ward, Ho Chi Minh City",
+      "zaloQrLabel": "Scan on Zalo",
+      "zaloQrAlt": "PharmaCountry's Zalo QR code",
+      "zaloQrHint": "Scan with the Zalo app to connect or message us directly."
+    }
+  }
+}

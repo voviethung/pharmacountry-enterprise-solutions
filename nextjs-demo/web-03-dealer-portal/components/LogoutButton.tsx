@@ -1,0 +1,28 @@
+"use client";
+
+import { useRouter } from "@/i18n/navigation";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+
+export default function LogoutButton() {
+  const router = useRouter();
+  const t = useTranslations("portalHeader");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogout() {
+    setLoading(true);
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
+
+  return (
+    <button
+      onClick={handleLogout}
+      disabled={loading}
+      className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-50"
+    >
+      {loading ? t("signingOut") : t("logoutButton")}
+    </button>
+  );
+}

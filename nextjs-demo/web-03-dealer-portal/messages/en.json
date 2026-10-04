@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "title": "Dealer Portal — Demo Consumer Distribution Co.",
+    "description": "Enterprise Platform Phase 7 WEB-03 demo — an authenticated B2B dealer portal: real per-dealer pricing, stock, orders, invoices, debt and returns, backed by real Frappe session login and per-dealer permission scoping."
+  },
+  "login": {
+    "companyName": "Demo Consumer Distribution Co.",
+    "heading": "Dealer Portal",
+    "subtitle": "Sign in with your dealer account to see your own pricing, stock, orders, invoices, debt position and returns.",
+    "demoAccessLabel": "Demo Access",
+    "demoAccessIntro": "Try it now with real seeded demo accounts — no real business data at stake.",
+    "demoAccountAlphaLabel": "Demo Alpha (generous credit)",
+    "demoAccountBetaLabel": "Demo Beta (tight credit limit)",
+    "demoLoginButtonAlpha": "Log in as Demo Alpha",
+    "demoLoginButtonBeta": "Log in as Demo Beta",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "signInButton": "Sign in",
+    "signingIn": "Signing in…",
+    "footerNote": "This is a public demo platform — use the Demo Access credentials above to explore freely."
+  },
+  "errors": {
+    "invalid_credentials": "Invalid username or password.",
+    "invalid_request_body": "Invalid request. Please try again.",
+    "missing_credentials": "Email and password are required.",
+    "not_provisioned": "This account is not a provisioned dealer login.",
+    "server_error": "Something went wrong. Please try again.",
+    "not_logged_in": "You are not logged in.",
+    "validation_failed": "Please check your input and try again.",
+    "network": "Could not reach the portal. Please try again.",
+    "unknown": "Something went wrong. Please try again."
+  },
+  "portalHeader": {
+    "brandLabel": "Dealer Portal",
+    "navDashboard": "Dashboard",
+    "navCatalog": "Catalog & Stock",
+    "navOrders": "My Orders",
+    "navInvoices": "My Invoices",
+    "navDebt": "My Debt",
+    "navReturns": "Returns",
+    "logoutButton": "Sign out",
+    "signingOut": "Signing out…",
+    "backToHub": "← Back to PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "loggedInAs": "Logged in as {user}. Territory-scoped, dealer-scoped data only — never another dealer's.",
+    "statOutstandingBalance": "Outstanding balance",
+    "statAvailableCredit": "Available credit",
+    "statAvailableCreditSub": "of {limit} limit",
+    "statOpenOrders": "Open orders",
+    "statOpenOrdersSub": "{count} total",
+    "quickLinkCatalogTitle": "Browse catalog",
+    "quickLinkCatalogDesc": "Your own negotiated pricing and live stock.",
+    "quickLinkOrdersTitle": "Place a new order",
+    "quickLinkOrdersDesc": "Order against your own catalog and price list.",
+    "quickLinkInvoicesTitle": "My invoices",
+    "quickLinkInvoicesDesc": "{count} invoice(s) with an outstanding balance.",
+    "quickLinkReturnsTitle": "Returns",
+    "quickLinkReturnsDesc": "File a return against one of your own deliveries."
+  },
+  "catalog": {
+    "heading": "Catalog & Stock",
+    "subtitle": "Prices below are YOUR dealer price list ({priceList}) — not the public retail price.",
+    "thItem": "Item",
+    "thUom": "UOM",
+    "thPrice": "Your price",
+    "thStock": "Available stock"
+  },
+  "orders": {
+    "heading": "My Orders",
+    "subtitle": "Only Sales Orders belonging to {customerName} — never another dealer's.",
+    "placeNewOrderHeading": "Place a new order",
+    "thOrder": "Order",
+    "thDate": "Date",
+    "thStatus": "Status",
+    "thTotal": "Total",
+    "emptyOrders": "No orders yet.",
+    "addLine": "+ Add another item",
+    "removeLine": "Remove",
+    "placeOrderButton": "Place order",
+    "placingOrder": "Placing order…",
+    "successMessage": "Order {name} placed — total {total} VND."
+  },
+  "orderDetail": {
+    "metaLine": "{date} · Delivery {deliveryDate} · Status {status}",
+    "thItem": "Item",
+    "thQty": "Qty",
+    "thRate": "Rate",
+    "thAmount": "Amount",
+    "grandTotal": "Grand total",
+    "back": "← My Orders"
+  },
+  "invoices": {
+    "heading": "My Invoices",
+    "subtitle": "Only Sales Invoices belonging to {customerName} — never another dealer's.",
+    "thInvoice": "Invoice",
+    "thDate": "Date",
+    "thDue": "Due",
+    "thTotal": "Total",
+    "thOutstanding": "Outstanding",
+    "thStatus": "Status",
+    "emptyInvoices": "No invoices yet."
+  },
+  "debt": {
+    "heading": "My Debt / Credit Position",
+    "subtitle": "Real outstanding receivable balance and credit limit for {customerName} only.",
+    "cardOutstanding": "Outstanding balance",
+    "cardCreditLimit": "Credit limit",
+    "cardNoLimit": "No limit set",
+    "cardAvailableCredit": "Available credit",
+    "utilizationLabel": "Credit utilization: {percent}%"
+  },
+  "returns": {
+    "heading": "Returns",
+    "subtitle": "Only your own deliveries can be selected below — the backend re-checks this server-side.",
+    "fileNewReturnHeading": "File a new return",
+    "thReturn": "Return",
+    "thAgainstDelivery": "Against delivery",
+    "thDate": "Date",
+    "thAmount": "Amount",
+    "emptyReturns": "No returns filed yet.",
+    "noDeliveries": "No deliveries available to return yet.",
+    "fileReturnButton": "File return",
+    "filingReturn": "Filing return…",
+    "successMessage": "Return {name} filed.",
+    "quantityAriaLabel": "Quantity to return"
+  }
+}

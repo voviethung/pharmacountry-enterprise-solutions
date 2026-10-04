@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "title": "Cổng Đại Lý — Demo Consumer Distribution Co.",
+    "description": "Demo Enterprise Platform Phase 7 WEB-03 — cổng thông tin đại lý B2B có xác thực thực tế: giá riêng theo từng đại lý, tồn kho, đơn hàng, hóa đơn, công nợ và trả hàng, dựa trên đăng nhập session Frappe thực tế và phân quyền theo từng đại lý."
+  },
+  "login": {
+    "companyName": "Demo Consumer Distribution Co.",
+    "heading": "Cổng Đại Lý",
+    "subtitle": "Đăng nhập bằng tài khoản đại lý của bạn để xem giá, tồn kho, đơn hàng, hóa đơn, công nợ và trả hàng của riêng bạn.",
+    "demoAccessLabel": "Truy cập Demo",
+    "demoAccessIntro": "Trải nghiệm ngay với các tài khoản demo thực tế đã được khởi tạo — không ảnh hưởng đến dữ liệu kinh doanh thực.",
+    "demoAccountAlphaLabel": "Demo Alpha (hạn mức tín dụng rộng)",
+    "demoAccountBetaLabel": "Demo Beta (hạn mức tín dụng chặt)",
+    "demoLoginButtonAlpha": "Đăng nhập bằng Demo Alpha",
+    "demoLoginButtonBeta": "Đăng nhập bằng Demo Beta",
+    "emailLabel": "Email",
+    "passwordLabel": "Mật khẩu",
+    "signInButton": "Đăng nhập",
+    "signingIn": "Đang đăng nhập…",
+    "footerNote": "Đây là nền tảng demo công khai — hãy dùng thông tin Truy cập Demo ở trên để khám phá tự do."
+  },
+  "errors": {
+    "invalid_credentials": "Email hoặc mật khẩu không đúng.",
+    "invalid_request_body": "Yêu cầu không hợp lệ. Vui lòng thử lại.",
+    "missing_credentials": "Vui lòng nhập email và mật khẩu.",
+    "not_provisioned": "Tài khoản này chưa được cấp quyền đại lý.",
+    "server_error": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+    "not_logged_in": "Bạn chưa đăng nhập.",
+    "validation_failed": "Vui lòng kiểm tra lại thông tin và thử lại.",
+    "network": "Không thể kết nối đến cổng thông tin. Vui lòng thử lại.",
+    "unknown": "Đã có lỗi xảy ra. Vui lòng thử lại."
+  },
+  "portalHeader": {
+    "brandLabel": "Cổng Đại Lý",
+    "navDashboard": "Tổng quan",
+    "navCatalog": "Danh mục & Tồn kho",
+    "navOrders": "Đơn hàng của tôi",
+    "navInvoices": "Hóa đơn của tôi",
+    "navDebt": "Công nợ của tôi",
+    "navReturns": "Trả hàng",
+    "logoutButton": "Đăng xuất",
+    "signingOut": "Đang đăng xuất…",
+    "backToHub": "← Về PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Chào mừng trở lại, {name}",
+    "loggedInAs": "Đang đăng nhập với {user}. Dữ liệu chỉ giới hạn theo khu vực và đại lý của bạn — không bao giờ gồm dữ liệu của đại lý khác.",
+    "statOutstandingBalance": "Số dư công nợ",
+    "statAvailableCredit": "Hạn mức tín dụng còn lại",
+    "statAvailableCreditSub": "trong hạn mức {limit}",
+    "statOpenOrders": "Đơn hàng đang mở",
+    "statOpenOrdersSub": "{count} tổng cộng",
+    "quickLinkCatalogTitle": "Xem danh mục",
+    "quickLinkCatalogDesc": "Giá đã thỏa thuận riêng và tồn kho thực tế của bạn.",
+    "quickLinkOrdersTitle": "Đặt đơn hàng mới",
+    "quickLinkOrdersDesc": "Đặt hàng theo danh mục và bảng giá riêng của bạn.",
+    "quickLinkInvoicesTitle": "Hóa đơn của tôi",
+    "quickLinkInvoicesDesc": "{count} hóa đơn còn công nợ.",
+    "quickLinkReturnsTitle": "Trả hàng",
+    "quickLinkReturnsDesc": "Tạo yêu cầu trả hàng cho một phiếu giao hàng của bạn."
+  },
+  "catalog": {
+    "heading": "Danh mục & Tồn kho",
+    "subtitle": "Giá dưới đây là bảng giá đại lý RIÊNG của bạn ({priceList}) — không phải giá bán lẻ công khai.",
+    "thItem": "Mặt hàng",
+    "thUom": "ĐVT",
+    "thPrice": "Giá của bạn",
+    "thStock": "Tồn kho khả dụng"
+  },
+  "orders": {
+    "heading": "Đơn hàng của tôi",
+    "subtitle": "Chỉ hiển thị đơn hàng của {customerName} — không bao giờ gồm đơn hàng của đại lý khác.",
+    "placeNewOrderHeading": "Đặt đơn hàng mới",
+    "thOrder": "Đơn hàng",
+    "thDate": "Ngày",
+    "thStatus": "Trạng thái",
+    "thTotal": "Tổng tiền",
+    "emptyOrders": "Chưa có đơn hàng nào.",
+    "addLine": "+ Thêm mặt hàng khác",
+    "removeLine": "Xóa",
+    "placeOrderButton": "Đặt hàng",
+    "placingOrder": "Đang đặt hàng…",
+    "successMessage": "Đã đặt đơn hàng {name} — tổng {total} VND."
+  },
+  "orderDetail": {
+    "metaLine": "{date} · Giao hàng {deliveryDate} · Trạng thái {status}",
+    "thItem": "Mặt hàng",
+    "thQty": "SL",
+    "thRate": "Đơn giá",
+    "thAmount": "Thành tiền",
+    "grandTotal": "Tổng cộng",
+    "back": "← Đơn hàng của tôi"
+  },
+  "invoices": {
+    "heading": "Hóa đơn của tôi",
+    "subtitle": "Chỉ hiển thị hóa đơn của {customerName} — không bao giờ gồm hóa đơn của đại lý khác.",
+    "thInvoice": "Hóa đơn",
+    "thDate": "Ngày",
+    "thDue": "Hạn thanh toán",
+    "thTotal": "Tổng tiền",
+    "thOutstanding": "Còn nợ",
+    "thStatus": "Trạng thái",
+    "emptyInvoices": "Chưa có hóa đơn nào."
+  },
+  "debt": {
+    "heading": "Công nợ / Hạn mức tín dụng của tôi",
+    "subtitle": "Số dư công nợ thực tế và hạn mức tín dụng chỉ dành riêng cho {customerName}.",
+    "cardOutstanding": "Số dư công nợ",
+    "cardCreditLimit": "Hạn mức tín dụng",
+    "cardNoLimit": "Chưa đặt hạn mức",
+    "cardAvailableCredit": "Hạn mức còn lại",
+    "utilizationLabel": "Mức sử dụng hạn mức: {percent}%"
+  },
+  "returns": {
+    "heading": "Trả hàng",
+    "subtitle": "Chỉ các phiếu giao hàng của bạn mới có thể được chọn dưới đây — hệ thống sẽ kiểm tra lại điều này ở phía backend.",
+    "fileNewReturnHeading": "Tạo yêu cầu trả hàng mới",
+    "thReturn": "Trả hàng",
+    "thAgainstDelivery": "Theo phiếu giao",
+    "thDate": "Ngày",
+    "thAmount": "Số tiền",
+    "emptyReturns": "Chưa có yêu cầu trả hàng nào.",
+    "noDeliveries": "Chưa có phiếu giao hàng nào để trả.",
+    "fileReturnButton": "Gửi yêu cầu trả hàng",
+    "filingReturn": "Đang gửi yêu cầu…",
+    "successMessage": "Đã gửi yêu cầu trả hàng {name}.",
+    "quantityAriaLabel": "Số lượng cần trả"
+  }
+}

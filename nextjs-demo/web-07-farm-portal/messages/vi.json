@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "Cổng Thông Tin Nông Trại — Demo Vet Pharma Co.",
+    "description": "Demo Enterprise Platform Phase 7 WEB-07 — cổng thông tin dành riêng cho khách hàng nông trại / dịch vụ kỹ thuật, có đăng nhập: xem đơn hàng, lịch thăm kỹ thuật, khuyến nghị điều trị/thức ăn và lịch sử dịch vụ của chính nông trại mình, dựa trên đăng nhập session thật của Frappe và phân quyền theo từng nông trại."
+  },
+  "login": {
+    "heading": "Cổng Khách Hàng Nông Trại",
+    "subheading": "Đăng nhập bằng tài khoản nông trại của bạn để xem đơn hàng, lịch thăm kỹ thuật, khuyến nghị điều trị/thức ăn và lịch sử dịch vụ của chính nông trại mình.",
+    "demoAccessLabel": "Truy Cập Demo",
+    "demoAccessDesc": "Trải nghiệm ngay với tài khoản demo có sẵn — không ảnh hưởng đến dữ liệu kinh doanh thật.",
+    "demoAccounts": {
+      "alpha": "Demo Alpha (trại bò, hạn mức tín dụng rộng)",
+      "beta": "Demo Beta (trại heo, hạn mức tín dụng hẹp)"
+    },
+    "loginAsDemo": "Đăng nhập với Demo {name}",
+    "emailLabel": "Email",
+    "passwordLabel": "Mật khẩu",
+    "signIn": "Đăng nhập",
+    "signingIn": "Đang đăng nhập…",
+    "footerNote": "Đây là nền tảng demo công khai — hãy dùng thông tin Truy Cập Demo ở trên để trải nghiệm tự do."
+  },
+  "portalHeader": {
+    "tag": "Cổng Nông Trại",
+    "nav": {
+      "dashboard": "Tổng quan",
+      "orders": "Đơn hàng của tôi",
+      "visits": "Lịch thăm kỹ thuật",
+      "recommendations": "Khuyến nghị",
+      "history": "Lịch sử dịch vụ"
+    },
+    "signOut": "Đăng xuất",
+    "signingOut": "Đang đăng xuất…",
+    "backToHub": "← Về PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Chào mừng trở lại, {name}",
+    "loggedInAs": "Đang đăng nhập với {user}. Chỉ hiển thị dữ liệu của nông trại này — không bao giờ của nông trại khác.",
+    "stats": {
+      "ordersPlaced": "Đơn hàng đã đặt",
+      "ordersOpen": "{count} đang xử lý",
+      "technicalVisits": "Lịch thăm kỹ thuật",
+      "followUps": "{count} có ngày tái khám",
+      "recommendations": "Khuyến nghị",
+      "recommendationsSub": "sản phẩm được nhân viên kỹ thuật khuyến nghị"
+    },
+    "quickLinks": {
+      "placeOrder": {
+        "title": "Đặt đơn hàng mới",
+        "desc": "Đặt hàng theo danh mục sản phẩm thú y thật của nông trại bạn."
+      },
+      "visits": {
+        "title": "Lịch thăm kỹ thuật",
+        "desc": "Mọi lượt thăm của nhân viên kỹ thuật đến nông trại bạn."
+      },
+      "recommendations": {
+        "title": "Khuyến nghị",
+        "desc": "Sản phẩm điều trị/thức ăn được nhân viên kỹ thuật khuyến nghị."
+      },
+      "history": {
+        "title": "Lịch sử dịch vụ",
+        "desc": "Dòng thời gian hợp nhất gồm đơn hàng và lượt thăm của bạn."
+      }
+    },
+    "mostRecentOrder": "Đơn hàng gần nhất"
+  },
+  "history": {
+    "title": "Lịch Sử Dịch Vụ",
+    "subtitle": "Dòng thời gian hợp nhất các đơn hàng và lượt thăm kỹ thuật thật của {name} — không gì khác, không bao giờ của nông trại khác.",
+    "empty": "Chưa có lịch sử dịch vụ nào."
+  },
+  "orders": {
+    "title": "Đơn Hàng Của Tôi",
+    "subtitle": "Chỉ hiển thị Đơn Đặt Hàng thuộc {name} — không bao giờ của nông trại khác.",
+    "placeNewOrder": "Đặt đơn hàng mới",
+    "table": {
+      "order": "Đơn hàng",
+      "date": "Ngày",
+      "status": "Trạng thái",
+      "total": "Tổng tiền"
+    },
+    "empty": "Chưa có đơn hàng nào."
+  },
+  "orderDetail": {
+    "summaryLine": "{date} · Giao hàng {deliveryDate} · Trạng thái {status}",
+    "table": {
+      "item": "Sản phẩm",
+      "qty": "SL",
+      "rate": "Đơn giá",
+      "amount": "Thành tiền"
+    },
+    "grandTotal": "Tổng cộng",
+    "back": "← Đơn Hàng Của Tôi"
+  },
+  "recommendations": {
+    "title": "Khuyến Nghị Điều Trị / Thức Ăn",
+    "subtitle": "Sản phẩm thật được nhân viên kỹ thuật khuyến nghị trong lượt thăm tại {name}. Một khuyến nghị là một lượt thăm kỹ thuật có chỉ định sản phẩm cụ thể — không phải một bản ghi riêng được tạo thêm.",
+    "visitOn": "Lượt thăm ngày {date}",
+    "indicatedFor": "Dùng cho: {species} · {indication} · Thời gian ngừng thuốc: {period}",
+    "empty": "Chưa có khuyến nghị nào được ghi nhận."
+  },
+  "visits": {
+    "title": "Lịch Thăm Kỹ Thuật",
+    "subtitle": "Mọi lượt thăm thật của nhân viên kỹ thuật tại {name} — không bao giờ của nông trại khác.",
+    "visitOn": "Lượt thăm ngày {date}",
+    "by": "bởi {person}",
+    "productsDiscussedLabel": "Sản phẩm đã trao đổi:",
+    "notesLabel": "Ghi chú:",
+    "recommended": "Khuyến nghị: {item}",
+    "followUpDue": "Cần tái khám vào {date}",
+    "empty": "Chưa có lượt thăm kỹ thuật nào được ghi nhận."
+  },
+  "placeOrderForm": {
+    "noProduct": "Hiện chưa có sản phẩm nào có thể đặt hàng.",
+    "indicatedFor": "Dùng cho: {species} · Thời gian ngừng thuốc: {period}",
+    "quantityLabel": "Số lượng ({uom})",
+    "placing": "Đang đặt hàng…",
+    "submit": "Đặt hàng",
+    "success": "Đã đặt đơn hàng {name} — tổng cộng {total} VND."
+  },
+  "common": {
+    "daysUnit": "ngày",
+    "dash": "—"
+  },
+  "errors": {
+    "invalid_request": "Yêu cầu không hợp lệ. Vui lòng thử lại.",
+    "missing_credentials": "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.",
+    "invalid_credentials": "Tên đăng nhập hoặc mật khẩu không đúng.",
+    "backend_unreachable": "Không thể kết nối đến hệ thống. Vui lòng thử lại.",
+    "not_provisioned": "Tài khoản này chưa được cấp quyền truy cập cổng nông trại.",
+    "server_error": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+    "not_logged_in": "Bạn chưa đăng nhập.",
+    "invalid_quantity": "Vui lòng nhập số lượng hợp lệ.",
+    "order_failed": "Không thể đặt hàng:",
+    "network": "Không thể kết nối đến cổng thông tin. Vui lòng thử lại.",
+    "generic": "Đã có lỗi xảy ra. Vui lòng thử lại."
+  }
+}

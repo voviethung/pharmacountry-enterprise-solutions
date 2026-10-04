@@ -1,0 +1,200 @@
+{
+  "meta": {
+    "title": "Supplier Portal — Demo Ingredient Trading Co.",
+    "description": "Enterprise Platform Phase 7 WEB-04 demo — an authenticated Supplier/RFQ portal: real per-supplier RFQs, quotations, purchase orders, deliveries, documents and qualification status, backed by real Frappe session login and per-supplier permission scoping."
+  },
+  "login": {
+    "companyEyebrow": "Demo Ingredient Trading Co.",
+    "heading": "Supplier Portal",
+    "subhead": "Sign in with your supplier account to see your own RFQs, quotations, purchase orders, deliveries, documents and qualification status.",
+    "footerNote": "This is a public demo platform — use the Demo Access credentials above to explore freely.",
+    "demoBox": {
+      "heading": "Demo Access",
+      "description": "Try it now with real seeded demo accounts — no real business data at stake.",
+      "loginAsCargill": "Log in as Cargill",
+      "loginAsNutreco": "Log in as Nutreco"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "signIn": "Sign in",
+    "signingIn": "Signing in…"
+  },
+  "errors": {
+    "invalid_credentials": "Invalid username or password.",
+    "not_provisioned": "This account is not a provisioned supplier login.",
+    "server_error": "Login failed. Please try again.",
+    "invalid_request": "Please fill in all required fields and try again.",
+    "not_logged_in": "You've been signed out. Please sign in again.",
+    "network": "Could not reach the portal. Please try again.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "portalHeader": {
+    "label": "Supplier Portal",
+    "nav": {
+      "dashboard": "Dashboard",
+      "rfqs": "My RFQs",
+      "quotations": "My Quotations",
+      "purchaseOrders": "My Purchase Orders",
+      "deliveries": "My Deliveries",
+      "qualification": "Qualification",
+      "documents": "Documents"
+    },
+    "signOut": "Sign out",
+    "signingOut": "Signing out…",
+    "backToHub": "← Back to PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "loggedInAs": "Logged in as {user}. Supplier-scoped data only — never another supplier's.",
+    "stats": {
+      "rfqInvitations": "RFQ invitations",
+      "awaitingResponse": "{count} awaiting your response",
+      "quotationsSubmitted": "Quotations submitted",
+      "purchaseOrders": "Purchase orders",
+      "open": "{count} open",
+      "qualificationStatus": "Qualification status",
+      "criticalSupplier": "Critical supplier"
+    },
+    "quickLinks": {
+      "rfqs": {
+        "title": "My RFQs",
+        "desc": "RFQs you've been invited to respond to."
+      },
+      "quotations": {
+        "title": "My Quotations",
+        "desc": "Every quotation you've submitted, RFQ-linked or not."
+      },
+      "purchaseOrders": {
+        "title": "My Purchase Orders",
+        "desc": "Purchase Orders issued to you."
+      },
+      "deliveries": {
+        "title": "My Deliveries",
+        "desc": "Your shipment/delivery and QC status."
+      }
+    }
+  },
+  "deliveries": {
+    "heading": "My Deliveries",
+    "subhead": "Only Purchase Receipts (delivery/shipment records) for {supplierName} — never another supplier's — with each shipment's own real Quality Inspection result.",
+    "table": {
+      "receipt": "Receipt",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total",
+      "qualityInspection": "Quality Inspection"
+    },
+    "empty": "No deliveries yet."
+  },
+  "documents": {
+    "heading": "Documents",
+    "subhead": "Real document references tied to {supplierName}'s own relationship — RFQ invitations, quotations, purchase orders, delivery receipts and quality inspection certificates. Not a document-management system (see this platform's DMS demo for that) — every row here links to a real transactional record this supplier already owns.",
+    "table": {
+      "type": "Type",
+      "reference": "Reference",
+      "date": "Date"
+    },
+    "empty": "No documents yet."
+  },
+  "purchaseOrders": {
+    "heading": "My Purchase Orders",
+    "subhead": "Only Purchase Orders issued to {supplierName} — never another supplier's.",
+    "table": {
+      "purchaseOrder": "Purchase Order",
+      "date": "Date",
+      "scheduleDate": "Schedule date",
+      "status": "Status",
+      "total": "Total"
+    },
+    "empty": "No purchase orders yet.",
+    "detail": {
+      "meta": "{date} · Schedule {scheduleDate} · Status {status}",
+      "grandTotal": "Grand total",
+      "table": {
+        "item": "Item",
+        "qtyOrdered": "Qty ordered",
+        "qtyReceived": "Qty received",
+        "rate": "Rate",
+        "amount": "Amount"
+      },
+      "back": "← My Purchase Orders"
+    }
+  },
+  "qualification": {
+    "heading": "Qualification Status",
+    "subhead": "{supplierName}'s own quality status only — never another supplier's.",
+    "stats": {
+      "qualityStatus": "Quality status",
+      "criticalSupplier": "Critical supplier",
+      "yes": "Yes",
+      "no": "No",
+      "qcPassRate": "QC pass rate",
+      "inspectionsAccepted": "{accepted} of {total} inspections accepted"
+    },
+    "note": "Quality status and critical-supplier flag are set through this platform's internal AI-assisted procurement review workflow (a human always reviews and approves any change — this portal only displays your own current, already-decided status; it cannot change it)."
+  },
+  "quotations": {
+    "heading": "My Quotations",
+    "subhead": "Only Supplier Quotations belonging to {supplierName} — never another supplier's. Includes quotations submitted with or without an inviting RFQ.",
+    "table": {
+      "quotation": "Quotation",
+      "date": "Date",
+      "validTill": "Valid till",
+      "status": "Status",
+      "total": "Total"
+    },
+    "empty": "No quotations yet.",
+    "detail": {
+      "meta": "{date} · Valid till {validTill} · Status {status}",
+      "incoterm": " · Incoterm {incoterm}",
+      "grandTotal": "Grand total",
+      "days": "days",
+      "table": {
+        "item": "Item",
+        "qty": "Qty",
+        "rate": "Rate",
+        "amount": "Amount",
+        "leadTime": "Lead time",
+        "rfq": "RFQ"
+      },
+      "back": "← My Quotations"
+    }
+  },
+  "rfqs": {
+    "heading": "My RFQs",
+    "subhead": "Only Request for Quotations inviting {supplierName} — never another supplier's. Every RFQ on this platform names exactly one supplier, by design (see this app's README).",
+    "table": {
+      "rfq": "RFQ",
+      "date": "Date",
+      "scheduleDate": "Schedule date",
+      "yourStatus": "Your response status"
+    },
+    "empty": "No RFQ invitations yet.",
+    "detail": {
+      "meta": "{title} · {date} · Schedule {scheduleDate} · Your status {status}",
+      "submitHeading": "Submit your quotation",
+      "alreadyResponded": "You've already responded to this RFQ — see My Quotations for your submission.",
+      "table": {
+        "item": "Item",
+        "qty": "Qty",
+        "uom": "UOM",
+        "requestedDelivery": "Requested delivery"
+      },
+      "back": "← My RFQs"
+    }
+  },
+  "quotationForm": {
+    "rate": "Rate (per unit)",
+    "currency": "Currency",
+    "conversionRate": "Conversion rate",
+    "incoterm": "Incoterm",
+    "leadTimeDays": "Lead time (days)",
+    "validDays": "Valid for (days)",
+    "terms": "Payment terms / notes",
+    "submit": "Submit quotation",
+    "submitting": "Submitting…",
+    "success": "Quotation {name} submitted."
+  }
+}

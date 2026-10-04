@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "homeTitle": "Demo Supplement Co. — Vitamin C Effervescent Tablets",
+    "homeDescription": "Enterprise Platform Phase 7 WEB-02 demo — a consumer brand site for a demo supplement manufacturer, telling the brand's own story with live demo formula and lab-verification data generated and managed by the connected ERP system, served from a guest-only Frappe API.",
+    "ourStoryTitle": "Our Story",
+    "productTitle": "Our Product",
+    "productsTitle": "Our Products",
+    "whereToBuyTitle": "Where to Buy"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Our Products",
+    "ourStory": "Our Story",
+    "whereToBuy": "Where to Buy",
+    "backToHub": "← Back to PharmaCountry.vn"
+  },
+  "footer": {
+    "tagline": "Demo brand site — WEB-02 (Enterprise Platform Phase 7)."
+  },
+  "home": {
+    "ctaMeetProduct": "Meet Our Product",
+    "ctaOurStory": "Our Story",
+    "ourFlagshipLabel": "Our Flagship",
+    "seeFullFormula": "See the full formula & lab results →",
+    "quality": {
+      "eyebrow": "Quality You Can Verify",
+      "heading": "Every batch is lab-tested before it ships",
+      "body": "Our most recent batch was independently verified in-house on {verifiedOn}, tested at {testedValue} {unit} of Vitamin C per tablet — well within our published guarantee of {minValue}–{maxValue} {unit}."
+    },
+    "findNearYou": {
+      "heading": "Find {productName} near you",
+      "body": "Sold through a nationwide network of pharmacies and health retailers."
+    }
+  },
+  "ourStory": {
+    "title": "Our Story",
+    "formulation": {
+      "heading": "Our formulation philosophy",
+      "before": "We keep our formula short and legible: six ingredients, each doing one clear job — a real active ingredient, a fizz reaction, a gentle sweetener, and a natural-style flavor. Nothing is added to the formula that isn't on the label, and nothing on the label is rounded up or hidden. The full ingredient breakdown, with real proportions pulled from our own manufacturing formula, is on our ",
+      "linkText": "product page"
+    },
+    "madeIn": {
+      "heading": "Made in {country}",
+      "before": "{companyName} formulates and manufactures every batch in-house, with our own in-house lab testing every release against a published potency specification before it's cleared to ship — see the real, latest verified result on our ",
+      "linkText": "product page"
+    }
+  },
+  "product": {
+    "whyPeopleTakeIt": "Why people take it",
+    "allergen": {
+      "label": "Allergen notice:",
+      "flagship": "this formula contains soy lecithin (see the full ingredient breakdown below) — flagged here clearly, not buried in fine print.",
+      "generic": "this formula contains an allergen ingredient — see the full ingredient breakdown below for exactly which one, flagged here clearly, not buried in fine print."
+    },
+    "publishedFormula": {
+      "heading": "Our published formula",
+      "desc": "Every ingredient below, and its real proportion of the formula by weight, is drawn live from our own manufacturing system's current, active production formula — not a marketing approximation."
+    },
+    "labVerified": {
+      "heading": "Lab-verified quality",
+      "desc": "We publish our internal potency specification and the real, verified result from our most recently released batch's Certificate of Analysis."
+    },
+    "specRangeLabel": "Published specification range",
+    "latestResultLabel": "Latest verified result",
+    "verifiedOn": "Verified {date}",
+    "verifiedLabel": "Verified",
+    "productCodeLabel": "Product Code",
+    "shelfLifeLabel": "Shelf Life",
+    "daysSuffix": "{count} days"
+  },
+  "products": {
+    "eyebrow": "Our Range",
+    "title": "Our Products",
+    "intro": "Every product below is formulated, manufactured, and lab-tested end-to-end by {companyName} — the same real formula and real quality-testing data shown on WEB-01's distributor catalog, told here from the brand's own point of view.",
+    "seeFormula": "See formula & lab results →"
+  },
+  "whereToBuy": {
+    "title": "Where to Buy {productName}",
+    "intro": "{productName} is sold through a nationwide network of pharmacies and health retailers across {country} — we manufacture it, and a network of distribution partners gets it onto shelves near you.",
+    "pharmacy": {
+      "heading": "Pharmacy Chains",
+      "body": "Available at major pharmacy chains nationwide. Ask your local pharmacist if {productName} is in stock, or if they can order it in."
+    },
+    "retail": {
+      "heading": "Health & Wellness Retailers",
+      "body": "Carried by independent health-food and wellness retailers as part of our everyday immune-support range."
+    },
+    "note": {
+      "label": "Note on this demo:",
+      "part1": "this page is illustrative brand copy — it does not link to a real store locator or e-commerce checkout. This platform separately includes a real distributor-facing site (",
+      "strong": "WEB-01, “Corporate + Product Catalog”",
+      "part2": ") that lists this same product with a live selling price generated and managed by the connected ERP system; this brand site deliberately does not duplicate that price-list experience, and the two are not integrated with each other for this demo stage."
+    }
+  }
+}

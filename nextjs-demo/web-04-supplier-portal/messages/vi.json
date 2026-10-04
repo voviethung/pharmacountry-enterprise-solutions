@@ -1,0 +1,200 @@
+{
+  "meta": {
+    "title": "Cổng thông tin Nhà cung cấp — Demo Ingredient Trading Co.",
+    "description": "Demo WEB-04 thuộc Giai đoạn 7 của Enterprise Platform — cổng thông tin Nhà cung cấp/RFQ có xác thực thực sự: RFQ, báo giá, đơn đặt hàng, giao hàng, tài liệu và tình trạng đánh giá năng lực theo từng nhà cung cấp, được bảo vệ bằng đăng nhập session thật của Frappe và phân quyền theo từng nhà cung cấp."
+  },
+  "login": {
+    "companyEyebrow": "Demo Ingredient Trading Co.",
+    "heading": "Cổng thông tin Nhà cung cấp",
+    "subhead": "Đăng nhập bằng tài khoản nhà cung cấp của bạn để xem RFQ, báo giá, đơn đặt hàng, giao hàng, tài liệu và tình trạng đánh giá năng lực của chính bạn.",
+    "footerNote": "Đây là nền tảng demo công khai — hãy dùng thông tin Truy cập dùng thử ở trên để trải nghiệm tự do.",
+    "demoBox": {
+      "heading": "Truy cập dùng thử",
+      "description": "Trải nghiệm ngay với các tài khoản dùng thử đã được tạo sẵn — không ảnh hưởng đến dữ liệu kinh doanh thật.",
+      "loginAsCargill": "Đăng nhập với tài khoản Cargill",
+      "loginAsNutreco": "Đăng nhập với tài khoản Nutreco"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Mật khẩu"
+    },
+    "signIn": "Đăng nhập",
+    "signingIn": "Đang đăng nhập…"
+  },
+  "errors": {
+    "invalid_credentials": "Tên đăng nhập hoặc mật khẩu không đúng.",
+    "not_provisioned": "Tài khoản này chưa được cấp quyền đăng nhập nhà cung cấp.",
+    "server_error": "Đăng nhập không thành công. Vui lòng thử lại.",
+    "invalid_request": "Vui lòng điền đầy đủ các trường bắt buộc rồi thử lại.",
+    "not_logged_in": "Bạn đã bị đăng xuất. Vui lòng đăng nhập lại.",
+    "network": "Không thể kết nối đến cổng thông tin. Vui lòng thử lại.",
+    "generic": "Đã có lỗi xảy ra. Vui lòng thử lại."
+  },
+  "portalHeader": {
+    "label": "Cổng thông tin Nhà cung cấp",
+    "nav": {
+      "dashboard": "Tổng quan",
+      "rfqs": "RFQ của tôi",
+      "quotations": "Báo giá của tôi",
+      "purchaseOrders": "Đơn đặt hàng của tôi",
+      "deliveries": "Giao hàng của tôi",
+      "qualification": "Đánh giá năng lực",
+      "documents": "Tài liệu"
+    },
+    "signOut": "Đăng xuất",
+    "signingOut": "Đang đăng xuất…",
+    "backToHub": "← Về PharmaCountry.vn"
+  },
+  "dashboard": {
+    "welcome": "Chào mừng trở lại, {name}",
+    "loggedInAs": "Đang đăng nhập với {user}. Chỉ hiển thị dữ liệu của riêng nhà cung cấp này — không bao giờ của nhà cung cấp khác.",
+    "stats": {
+      "rfqInvitations": "Lời mời RFQ",
+      "awaitingResponse": "{count} đang chờ phản hồi",
+      "quotationsSubmitted": "Báo giá đã gửi",
+      "purchaseOrders": "Đơn đặt hàng",
+      "open": "{count} đang mở",
+      "qualificationStatus": "Tình trạng đánh giá năng lực",
+      "criticalSupplier": "Nhà cung cấp trọng yếu"
+    },
+    "quickLinks": {
+      "rfqs": {
+        "title": "RFQ của tôi",
+        "desc": "Các RFQ bạn được mời phản hồi."
+      },
+      "quotations": {
+        "title": "Báo giá của tôi",
+        "desc": "Mọi báo giá bạn đã gửi, có hoặc không gắn với RFQ."
+      },
+      "purchaseOrders": {
+        "title": "Đơn đặt hàng của tôi",
+        "desc": "Các đơn đặt hàng được phát hành cho bạn."
+      },
+      "deliveries": {
+        "title": "Giao hàng của tôi",
+        "desc": "Tình trạng giao hàng/vận chuyển và kiểm tra chất lượng (QC) của bạn."
+      }
+    }
+  },
+  "deliveries": {
+    "heading": "Giao hàng của tôi",
+    "subhead": "Chỉ hiển thị các Phiếu nhập kho (hồ sơ giao hàng/vận chuyển) của {supplierName} — không bao giờ của nhà cung cấp khác — kèm kết quả Kiểm tra chất lượng thực tế của từng lô hàng.",
+    "table": {
+      "receipt": "Phiếu nhập kho",
+      "date": "Ngày",
+      "status": "Trạng thái",
+      "total": "Tổng tiền",
+      "qualityInspection": "Kiểm tra chất lượng"
+    },
+    "empty": "Chưa có lô giao hàng nào."
+  },
+  "documents": {
+    "heading": "Tài liệu",
+    "subhead": "Các tài liệu tham chiếu thực tế gắn với quan hệ hợp tác của {supplierName} — lời mời RFQ, báo giá, đơn đặt hàng, phiếu nhập kho và chứng nhận kiểm tra chất lượng. Đây không phải hệ thống quản lý tài liệu (xem demo DMS của nền tảng này) — mỗi dòng ở đây liên kết đến một hồ sơ giao dịch thực mà nhà cung cấp này đã sở hữu.",
+    "table": {
+      "type": "Loại",
+      "reference": "Tham chiếu",
+      "date": "Ngày"
+    },
+    "empty": "Chưa có tài liệu nào."
+  },
+  "purchaseOrders": {
+    "heading": "Đơn đặt hàng của tôi",
+    "subhead": "Chỉ hiển thị các Đơn đặt hàng được phát hành cho {supplierName} — không bao giờ của nhà cung cấp khác.",
+    "table": {
+      "purchaseOrder": "Đơn đặt hàng",
+      "date": "Ngày",
+      "scheduleDate": "Ngày giao dự kiến",
+      "status": "Trạng thái",
+      "total": "Tổng tiền"
+    },
+    "empty": "Chưa có đơn đặt hàng nào.",
+    "detail": {
+      "meta": "{date} · Ngày giao dự kiến {scheduleDate} · Trạng thái {status}",
+      "grandTotal": "Tổng cộng",
+      "table": {
+        "item": "Mặt hàng",
+        "qtyOrdered": "SL đặt hàng",
+        "qtyReceived": "SL đã nhận",
+        "rate": "Đơn giá",
+        "amount": "Thành tiền"
+      },
+      "back": "← Đơn đặt hàng của tôi"
+    }
+  },
+  "qualification": {
+    "heading": "Tình trạng đánh giá năng lực",
+    "subhead": "Chỉ hiển thị tình trạng chất lượng của riêng {supplierName} — không bao giờ của nhà cung cấp khác.",
+    "stats": {
+      "qualityStatus": "Tình trạng chất lượng",
+      "criticalSupplier": "Nhà cung cấp trọng yếu",
+      "yes": "Có",
+      "no": "Không",
+      "qcPassRate": "Tỷ lệ đạt QC",
+      "inspectionsAccepted": "{accepted}/{total} lượt kiểm tra đạt yêu cầu"
+    },
+    "note": "Tình trạng chất lượng và cờ nhà cung cấp trọng yếu được xác định qua quy trình xét duyệt mua hàng có hỗ trợ AI nội bộ của nền tảng này (luôn có con người xem xét và phê duyệt mọi thay đổi — cổng thông tin này chỉ hiển thị tình trạng hiện tại, đã được quyết định của bạn; không thể thay đổi tại đây)."
+  },
+  "quotations": {
+    "heading": "Báo giá của tôi",
+    "subhead": "Chỉ hiển thị các Báo giá nhà cung cấp thuộc về {supplierName} — không bao giờ của nhà cung cấp khác. Bao gồm cả báo giá gửi có hoặc không gắn với RFQ mời.",
+    "table": {
+      "quotation": "Báo giá",
+      "date": "Ngày",
+      "validTill": "Có hiệu lực đến",
+      "status": "Trạng thái",
+      "total": "Tổng tiền"
+    },
+    "empty": "Chưa có báo giá nào.",
+    "detail": {
+      "meta": "{date} · Có hiệu lực đến {validTill} · Trạng thái {status}",
+      "incoterm": " · Điều kiện giao hàng {incoterm}",
+      "grandTotal": "Tổng cộng",
+      "days": "ngày",
+      "table": {
+        "item": "Mặt hàng",
+        "qty": "SL",
+        "rate": "Đơn giá",
+        "amount": "Thành tiền",
+        "leadTime": "Thời gian giao hàng",
+        "rfq": "RFQ"
+      },
+      "back": "← Báo giá của tôi"
+    }
+  },
+  "rfqs": {
+    "heading": "RFQ của tôi",
+    "subhead": "Chỉ hiển thị các Yêu cầu báo giá (RFQ) mời {supplierName} — không bao giờ của nhà cung cấp khác. Mỗi RFQ trên nền tảng này chỉ định đích danh một nhà cung cấp duy nhất, theo thiết kế (xem README của ứng dụng này).",
+    "table": {
+      "rfq": "RFQ",
+      "date": "Ngày",
+      "scheduleDate": "Ngày giao dự kiến",
+      "yourStatus": "Trạng thái phản hồi của bạn"
+    },
+    "empty": "Chưa có lời mời RFQ nào.",
+    "detail": {
+      "meta": "{title} · {date} · Ngày giao dự kiến {scheduleDate} · Trạng thái của bạn {status}",
+      "submitHeading": "Gửi báo giá của bạn",
+      "alreadyResponded": "Bạn đã phản hồi RFQ này — xem mục Báo giá của tôi để biết nội dung đã gửi.",
+      "table": {
+        "item": "Mặt hàng",
+        "qty": "SL",
+        "uom": "ĐVT",
+        "requestedDelivery": "Ngày giao yêu cầu"
+      },
+      "back": "← RFQ của tôi"
+    }
+  },
+  "quotationForm": {
+    "rate": "Đơn giá (mỗi đơn vị)",
+    "currency": "Loại tiền",
+    "conversionRate": "Tỷ giá quy đổi",
+    "incoterm": "Điều kiện giao hàng (Incoterm)",
+    "leadTimeDays": "Thời gian giao hàng (ngày)",
+    "validDays": "Hiệu lực trong (ngày)",
+    "terms": "Điều khoản thanh toán / ghi chú",
+    "submit": "Gửi báo giá",
+    "submitting": "Đang gửi…",
+    "success": "Báo giá {name} đã được gửi."
+  }
+}
