@@ -10,13 +10,16 @@ export const alt = "PharmaCountry Enterprise Solutions";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Built as plain JSX (not a nested SVG <img>) on purpose: an embedded SVG data-URI rasterizes
-// through a separate path that has no font data, so its own <text>"PMCT"</text> came out as
-// tofu boxes. Every element here instead goes through ImageResponse's normal Satori text
-// pipeline (already proven working for "PharmaCountry"/"Enterprise Solutions" below), at the
-// cost of approximating PharmaCountryMark's hexagon as a rounded rect (Satori has no clip-path
-// support) — same white-badge/green-outline/"PMCT"-text structure and colors, still unmistakably
-// the real mark.
+// The exact shape markup from PharmaCountryMark in components/PharmaCountryLogo.tsx, as inline
+// SVG JSX — not a nested <img src="data:image/svg+xml;..."> like the first attempt (that
+// rasterized through a path with no font data, so its text came out as tofu boxes), and not a
+// hand-redrawn div approximation either (that got the badge shape wrong: a rounded rect instead
+// of the real hexagon). Satori DOES render SVG primitives (rect/g/polygon) natively and
+// pixel-faithfully — but it explicitly does NOT support <text> inside <svg> at all ("<text> nodes
+// are not currently supported, please convert them to <path>" — confirmed from the live build
+// error). So the SVG below draws ONLY the real hexagon/diamond geometry; "PMCT" is a separate
+// plain Satori text <div>, absolutely centered on top of it — the one combination that gets both
+// the exact shape AND correctly rendered text.
 function LogoMark() {
   return (
     <div
@@ -26,46 +29,39 @@ function LogoMark() {
         width: 120,
         height: 120,
         marginRight: 36,
-        borderRadius: 26,
-        backgroundColor: "#ffffff",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          width: 76,
-          height: 76,
-          transform: "rotate(45deg)",
-          border: "5px solid #158A57",
-          borderRadius: 10,
-          backgroundColor: "#ffffff",
-        }}
-      />
+      <svg width={120} height={120} viewBox="0 0 64 64">
+        <rect x={0} y={0} width={64} height={64} rx={14} fill="#ffffff" />
+        <g transform="translate(32, 32)">
+          <rect
+            x={-22}
+            y={-22}
+            width={44}
+            height={44}
+            rx={3}
+            ry={3}
+            fill="#ffffff"
+            stroke="#158A57"
+            strokeWidth={4}
+            transform="rotate(45)"
+          />
+          <polygon points="-31,0 -22,-9 22,-9 31,0 22,9 -22,9" fill="#158A57" />
+        </g>
+      </svg>
       <div
         style={{
           display: "flex",
           position: "absolute",
-          width: 66,
-          height: 26,
-          backgroundColor: "#158A57",
-          borderRadius: 4,
-          alignItems: "center",
-          justifyContent: "center",
+          fontSize: 24,
+          fontWeight: 700,
+          color: "#ffffff",
+          letterSpacing: "1px",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 13,
-            fontWeight: 700,
-            color: "#ffffff",
-            letterSpacing: "0.5px",
-          }}
-        >
-          PMCT
-        </div>
+        PMCT
       </div>
     </div>
   );
