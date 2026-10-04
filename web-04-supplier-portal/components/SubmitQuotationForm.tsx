@@ -1,10 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+
+// Stable machine-readable codes app/api/quotations/route.ts may return. Any code not in this
+// set (or no code at all — see the real ERPNext-message passthrough below) falls back to the
+// generic translated message.
+const KNOWN_ERROR_CODES = new Set(["invalid_request", "not_logged_in", "generic"]);
 
 export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
   const router = useRouter();
+  const t = useTranslations("quotationForm");
+  const tErrors = useTranslations("errors");
   const [rate, setRate] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [conversionRate, setConversionRate] = useState("25000");
@@ -38,16 +46,24 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        // Real ERPNext validation errors surface here verbatim — never hidden behind a generic
-        // "something went wrong."
-        setError(data.error || "Could not submit the quotation.");
+        if (typeof data.error === "string") {
+          // Real ERPNext validation error, surfaced verbatim — this is live backend content,
+          // never hidden behind a generic "something went wrong" and never translated (it isn't
+          // this app's own UI chrome).
+          setError(data.error);
+        } else {
+          const code = typeof data.error_code === "string" && KNOWN_ERROR_CODES.has(data.error_code)
+            ? data.error_code
+            : "generic";
+          setError(tErrors(code));
+        }
         setLoading(false);
         return;
       }
-      setSuccess(`Quotation ${data.quotation.name} submitted.`);
+      setSuccess(t("success", { name: data.quotation.name }));
       router.refresh();
     } catch {
-      setError("Could not reach the portal. Please try again.");
+      setError(tErrors("network"));
     } finally {
       setLoading(false);
     }
@@ -55,7 +71,7 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      <Field label="Rate (per unit)">
+      <Field label={t("rate")}>
         <input
           type="number"
           step="0.0001"
@@ -65,14 +81,14 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field label="Currency">
+      <Field label={t("currency")}>
         <input
           value={currency}
           onChange={(e) => setCurrency(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field label="Conversion rate">
+      <Field label={t("conversionRate")}>
         <input
           type="number"
           step="0.01"
@@ -81,14 +97,14 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field label="Incoterm">
+      <Field label={t("incoterm")}>
         <input
           value={incoterm}
           onChange={(e) => setIncoterm(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field label="Lead time (days)">
+      <Field label={t("leadTimeDays")}>
         <input
           type="number"
           value={leadTimeDays}
@@ -96,7 +112,7 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field label="Valid for (days)">
+      <Field label={t("validDays")}>
         <input
           type="number"
           value={validTillDays}
@@ -105,7 +121,7 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
         />
       </Field>
       <div className="sm:col-span-3">
-        <Field label="Payment terms / notes">
+        <Field label={t("terms")}>
           <textarea
             value={terms}
             onChange={(e) => setTerms(e.target.value)}
@@ -130,7 +146,7 @@ export default function SubmitQuotationForm({ rfq }: { rfq: string }) {
           disabled={loading}
           className="rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 disabled:opacity-60"
         >
-          {loading ? "Submitting…" : "Submit quotation"}
+          {loading ? t("submitting") : t("submit")}
         </button>
       </div>
     </form>

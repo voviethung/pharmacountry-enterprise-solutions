@@ -1,21 +1,29 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyDeliveries, formatMoney } from "@/lib/api";
 
 // Force dynamic rendering — login-gated page, fetches this supplier's own live deliveries on
-// every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+// every request. See app/[locale]/(portal)/dashboard/page.tsx for the full reasoning.
 export const dynamic = "force-dynamic";
 
-export default async function DeliveriesPage() {
+export default async function DeliveriesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("deliveries");
+
   const session = await requireSession();
   const deliveries = await getMyDeliveries(session.frappeSid);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">My Deliveries</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Only Purchase Receipts (delivery/shipment records) for {session.supplierName} — never
-          another supplier&apos;s — with each shipment&apos;s own real Quality Inspection result.
+          {t("subhead", { supplierName: session.supplierName })}
         </p>
       </div>
 
@@ -23,11 +31,11 @@ export default async function DeliveriesPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Receipt</Th>
-              <Th>Date</Th>
-              <Th>Status</Th>
-              <Th>Total</Th>
-              <Th>Quality Inspection</Th>
+              <Th>{t("table.receipt")}</Th>
+              <Th>{t("table.date")}</Th>
+              <Th>{t("table.status")}</Th>
+              <Th>{t("table.total")}</Th>
+              <Th>{t("table.qualityInspection")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -58,7 +66,7 @@ export default async function DeliveriesPage() {
             {deliveries.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
-                  No deliveries yet.
+                  {t("empty")}
                 </td>
               </tr>
             )}

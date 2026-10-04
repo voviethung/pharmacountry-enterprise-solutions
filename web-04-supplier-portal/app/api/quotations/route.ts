@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   const session = await getCurrentSession();
   if (!session) {
-    return NextResponse.json({ error: "Not logged in." }, { status: 401 });
+    return NextResponse.json({ error_code: "not_logged_in" }, { status: 401 });
   }
 
   let body: {
@@ -29,16 +29,19 @@ export async function POST(request: Request) {
     body = await request.json();
     if (!body.rfq || !body.rate || !body.currency || !body.conversion_rate) throw new Error("missing fields");
   } catch {
-    return NextResponse.json({ error: "RFQ, rate, currency and conversion rate are required." }, { status: 400 });
+    return NextResponse.json({ error_code: "invalid_request" }, { status: 400 });
   }
 
   try {
     const result = await submitQuotation(session.frappeSid, session.csrfToken, body);
     return NextResponse.json({ ok: true, quotation: result });
   } catch (err) {
-    const message = err instanceof SupplierApiError ? err.message : "Could not submit the quotation.";
-    // A real ERPNext validation failure surfaces here with its own real message — never swallowed
-    // or replaced with a generic success.
-    return NextResponse.json({ error: message }, { status: 422 });
+    if (err instanceof SupplierApiError) {
+      // A real ERPNext validation failure surfaces here with its own real message — never
+      // swallowed or replaced with a generic success, and never translated (it's live backend
+      // content, not this app's own static UI chrome).
+      return NextResponse.json({ error: err.message }, { status: 422 });
+    }
+    return NextResponse.json({ error_code: "generic" }, { status: 422 });
   }
 }

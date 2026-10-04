@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 // Real, working seeded demo accounts — see this app's README ("Test supplier credentials").
-// Non-production, demo-only accounts with no real business data at stake.
+// Non-production, demo-only accounts with no real business data at stake. Proper nouns and
+// literal credentials — never translated.
 const DEMO_ACCOUNTS = [
   {
     key: "cargill",
@@ -20,12 +22,30 @@ const DEMO_ACCOUNTS = [
   },
 ];
 
+// Stable machine-readable codes the API route may return (see app/api/auth/login/route.ts).
+// Any code not in this set falls back to the generic translated message, rather than breaking.
+const KNOWN_ERROR_CODES = new Set([
+  "invalid_credentials",
+  "not_provisioned",
+  "server_error",
+  "invalid_request",
+  "network",
+  "generic",
+]);
+
 export default function LoginForm() {
   const router = useRouter();
+  const t = useTranslations("login");
+  const tErrors = useTranslations("errors");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  function translateErrorCode(code: unknown): string {
+    const key = typeof code === "string" && KNOWN_ERROR_CODES.has(code) ? code : "generic";
+    return tErrors(key);
+  }
 
   async function doLogin(loginUsername: string, loginPassword: string) {
     setError(null);
@@ -38,14 +58,14 @@ export default function LoginForm() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Login failed.");
+        setError(translateErrorCode(data.error_code));
         setLoading(false);
         return;
       }
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Could not reach the portal. Please try again.");
+      setError(tErrors("network"));
       setLoading(false);
     }
   }
@@ -64,10 +84,10 @@ export default function LoginForm() {
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-teal-200 bg-teal-50 p-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">Demo Access</p>
-        <p className="mt-1 text-xs text-teal-800">
-          Try it now with real seeded demo accounts — no real business data at stake.
+        <p className="text-xs font-semibold uppercase tracking-wide text-teal-700">
+          {t("demoBox.heading")}
         </p>
+        <p className="mt-1 text-xs text-teal-800">{t("demoBox.description")}</p>
         <ul className="mt-2 space-y-1 text-xs text-teal-900">
           {DEMO_ACCOUNTS.map((account) => (
             <li key={account.key}>
@@ -85,7 +105,7 @@ export default function LoginForm() {
               disabled={loading}
               className="flex-1 rounded-md border border-teal-300 bg-white px-2 py-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-100 disabled:opacity-60"
             >
-              Log in as {account.key === "cargill" ? "Cargill" : "Nutreco"}
+              {account.key === "cargill" ? t("demoBox.loginAsCargill") : t("demoBox.loginAsNutreco")}
             </button>
           ))}
         </div>
@@ -93,7 +113,7 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-slate-700">
-          Email
+          {t("fields.email")}
         </label>
         <input
           id="username"
@@ -108,7 +128,7 @@ export default function LoginForm() {
       </div>
       <div>
         <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-          Password
+          {t("fields.password")}
         </label>
         <input
           id="password"
@@ -130,7 +150,7 @@ export default function LoginForm() {
         disabled={loading}
         className="w-full rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 disabled:opacity-60"
       >
-        {loading ? "Signing in…" : "Sign in"}
+        {loading ? t("signingIn") : t("signIn")}
       </button>
     </form>
     </div>

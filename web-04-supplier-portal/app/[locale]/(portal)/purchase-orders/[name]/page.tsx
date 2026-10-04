@@ -1,19 +1,23 @@
 import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyPurchaseOrderDetail, SupplierApiError, formatMoney } from "@/lib/api";
 
 // Force dynamic rendering — login-gated dynamic-segment page, fetches this supplier's own live
-// purchase order detail on every request. See app/(portal)/dashboard/page.tsx for the full
-// reasoning.
+// purchase order detail on every request. See app/[locale]/(portal)/dashboard/page.tsx for the
+// full reasoning.
 export const dynamic = "force-dynamic";
 
 export default async function PurchaseOrderDetailPage({
   params,
 }: {
-  params: Promise<{ name: string }>;
+  params: Promise<{ locale: string; name: string }>;
 }) {
+  const { locale, name } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("purchaseOrders.detail");
+
   const session = await requireSession();
-  const { name } = await params;
 
   let po;
   try {
@@ -28,7 +32,7 @@ export default async function PurchaseOrderDetailPage({
       <div>
         <h1 className="text-xl font-bold text-slate-900">{po.name}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          {po.transaction_date} · Schedule {po.schedule_date} · Status {po.status}
+          {t("meta", { date: po.transaction_date, scheduleDate: po.schedule_date, status: po.status })}
         </p>
       </div>
 
@@ -36,11 +40,11 @@ export default async function PurchaseOrderDetailPage({
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Item</Th>
-              <Th>Qty ordered</Th>
-              <Th>Qty received</Th>
-              <Th>Rate</Th>
-              <Th>Amount</Th>
+              <Th>{t("table.item")}</Th>
+              <Th>{t("table.qtyOrdered")}</Th>
+              <Th>{t("table.qtyReceived")}</Th>
+              <Th>{t("table.rate")}</Th>
+              <Th>{t("table.amount")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -60,7 +64,7 @@ export default async function PurchaseOrderDetailPage({
           <tfoot>
             <tr>
               <td colSpan={4} className="px-4 py-3 text-right text-sm font-semibold text-slate-700">
-                Grand total
+                {t("grandTotal")}
               </td>
               <td className="px-4 py-3 text-sm font-bold text-slate-900">{formatMoney(po.grand_total, po.currency)}</td>
             </tr>

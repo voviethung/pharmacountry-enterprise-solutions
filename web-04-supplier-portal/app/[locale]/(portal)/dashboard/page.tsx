@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyRfqs, getMyQuotations, getMyPurchaseOrders, getMyQualificationStatus } from "@/lib/api";
 
@@ -8,7 +9,15 @@ import { getMyRfqs, getMyQuotations, getMyPurchaseOrders, getMyQualificationStat
 // stale/broken snapshot to every visitor forever.
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("dashboard");
+
   const session = await requireSession();
   const [rfqs, quotations, purchaseOrders, qualification] = await Promise.all([
     getMyRfqs(session.frappeSid),
@@ -23,28 +32,48 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">Welcome back, {session.supplierName}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Logged in as {session.user}. Supplier-scoped data only — never another supplier&apos;s.
-        </p>
+        <h1 className="text-xl font-bold text-slate-900">
+          {t("welcome", { name: session.supplierName })}
+        </h1>
+        <p className="mt-1 text-sm text-slate-500">{t("loggedInAs", { user: session.user })}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <StatCard label="RFQ invitations" value={String(rfqs.length)} sub={`${pendingRfqs} awaiting your response`} />
-        <StatCard label="Quotations submitted" value={String(quotations.length)} />
-        <StatCard label="Purchase orders" value={String(purchaseOrders.length)} sub={`${openPurchaseOrders} open`} />
         <StatCard
-          label="Qualification status"
+          label={t("stats.rfqInvitations")}
+          value={String(rfqs.length)}
+          sub={t("stats.awaitingResponse", { count: pendingRfqs })}
+        />
+        <StatCard label={t("stats.quotationsSubmitted")} value={String(quotations.length)} />
+        <StatCard
+          label={t("stats.purchaseOrders")}
+          value={String(purchaseOrders.length)}
+          sub={t("stats.open", { count: openPurchaseOrders })}
+        />
+        <StatCard
+          label={t("stats.qualificationStatus")}
           value={qualification.quality_status}
-          sub={qualification.is_critical_supplier ? "Critical supplier" : undefined}
+          sub={qualification.is_critical_supplier ? t("stats.criticalSupplier") : undefined}
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <QuickLink href="/rfqs" title="My RFQs" desc="RFQs you've been invited to respond to." />
-        <QuickLink href="/quotations" title="My Quotations" desc="Every quotation you've submitted, RFQ-linked or not." />
-        <QuickLink href="/purchase-orders" title="My Purchase Orders" desc="Purchase Orders issued to you." />
-        <QuickLink href="/deliveries" title="My Deliveries" desc="Your shipment/delivery and QC status." />
+        <QuickLink href="/rfqs" title={t("quickLinks.rfqs.title")} desc={t("quickLinks.rfqs.desc")} />
+        <QuickLink
+          href="/quotations"
+          title={t("quickLinks.quotations.title")}
+          desc={t("quickLinks.quotations.desc")}
+        />
+        <QuickLink
+          href="/purchase-orders"
+          title={t("quickLinks.purchaseOrders.title")}
+          desc={t("quickLinks.purchaseOrders.desc")}
+        />
+        <QuickLink
+          href="/deliveries"
+          title={t("quickLinks.deliveries.title")}
+          desc={t("quickLinks.deliveries.desc")}
+        />
       </div>
     </div>
   );

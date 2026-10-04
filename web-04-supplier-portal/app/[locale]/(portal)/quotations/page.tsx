@@ -1,22 +1,30 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyQuotations, formatMoney } from "@/lib/api";
 
 // Force dynamic rendering — login-gated page, fetches this supplier's own live quotations on
-// every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+// every request. See app/[locale]/(portal)/dashboard/page.tsx for the full reasoning.
 export const dynamic = "force-dynamic";
 
-export default async function QuotationsPage() {
+export default async function QuotationsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("quotations");
+
   const session = await requireSession();
   const quotations = await getMyQuotations(session.frappeSid);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">My Quotations</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Only Supplier Quotations belonging to {session.supplierName} — never another
-          supplier&apos;s. Includes quotations submitted with or without an inviting RFQ.
+          {t("subhead", { supplierName: session.supplierName })}
         </p>
       </div>
 
@@ -24,11 +32,11 @@ export default async function QuotationsPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Quotation</Th>
-              <Th>Date</Th>
-              <Th>Valid till</Th>
-              <Th>Status</Th>
-              <Th>Total</Th>
+              <Th>{t("table.quotation")}</Th>
+              <Th>{t("table.date")}</Th>
+              <Th>{t("table.validTill")}</Th>
+              <Th>{t("table.status")}</Th>
+              <Th>{t("table.total")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -48,7 +56,7 @@ export default async function QuotationsPage() {
             {quotations.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
-                  No quotations yet.
+                  {t("empty")}
                 </td>
               </tr>
             )}

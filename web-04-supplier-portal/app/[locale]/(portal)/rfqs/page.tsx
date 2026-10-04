@@ -1,23 +1,30 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSession } from "@/lib/auth";
 import { getMyRfqs } from "@/lib/api";
 
 // Force dynamic rendering — login-gated page, fetches this supplier's own live RFQs on every
-// request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+// request. See app/[locale]/(portal)/dashboard/page.tsx for the full reasoning.
 export const dynamic = "force-dynamic";
 
-export default async function RfqsPage() {
+export default async function RfqsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("rfqs");
+
   const session = await requireSession();
   const rfqs = await getMyRfqs(session.frappeSid);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">My RFQs</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Only Request for Quotations inviting {session.supplierName} — never another
-          supplier&apos;s. Every RFQ on this platform names exactly one supplier, by design (see
-          this app&apos;s README).
+          {t("subhead", { supplierName: session.supplierName })}
         </p>
       </div>
 
@@ -25,10 +32,10 @@ export default async function RfqsPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>RFQ</Th>
-              <Th>Date</Th>
-              <Th>Schedule date</Th>
-              <Th>Your response status</Th>
+              <Th>{t("table.rfq")}</Th>
+              <Th>{t("table.date")}</Th>
+              <Th>{t("table.scheduleDate")}</Th>
+              <Th>{t("table.yourStatus")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -50,7 +57,7 @@ export default async function RfqsPage() {
             {rfqs.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
-                  No RFQ invitations yet.
+                  {t("empty")}
                 </td>
               </tr>
             )}

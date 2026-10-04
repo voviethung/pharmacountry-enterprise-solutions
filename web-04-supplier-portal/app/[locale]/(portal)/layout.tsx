@@ -2,8 +2,9 @@ import { requireSession } from "@/lib/auth";
 import PortalHeader from "@/components/PortalHeader";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
-  // Every page under this route group is protected: no valid session -> redirect("/login")
-  // happens inside requireSession() itself, before any supplier data is ever fetched.
+  // Every page under this route group is protected: no valid session -> redirect to the
+  // current locale's /login happens inside requireSession() itself, before any supplier data
+  // is ever fetched.
   const session = await requireSession();
 
   return (

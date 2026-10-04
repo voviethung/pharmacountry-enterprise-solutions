@@ -1,23 +1,29 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requireSession } from "@/lib/auth";
 import { getMyDocuments } from "@/lib/api";
 
 // Force dynamic rendering — login-gated page, fetches this supplier's own live documents on
-// every request. See app/(portal)/dashboard/page.tsx for the full reasoning.
+// every request. See app/[locale]/(portal)/dashboard/page.tsx for the full reasoning.
 export const dynamic = "force-dynamic";
 
-export default async function DocumentsPage() {
+export default async function DocumentsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("documents");
+
   const session = await requireSession();
   const docs = await getMyDocuments(session.frappeSid);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-slate-900">Documents</h1>
+        <h1 className="text-xl font-bold text-slate-900">{t("heading")}</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Real document references tied to {session.supplierName}&apos;s own relationship — RFQ
-          invitations, quotations, purchase orders, delivery receipts and quality inspection
-          certificates. Not a document-management system (see this platform&apos;s DMS demo for
-          that) — every row here links to a real transactional record this supplier already owns.
+          {t("subhead", { supplierName: session.supplierName })}
         </p>
       </div>
 
@@ -25,9 +31,9 @@ export default async function DocumentsPage() {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead className="bg-slate-50">
             <tr>
-              <Th>Type</Th>
-              <Th>Reference</Th>
-              <Th>Date</Th>
+              <Th>{t("table.type")}</Th>
+              <Th>{t("table.reference")}</Th>
+              <Th>{t("table.date")}</Th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -46,7 +52,7 @@ export default async function DocumentsPage() {
             {docs.length === 0 && (
               <tr>
                 <td colSpan={3} className="px-4 py-6 text-center text-slate-400">
-                  No documents yet.
+                  {t("empty")}
                 </td>
               </tr>
             )}

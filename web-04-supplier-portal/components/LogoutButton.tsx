@@ -1,10 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 
 export default function LogoutButton() {
   const router = useRouter();
+  const t = useTranslations("portalHeader");
   const [loading, setLoading] = useState(false);
 
   async function handleLogout() {
@@ -20,7 +22,7 @@ export default function LogoutButton() {
       disabled={loading}
       className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-50"
     >
-      {loading ? "Signing out…" : "Sign out"}
+      {loading ? t("signingOut") : t("signOut")}
     </button>
   );
 }

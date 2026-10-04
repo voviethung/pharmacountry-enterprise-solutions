@@ -16,11 +16,11 @@ export async function POST(request: Request) {
     username = String(body.username || "");
     password = String(body.password || "");
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error_code: "invalid_request" }, { status: 400 });
   }
 
   if (!username || !password) {
-    return NextResponse.json({ error: "Username and password are required." }, { status: 400 });
+    return NextResponse.json({ error_code: "invalid_request" }, { status: 400 });
   }
 
   try {
@@ -48,11 +48,16 @@ export async function POST(request: Request) {
     return response;
   } catch (err) {
     if (err instanceof FrappeLoginError) {
-      return NextResponse.json({ error: err.message }, { status: 401 });
+      // Two distinct FrappeLoginError cases (see lib/frappeAuth.ts): bad credentials vs. a
+      // network failure reaching the backend. Mapped to distinct machine-readable codes here —
+      // same HTTP status as before, only the body's error representation changes (English prose
+      // -> a stable code the client translates via messages/*.json).
+      const code = err.message.includes("reach") ? "server_error" : "invalid_credentials";
+      return NextResponse.json({ error_code: code }, { status: 401 });
     }
     if (err instanceof SupplierApiError) {
-      return NextResponse.json({ error: "This account is not a provisioned supplier login." }, { status: 403 });
+      return NextResponse.json({ error_code: "not_provisioned" }, { status: 403 });
     }
-    return NextResponse.json({ error: "Login failed. Please try again." }, { status: 500 });
+    return NextResponse.json({ error_code: "server_error" }, { status: 500 });
   }
 }
