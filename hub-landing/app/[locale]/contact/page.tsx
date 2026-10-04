@@ -58,17 +58,9 @@ export default async function ContactPage({
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
             {t("companyInfo.heading")}
           </h2>
-          <p className="mt-3 text-sm text-slate-600">{t("companyInfo.intro")}</p>
+          <p className="mt-2 font-semibold text-slate-900">{t("companyInfo.companyName")}</p>
 
           <div className="mt-6 space-y-5">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                {t("companyInfo.companyLabel")}
-              </p>
-              <p className="mt-1 font-semibold text-slate-900">{t("companyInfo.companyName")}</p>
-              <p className="mt-1 text-sm text-slate-600">{t("companyInfo.companyDescription")}</p>
-            </div>
-
             <div className="flex items-start gap-3">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#158A57]" strokeWidth={1.75} />
               <div>

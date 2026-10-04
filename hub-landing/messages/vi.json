@@ -23,7 +23,7 @@
     "switchToEn": "English"
   },
   "footer": {
-    "tagline": "Phần mềm doanh nghiệp cho sản xuất, phân phối và vận hành trang trại trong các ngành quản lý chặt chẽ.",
+    "tagline": "Phần mềm cho doanh nghiệp sản xuất, phân phối, vận hành chuỗi bán lẻ và trang trại trong các ngành quản lý chặt chẽ.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. Đã đăng ký bản quyền.",
     "globalTagline": "Thuộc hệ sinh thái PharmaCountry"
   },
@@ -261,11 +261,8 @@
     "errorValidation": "Vui lòng nhập họ tên, email hợp lệ và nội dung tin nhắn.",
     "companyOptional": "(không bắt buộc)",
     "companyInfo": {
-      "heading": "Thông tin công ty",
-      "intro": "Muốn liên hệ trực tiếp, hoặc chỉ đơn giản là muốn biết ai đứng sau nền tảng này? Đây là thông tin của chúng tôi.",
-      "companyLabel": "Công ty",
+      "heading": "Thông tin liên hệ",
       "companyName": "PharmaCountry Enterprise Solutions",
-      "companyDescription": "Bộ phận công nghệ và ERP doanh nghiệp của PharmaCountry, sàn giao dịch B2B dược phẩm toàn cầu.",
       "emailLabel": "Email",
       "phoneLabel": "Điện thoại / Zalo",
       "zaloLinkText": "Nhắn Zalo",

@@ -23,7 +23,7 @@
     "switchToEn": "English"
   },
   "footer": {
-    "tagline": "Enterprise software for regulated manufacturing, distribution, and farm operations.",
+    "tagline": "Software for businesses in regulated manufacturing, distribution, retail chain operations, and farming.",
     "rights": "© {year} PharmaCountry Enterprise Solutions. All rights reserved.",
     "globalTagline": "Part of the PharmaCountry ecosystem"
   },
@@ -261,11 +261,8 @@
     "errorValidation": "Please fill in your name, a valid email, and a message.",
     "companyOptional": "(optional)",
     "companyInfo": {
-      "heading": "Company Information",
-      "intro": "Prefer to reach us directly, or just want to know who's behind this platform? Here's how.",
-      "companyLabel": "Company",
+      "heading": "Contact Information",
       "companyName": "PharmaCountry Enterprise Solutions",
-      "companyDescription": "The enterprise software and ERP technology division of PharmaCountry, the global B2B pharmaceutical marketplace.",
       "emailLabel": "Email",
       "phoneLabel": "Phone / Zalo",
       "zaloLinkText": "Message on Zalo",
