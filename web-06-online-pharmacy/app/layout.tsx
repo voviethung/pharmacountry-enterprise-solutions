@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/components/CartProvider";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 
+// True Next.js ROOT layout — required to own <html>/<body> for every route. Normally every
+// request is redirected by middleware.ts to /vi/... or /en/... before Next.js routing even
+// runs, so this layout never renders page content directly — the real page content, header,
+// footer, cart provider, and next-intl provider all live one level down in
+// app/[locale]/layout.tsx, which cannot declare its own <html>/<body> (nested layouts render
+// inside this one). `lang` here is a static default; app/[locale]/layout.tsx corrects
+// `document.documentElement.lang` on the client once the real locale is known.
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -15,25 +19,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "WEB-06 Online Pharmacy Demo",
-  description:
-    "Enterprise Platform Phase 7 WEB-06 demo — a live, anonymous-guest online pharmacy storefront (browse live, batch-honest stock generated and managed by the connected ERP, cart, checkout with a real server-computed price and native expiry-block protection) for a demo pharmacy chain, served from a guest-writable Frappe API.",
-};
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      lang="en"
+      lang="vi"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-slate-900">
-        <CartProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </CartProvider>
-      </body>
+      <body className="min-h-full flex flex-col bg-white text-slate-900">{children}</body>
     </html>
   );
 }

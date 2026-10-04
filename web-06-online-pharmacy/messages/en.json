@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "title": "WEB-06 Online Pharmacy Demo",
+    "description": "Enterprise Platform Phase 7 WEB-06 demo — a live, anonymous-guest online pharmacy storefront (browse live, batch-honest stock generated and managed by the connected ERP, cart, checkout with a real server-computed price and native expiry-block protection) for a demo pharmacy chain, served from a guest-writable Frappe API."
+  },
+  "nav": {
+    "brandName": "Demo Pharmacy Chain Co.",
+    "brandSub": "— Online Pharmacy, Store A",
+    "shop": "Shop",
+    "trackOrder": "Track Order",
+    "cart": "Cart"
+  },
+  "footer": {
+    "line1": "Demo Pharmacy Chain Co. — this is a demo storefront (ENTERPRISE_PLATFORM WEB-06, Phase 7). All products, prices, stock levels, and orders shown here are live demo data generated and managed by the connected ERP system (Golden Demo #23, Store A) — this is a demo instance, not a commercial pharmacy.",
+    "line2": "Every product on this site is over-the-counter (OTC) — this demo does not implement prescription upload or pharmacist verification (see this app's README for why).",
+    "line3": "Payment: Cash on Delivery only — this demo does not integrate any real payment gateway. No card details are ever collected by this site."
+  },
+  "home": {
+    "eyebrow": "WEB-06 — Online Pharmacy Demo",
+    "title": "Order from Demo Pharmacy Chain Co.'s Store A — the same shop, online.",
+    "lead": "Browse our over-the-counter products, backed by live per-store stock generated and managed by our connected ERP system, and check out as a guest — no account needed. Every price and every batch you're actually charged/shipped is confirmed by our pharmacy ERP system at checkout, including a genuine expiry-safety check on every order.",
+    "ctaShopNow": "Shop Now",
+    "availableNow": "Available Now",
+    "catalogUnavailable": "Catalog is temporarily unavailable — please try again shortly.",
+    "howItWorks": {
+      "heading": "How ordering works on this demo",
+      "item1": "No account or login required — add items to your cart and check out as a guest.",
+      "item2": "Every product listed here is genuinely over-the-counter — this demo does not offer or fabricate a prescription workflow (see the README for why).",
+      "item3": "Stock shown is live, per-store data from Store A, generated and managed by our connected ERP system, and already excludes any batch that has expired — an order can never be filled from expired stock.",
+      "item4": "Payment is Cash on Delivery only — no real payment gateway is used anywhere on this site.",
+      "item5": "After checkout you'll get an order reference — use it with your phone number on the <trackLink>Track Order</trackLink> page to check your order's status."
+    }
+  },
+  "shop": {
+    "title": "Shop — Store A",
+    "subtitle": "Live demo products, prices, and per-store stock, generated and managed directly by our connected pharmacy ERP system.",
+    "loadError": "Could not load the catalog right now — please try again shortly.",
+    "otcBadge": "OTC — no prescription needed",
+    "inStock": "{qty} in stock at {store} (non-expired only)",
+    "outOfStock": "Out of stock at {store}",
+    "footerNote": "Prices and stock shown here are the current catalog snapshot at the time this page was loaded. The price you're actually charged, and the specific batch your order is filled from, are always confirmed by our system at checkout — an expired batch can never be sold, no matter what this page shows."
+  },
+  "addToCart": {
+    "outOfStock": "Out of stock",
+    "added": "Added ✓",
+    "addToCart": "Add to Cart",
+    "qtyLabel": "Quantity for {name}"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "emptyTitle": "Your cart is empty",
+    "emptyBody": "Add a product from the shop to get started.",
+    "goToShop": "Go to Shop",
+    "remove": "Remove",
+    "qtyLabel": "Quantity for {name}",
+    "estimatedTotal": "Estimated total (indicative — confirmed by our system at checkout)",
+    "continueShopping": "← Continue shopping",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "No account needed — just tell us where to deliver your order.",
+    "emptyTitle": "Your cart is empty",
+    "goToShop": "Go to Shop",
+    "orderSummary": "Order summary",
+    "estimatedTotal": "Estimated total",
+    "estimateNote": "This is an estimate. The real, final price — and the specific real, non-expired batch your order is filled from — is computed by our system at the moment you submit this order. It is never taken from this page, and an already-expired batch can never be used to fill an order.",
+    "labelFullName": "Full name",
+    "labelPhone": "Phone number",
+    "phoneHint": "Keep this handy — you'll need it (with your order reference) to track your order later.",
+    "phonePlaceholder": "e.g. 0912345678",
+    "labelEmail": "Email (optional)",
+    "labelAddress": "Delivery address",
+    "addressPlaceholder": "Street address",
+    "labelCity": "City / Province",
+    "paymentMethodLabel": "Payment method:",
+    "paymentMethodValue": "Cash on Delivery",
+    "paymentNote": "— the only option this demo supports. No card details or real payment information is ever collected by this site.",
+    "placingOrder": "Placing order…",
+    "placeOrder": "Place Order"
+  },
+  "confirmation": {
+    "noOrderTitle": "No recent order found",
+    "noOrderBody": "This page only shows the order you just placed, in this browser. If you already have an order reference, use Track Order instead.",
+    "goToShop": "Go to Shop",
+    "trackOrder": "Track Order",
+    "orderPlacedBadge": "Order placed",
+    "thankYou": "Thank you!",
+    "orderRefIntro": "Your order reference is",
+    "saveRefNote": "Save this reference and the phone number you checked out with — you'll need BOTH to look up your order later on the Track Order page.",
+    "orderDetailsHeading": "Order details",
+    "batchLabel": "Batch {batch}",
+    "batchExpirySuffix": " — exp. {date}",
+    "totalLabel": "Total ({method})",
+    "deliveringTo": "Delivering to: {address}",
+    "batchNote": "The batch(es) shown above were chosen automatically from real, currently non-expired Store A stock — the same native ERPNext mechanism that blocks a sale of an expired batch was checked on this order too.",
+    "continueShopping": "Continue shopping"
+  },
+  "track": {
+    "title": "Track Your Order",
+    "subtitle": "Enter the order reference you received at checkout AND the phone number you checked out with. Both are required — we never look up an order by reference alone, to protect your privacy.",
+    "labelOrderRef": "Order reference",
+    "orderRefPlaceholder": "e.g. WEB06-XXXXXXXXXX",
+    "labelPhone": "Phone number used at checkout",
+    "submit": "Track Order",
+    "loading": "Looking up…",
+    "resultOrderedBy": "Ordered by {contact} on {date} — {store}",
+    "batchLabel": "Batch {batch}",
+    "batchExpirySuffix": " — exp. {date}",
+    "totalLabel": "Total ({method})",
+    "deliveryAddressLabel": "Delivery address: {address}"
+  },
+  "errors": {
+    "malformedBody": "Malformed request. Please try again.",
+    "missingFields": "Please fill in all required fields.",
+    "orderRejected": "We couldn't place your order. Please check your cart and try again.",
+    "orderNotFound": "Order not found. Check your order reference and phone number.",
+    "serverError": "Something went wrong. Please try again shortly.",
+    "networkError": "Could not reach the server. Please try again.",
+    "unknown": "Something went wrong. Please try again."
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "title": "WEB-06 Online Pharmacy Demo — Nhà thuốc trực tuyến",
+    "description": "Bản demo WEB-06 (Enterprise Platform, Phase 7) — một gian hàng nhà thuốc trực tuyến cho khách vãng lai (không cần đăng nhập): xem tồn kho thực theo lô hàng do hệ thống ERP kết nối trực tiếp quản lý, thêm vào giỏ hàng, thanh toán với giá do máy chủ tính toán và cơ chế tự động chặn lô hàng hết hạn — phục vụ từ một API Frappe cho phép khách vãng lai."
+  },
+  "nav": {
+    "brandName": "Demo Pharmacy Chain Co.",
+    "brandSub": "— Nhà thuốc trực tuyến, Cửa hàng A",
+    "shop": "Cửa hàng",
+    "trackOrder": "Theo dõi đơn hàng",
+    "cart": "Giỏ hàng"
+  },
+  "footer": {
+    "line1": "Demo Pharmacy Chain Co. — đây là gian hàng demo (ENTERPRISE_PLATFORM WEB-06, Phase 7). Mọi sản phẩm, giá, tồn kho và đơn hàng hiển thị ở đây là dữ liệu demo trực tiếp, được tạo và quản lý bởi hệ thống ERP kết nối (Golden Demo #23, Cửa hàng A) — đây là môi trường demo, không phải một nhà thuốc thương mại thật.",
+    "line2": "Mọi sản phẩm trên trang này đều là thuốc không kê đơn (OTC) — bản demo này không triển khai tính năng tải lên đơn thuốc hay xác minh của dược sĩ (xem README của ứng dụng để biết lý do).",
+    "line3": "Thanh toán: chỉ hỗ trợ thanh toán khi nhận hàng (COD) — bản demo này không tích hợp bất kỳ cổng thanh toán thật nào. Trang này không bao giờ thu thập thông tin thẻ của bạn."
+  },
+  "home": {
+    "eyebrow": "WEB-06 — Demo Nhà thuốc trực tuyến",
+    "title": "Đặt hàng từ Cửa hàng A của Demo Pharmacy Chain Co. — cùng một cửa hàng, giờ mua trực tuyến.",
+    "lead": "Xem các sản phẩm không kê đơn của chúng tôi, với tồn kho thực theo từng cửa hàng được tạo và quản lý bởi hệ thống ERP kết nối, và thanh toán ngay với vai trò khách vãng lai — không cần tạo tài khoản. Mọi mức giá và lô hàng bạn thực sự được tính tiền/giao đều được hệ thống ERP nhà thuốc của chúng tôi xác nhận lại khi thanh toán, bao gồm cả bước kiểm tra an toàn hạn sử dụng thực sự cho mỗi đơn hàng.",
+    "ctaShopNow": "Mua ngay",
+    "availableNow": "Sản phẩm đang có sẵn",
+    "catalogUnavailable": "Danh mục sản phẩm tạm thời không khả dụng — vui lòng thử lại sau ít phút.",
+    "howItWorks": {
+      "heading": "Cách đặt hàng trên bản demo này",
+      "item1": "Không cần tài khoản hay đăng nhập — chỉ cần thêm sản phẩm vào giỏ hàng và thanh toán với vai trò khách vãng lai.",
+      "item2": "Mọi sản phẩm được liệt kê ở đây đều là thuốc không kê đơn thực sự — bản demo này không cung cấp hay giả lập quy trình kê đơn (xem README để biết lý do).",
+      "item3": "Tồn kho hiển thị là dữ liệu thực theo từng cửa hàng từ Cửa hàng A, được tạo và quản lý bởi hệ thống ERP kết nối, và đã loại trừ mọi lô hàng đã hết hạn — một đơn hàng không bao giờ được giao từ lô hàng đã hết hạn.",
+      "item4": "Chỉ hỗ trợ thanh toán khi nhận hàng (COD) — không có cổng thanh toán thật nào được sử dụng trên trang này.",
+      "item5": "Sau khi thanh toán, bạn sẽ nhận được mã đơn hàng — dùng mã này cùng với số điện thoại của bạn trên trang <trackLink>Theo dõi đơn hàng</trackLink> để kiểm tra tình trạng đơn hàng."
+    }
+  },
+  "shop": {
+    "title": "Cửa hàng — Cửa hàng A",
+    "subtitle": "Sản phẩm, giá và tồn kho theo từng cửa hàng — dữ liệu demo trực tiếp, được tạo và quản lý bởi hệ thống ERP nhà thuốc kết nối của chúng tôi.",
+    "loadError": "Không thể tải danh mục sản phẩm lúc này — vui lòng thử lại sau ít phút.",
+    "otcBadge": "Không kê đơn — không cần đơn thuốc",
+    "inStock": "Còn {qty} sản phẩm tại {store} (chỉ tính lô chưa hết hạn)",
+    "outOfStock": "Hết hàng tại {store}",
+    "footerNote": "Giá và tồn kho hiển thị ở đây là ảnh chụp danh mục tại thời điểm tải trang. Giá bạn thực sự phải trả, và lô hàng cụ thể mà đơn hàng của bạn được lấy từ đó, luôn được hệ thống của chúng tôi xác nhận lại khi thanh toán — một lô hàng đã hết hạn không bao giờ có thể được bán, bất kể trang này hiển thị gì."
+  },
+  "addToCart": {
+    "outOfStock": "Hết hàng",
+    "added": "Đã thêm ✓",
+    "addToCart": "Thêm vào giỏ hàng",
+    "qtyLabel": "Số lượng cho {name}"
+  },
+  "cart": {
+    "title": "Giỏ hàng của bạn",
+    "emptyTitle": "Giỏ hàng của bạn đang trống",
+    "emptyBody": "Hãy thêm một sản phẩm từ cửa hàng để bắt đầu.",
+    "goToShop": "Đến cửa hàng",
+    "remove": "Xóa",
+    "qtyLabel": "Số lượng cho {name}",
+    "estimatedTotal": "Tổng tiền tạm tính (chỉ mang tính tham khảo — sẽ được hệ thống xác nhận lại khi thanh toán)",
+    "continueShopping": "← Tiếp tục mua hàng",
+    "proceedToCheckout": "Tiến hành thanh toán"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "subtitle": "Không cần tài khoản — chỉ cần cho chúng tôi biết nơi giao hàng.",
+    "emptyTitle": "Giỏ hàng của bạn đang trống",
+    "goToShop": "Đến cửa hàng",
+    "orderSummary": "Tóm tắt đơn hàng",
+    "estimatedTotal": "Tổng tiền tạm tính",
+    "estimateNote": "Đây chỉ là số tiền tạm tính. Giá cuối cùng thực tế — và lô hàng thực, chưa hết hạn mà đơn hàng của bạn được lấy từ đó — sẽ được hệ thống của chúng tôi tính toán ngay khi bạn gửi đơn hàng này. Số tiền này không bao giờ được lấy từ trang này, và một lô hàng đã hết hạn không bao giờ được dùng để giao đơn hàng.",
+    "labelFullName": "Họ và tên",
+    "labelPhone": "Số điện thoại",
+    "phoneHint": "Hãy ghi nhớ số này — bạn sẽ cần nó (cùng với mã đơn hàng) để theo dõi đơn hàng sau này.",
+    "phonePlaceholder": "ví dụ: 0912345678",
+    "labelEmail": "Email (không bắt buộc)",
+    "labelAddress": "Địa chỉ giao hàng",
+    "addressPlaceholder": "Số nhà, tên đường",
+    "labelCity": "Tỉnh / Thành phố",
+    "paymentMethodLabel": "Phương thức thanh toán:",
+    "paymentMethodValue": "Thanh toán khi nhận hàng (COD)",
+    "paymentNote": "— đây là phương thức duy nhất được hỗ trợ trong bản demo này. Trang này không bao giờ thu thập thông tin thẻ hay thông tin thanh toán thật.",
+    "placingOrder": "Đang đặt hàng…",
+    "placeOrder": "Đặt hàng"
+  },
+  "confirmation": {
+    "noOrderTitle": "Không tìm thấy đơn hàng gần đây",
+    "noOrderBody": "Trang này chỉ hiển thị đơn hàng bạn vừa đặt, trên trình duyệt này. Nếu bạn đã có mã đơn hàng, hãy dùng chức năng Theo dõi đơn hàng.",
+    "goToShop": "Đến cửa hàng",
+    "trackOrder": "Theo dõi đơn hàng",
+    "orderPlacedBadge": "Đã đặt hàng",
+    "thankYou": "Cảm ơn bạn!",
+    "orderRefIntro": "Mã đơn hàng của bạn là",
+    "saveRefNote": "Hãy lưu lại mã này cùng với số điện thoại bạn đã dùng khi thanh toán — bạn sẽ cần CẢ HAI để tra cứu đơn hàng sau này trên trang Theo dõi đơn hàng.",
+    "orderDetailsHeading": "Chi tiết đơn hàng",
+    "batchLabel": "Lô {batch}",
+    "batchExpirySuffix": " — HSD {date}",
+    "totalLabel": "Tổng cộng ({method})",
+    "deliveringTo": "Giao đến: {address}",
+    "batchNote": "Lô hàng hiển thị ở trên được tự động chọn từ tồn kho thực, chưa hết hạn tại Cửa hàng A — cùng cơ chế gốc của ERPNext ngăn việc bán lô hàng đã hết hạn cũng được áp dụng cho đơn hàng này.",
+    "continueShopping": "Tiếp tục mua hàng"
+  },
+  "track": {
+    "title": "Theo dõi đơn hàng của bạn",
+    "subtitle": "Nhập mã đơn hàng bạn nhận được khi thanh toán VÀ số điện thoại bạn đã dùng khi thanh toán. Cả hai đều bắt buộc — chúng tôi không bao giờ tra cứu đơn hàng chỉ bằng mã đơn hàng, để bảo vệ quyền riêng tư của bạn.",
+    "labelOrderRef": "Mã đơn hàng",
+    "orderRefPlaceholder": "ví dụ: WEB06-XXXXXXXXXX",
+    "labelPhone": "Số điện thoại đã dùng khi thanh toán",
+    "submit": "Theo dõi đơn hàng",
+    "loading": "Đang tra cứu…",
+    "resultOrderedBy": "Đặt bởi {contact} vào {date} — {store}",
+    "batchLabel": "Lô {batch}",
+    "batchExpirySuffix": " — HSD {date}",
+    "totalLabel": "Tổng cộng ({method})",
+    "deliveryAddressLabel": "Địa chỉ giao hàng: {address}"
+  },
+  "errors": {
+    "malformedBody": "Yêu cầu không hợp lệ. Vui lòng thử lại.",
+    "missingFields": "Vui lòng điền đầy đủ thông tin bắt buộc.",
+    "orderRejected": "Không thể đặt đơn hàng của bạn. Vui lòng kiểm tra lại giỏ hàng và thử lại.",
+    "orderNotFound": "Không tìm thấy đơn hàng. Vui lòng kiểm tra lại mã đơn hàng và số điện thoại.",
+    "serverError": "Đã có lỗi xảy ra. Vui lòng thử lại sau ít phút.",
+    "networkError": "Không thể kết nối đến máy chủ. Vui lòng thử lại.",
+    "unknown": "Đã có lỗi xảy ra. Vui lòng thử lại."
+  }
+}

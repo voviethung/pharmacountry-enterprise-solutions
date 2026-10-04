@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getPharmacyCatalog, formatVnd } from "@/lib/api";
 
 // Force dynamic rendering — this page calls the real Frappe backend on every request.
@@ -6,7 +7,15 @@ import { getPharmacyCatalog, formatVnd } from "@/lib/api";
 // reachable from inside the build container) and serves that stale/fallback snapshot forever.
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("home");
+
   let items: Awaited<ReturnType<typeof getPharmacyCatalog>> = [];
   try {
     items = await getPharmacyCatalog();
@@ -18,33 +27,28 @@ export default async function HomePage() {
     <div className="mx-auto max-w-5xl px-4 py-12 space-y-12">
       <section className="text-center space-y-4">
         <p className="text-sm font-semibold uppercase tracking-wide text-sky-700">
-          WEB-06 — Online Pharmacy Demo
+          {t("eyebrow")}
         </p>
-        <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-          Order from Demo Pharmacy Chain Co.&apos;s Store A — the same shop, online.
-        </h1>
-        <p className="mx-auto max-w-2xl text-slate-600">
-          Browse our over-the-counter products, backed by live per-store stock generated and
-          managed by our connected ERP system, and check out as a guest — no account needed. Every
-          price and every batch you&apos;re actually charged/shipped is confirmed by our pharmacy
-          ERP system at checkout, including a genuine expiry-safety check on every order.
-        </p>
+        <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">{t("title")}</h1>
+        <p className="mx-auto max-w-2xl text-slate-600">{t("lead")}</p>
         <div>
           <Link
             href="/shop"
             className="inline-block rounded-md bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
           >
-            Shop Now
+            {t("ctaShopNow")}
           </Link>
         </div>
       </section>
 
       <section>
-        <h2 className="mb-4 text-xl font-semibold text-slate-900">Available Now</h2>
+        <h2 className="mb-4 text-xl font-semibold text-slate-900">{t("availableNow")}</h2>
         {items.length === 0 ? (
-          <p className="text-slate-500">Catalog is temporarily unavailable — please try again shortly.</p>
+          <p className="text-slate-500">{t("catalogUnavailable")}</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
+            {/* item_code/category/item_name/description/price/uom are real catalog data from the
+                connected Frappe backend — never translated, shown exactly as returned. */}
             {items.map((item) => (
               <Link
                 key={item.item_code}
@@ -67,25 +71,20 @@ export default async function HomePage() {
       </section>
 
       <section className="rounded-lg bg-slate-50 p-6 text-sm text-slate-600">
-        <p className="font-semibold text-slate-800">How ordering works on this demo</p>
+        <p className="font-semibold text-slate-800">{t("howItWorks.heading")}</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>No account or login required — add items to your cart and check out as a guest.</li>
+          <li>{t("howItWorks.item1")}</li>
+          <li>{t("howItWorks.item2")}</li>
+          <li>{t("howItWorks.item3")}</li>
+          <li>{t("howItWorks.item4")}</li>
           <li>
-            Every product listed here is genuinely over-the-counter — this demo does not offer or
-            fabricate a prescription workflow (see the README for why).
-          </li>
-          <li>
-            Stock shown is live, per-store data from Store A, generated and managed by our
-            connected ERP system, and already excludes any batch that has expired — an order can
-            never be filled from expired stock.
-          </li>
-          <li>Payment is Cash on Delivery only — no real payment gateway is used anywhere on this site.</li>
-          <li>
-            After checkout you&apos;ll get an order reference — use it with your phone number on the
-            <Link href="/track" className="mx-1 text-sky-700 underline">
-              Track Order
-            </Link>
-            page to check your order&apos;s status.
+            {t.rich("howItWorks.item5", {
+              trackLink: (chunks) => (
+                <Link href="/track" className="mx-1 text-sky-700 underline">
+                  {chunks}
+                </Link>
+              ),
+            })}
           </li>
         </ul>
       </section>

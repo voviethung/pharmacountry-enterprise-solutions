@@ -8,6 +8,10 @@ import { getPharmacyOrderStatus, PharmacyApiError } from "@/lib/api";
 //
 // Force dynamic — this reads live order data from the real Frappe backend per request and must
 // never be evaluated/cached at build time.
+//
+// Responses carry a stable, machine-readable `error_code` (never English prose) so the bilingual
+// Track Order page can render a properly localized (vi/en) message via next-intl. `detail` carries
+// the raw backend message purely for developer debugging/logging — the UI must never display it.
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
@@ -16,7 +20,7 @@ export async function GET(request: NextRequest) {
   const phone = searchParams.get("phone") || "";
 
   if (!orderToken || !phone) {
-    return NextResponse.json({ error: "Both an order reference and a phone number are required." }, { status: 400 });
+    return NextResponse.json({ error_code: "missing_fields" }, { status: 400 });
   }
 
   try {
@@ -24,8 +28,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(status);
   } catch (err) {
     if (err instanceof PharmacyApiError) {
-      return NextResponse.json({ error: err.message }, { status: err.status || 500 });
+      const status = err.status || 500;
+      return NextResponse.json(
+        { error_code: status === 404 ? "order_not_found" : "server_error", detail: err.message },
+        { status }
+      );
     }
-    return NextResponse.json({ error: "Could not look up this order." }, { status: 500 });
+    return NextResponse.json({ error_code: "server_error" }, { status: 500 });
   }
 }

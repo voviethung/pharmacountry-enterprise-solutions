@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPharmacyCatalog, formatVnd } from "@/lib/api";
 import AddToCartButton from "@/components/AddToCartButton";
 
@@ -7,7 +8,15 @@ import AddToCartButton from "@/components/AddToCartButton";
 // snapshot to every visitor forever.
 export const dynamic = "force-dynamic";
 
-export default async function ShopPage() {
+export default async function ShopPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("shop");
+
   let items: Awaited<ReturnType<typeof getPharmacyCatalog>> = [];
   let loadError = false;
   try {
@@ -18,26 +27,23 @@ export default async function ShopPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-slate-900">Shop — Store A</h1>
-      <p className="mt-1 text-sm text-slate-600">
-        Live demo products, prices, and per-store stock, generated and managed directly by our
-        connected pharmacy ERP system.
-      </p>
+      <h1 className="text-2xl font-bold text-slate-900">{t("title")}</h1>
+      <p className="mt-1 text-sm text-slate-600">{t("subtitle")}</p>
 
       {loadError && (
-        <p className="mt-6 rounded-md bg-red-50 p-4 text-sm text-red-700">
-          Could not load the catalog right now — please try again shortly.
-        </p>
+        <p className="mt-6 rounded-md bg-red-50 p-4 text-sm text-red-700">{t("loadError")}</p>
       )}
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
+        {/* item_code/category/item_name/description/price/uom/store/available_qty are real
+            catalog data from the connected Frappe backend — never translated. */}
         {items.map((item) => (
           <div key={item.item_code} className="rounded-lg border border-slate-200 p-5">
             <div className="flex items-start justify-between gap-2">
               <p className="text-xs font-medium uppercase tracking-wide text-sky-700">{item.category}</p>
               {!item.requires_prescription && (
                 <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
-                  OTC — no prescription needed
+                  {t("otcBadge")}
                 </span>
               )}
             </div>
@@ -48,8 +54,8 @@ export default async function ShopPage() {
             </p>
             <p className="mt-1 text-xs text-slate-500">
               {item.available_qty > 0
-                ? `${Math.floor(item.available_qty)} in stock at ${item.store} (non-expired only)`
-                : `Out of stock at ${item.store}`}
+                ? t("inStock", { qty: Math.floor(item.available_qty), store: item.store })
+                : t("outOfStock", { store: item.store })}
             </p>
             <div className="mt-4">
               <AddToCartButton item={item} />
@@ -58,12 +64,7 @@ export default async function ShopPage() {
         ))}
       </div>
 
-      <p className="mt-8 text-xs text-slate-500">
-        Prices and stock shown here are the current catalog snapshot at the time this page was
-        loaded. The price you&apos;re actually charged, and the specific batch your order is filled
-        from, are always confirmed by our system at checkout — an expired batch can never be sold,
-        no matter what this page shows.
-      </p>
+      <p className="mt-8 text-xs text-slate-500">{t("footerNote")}</p>
     </div>
   );
 }
