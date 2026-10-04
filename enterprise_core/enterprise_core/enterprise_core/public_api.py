@@ -1014,11 +1014,38 @@ def submit_contact_lead(full_name: str = "", email: str = "", company: str = "",
 	frappe.set_user("Administrator")
 	try:
 		lead.insert()
+		_notify_hub_contact_lead(contact)
 	finally:
 		frappe.set_user(_original_user)
 
 	# Deliberately no Lead `name`/id in the response — see module docstring point 4.
 	return {"success": True}
+
+
+def _notify_hub_contact_lead(contact: dict) -> None:
+	"""Best-effort email notification to the Hub's own contact inbox for a new `submit_contact_lead()`
+	submission. Deliberately never allowed to fail the guest-facing API call: the real Lead record
+	(this function's only caller already inserted it) is the actual source of truth — this is a
+	convenience notification on top of it, not a second write path, so a transient SMTP/Email Queue
+	error here must never surface as a 502 to a real visitor submitting the public contact form."""
+	try:
+		frappe.sendmail(
+			recipients=["contact.pharmacountry@gmail.com"],
+			subject=f"New contact form submission — {contact['full_name']}",
+			message=(
+				"<p>New submission from the PharmaCountry Enterprise Solutions Hub contact form "
+				"(pharmacountry.vn/contact):</p>"
+				f"<p><strong>Name:</strong> {frappe.utils.escape_html(contact['full_name'])}<br>"
+				f"<strong>Email:</strong> {frappe.utils.escape_html(contact['email'])}<br>"
+				f"<strong>Company:</strong> {frappe.utils.escape_html(contact['company'] or '—')}</p>"
+				f"<p><strong>Message:</strong><br>{frappe.utils.escape_html(contact['message']).replace(chr(10), '<br>')}</p>"
+			),
+		)
+	except Exception:
+		frappe.log_error(
+			title="Hub contact form notification email failed",
+			message=frappe.get_traceback(),
+		)
 
 
 def verify_hub_contact_lead_access_control():
