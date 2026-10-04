@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getCompanyProfile } from "@/lib/api";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 
+// True Next.js ROOT layout — required to own <html>/<body> for every route, including a
+// defensive fallback in case a request ever reaches this app without a locale prefix (normally
+// impossible — middleware.ts redirects every un-prefixed path to /vi/... or /en/... before
+// Next.js routing even runs). The REAL page content, header, footer, and next-intl provider all
+// live one level down in app/[locale]/layout.tsx, which cannot declare its own <html>/<body>
+// (nested layouts render inside this one). `lang` here is a static default; app/[locale]/
+// layout.tsx corrects `document.documentElement.lang` on the client once the real locale is
+// known (see components/HtmlLangSync.tsx).
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -15,38 +20,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "WEB-01 Corporate Catalog Demo",
-  description:
-    "Enterprise Platform Phase 7 WEB-01 demo — corporate site + product catalog for a demo distributor company, powered by live demo data generated and managed by the connected ERP system, served from a guest-only Frappe API.",
-};
-
-// The company name/country are used in the header/footer on every page, so they're fetched
-// once here rather than duplicated in every page component. If the Frappe backend is
-// unreachable, the layout still renders with a clearly-labeled fallback instead of crashing
-// the whole site — a real public site should never hard-fail just because one upstream call
-// is briefly down.
-async function loadHeaderProfile() {
-  try {
-    const profile = await getCompanyProfile();
-    return { companyName: profile.company_name, country: profile.country };
-  } catch {
-    return { companyName: "Corporate Site (backend unavailable)", country: "" };
-  }
-}
-
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const { companyName, country } = await loadHeaderProfile();
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      lang="en"
+      lang="vi"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-slate-900">
-        <SiteHeader companyName={companyName} />
-        <main className="flex-1">{children}</main>
-        <SiteFooter companyName={companyName} country={country} />
-      </body>
+      <body className="min-h-full flex flex-col bg-white text-slate-900">{children}</body>
     </html>
   );
 }

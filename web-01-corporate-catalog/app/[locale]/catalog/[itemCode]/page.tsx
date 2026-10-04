@@ -1,9 +1,10 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getItemDetail, formatPrice } from "@/lib/api";
 
-type Params = Promise<{ itemCode: string }>;
+type Params = Promise<{ locale: string; itemCode: string }>;
 
 // Force dynamic rendering — this page calls the real Frappe backend on every request.
 // Without this, Next.js prerenders it once at Docker build time (when the backend isn't
@@ -23,13 +24,20 @@ async function loadItem(itemCode: string) {
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { itemCode } = await params;
+  const { locale, itemCode } = await params;
   const item = await loadItem(itemCode);
-  return { title: item ? item.item_name : "Product not found" };
+  if (item) {
+    return { title: item.item_name };
+  }
+  const t = await getTranslations({ locale, namespace: "catalogItem" });
+  return { title: t("notFoundTitle") };
 }
 
 export default async function ProductDetailPage({ params }: { params: Params }) {
-  const { itemCode } = await params;
+  const { locale, itemCode } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("catalogItem");
+
   const item = await loadItem(itemCode);
   if (!item) {
     notFound();
@@ -38,7 +46,7 @@ export default async function ProductDetailPage({ params }: { params: Params }) 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
       <Link href="/catalog" className="text-sm font-medium text-slate-500 hover:text-slate-900">
-        &larr; Back to catalog
+        {t("back")}
       </Link>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-10 items-start">
@@ -54,17 +62,19 @@ export default async function ProductDetailPage({ params }: { params: Params }) 
           </p>
           <h1 className="mt-2 text-3xl font-bold text-slate-900">{item.item_name}</h1>
           <p className="mt-4 text-lg font-semibold text-slate-900">
-            {formatPrice(item.price, item.currency)}
+            {item.price === null || item.currency === null
+              ? t("priceOnRequest")
+              : formatPrice(item.price, item.currency)}
           </p>
           <p className="mt-6 text-slate-600 leading-relaxed">{item.description}</p>
 
           <dl className="mt-8 grid grid-cols-2 gap-4 border-t border-slate-200 pt-6 text-sm">
             <div>
-              <dt className="text-slate-400">Product Code</dt>
+              <dt className="text-slate-400">{t("productCode")}</dt>
               <dd className="mt-1 font-medium text-slate-900">{item.item_code}</dd>
             </div>
             <div>
-              <dt className="text-slate-400">Unit</dt>
+              <dt className="text-slate-400">{t("unit")}</dt>
               <dd className="mt-1 font-medium text-slate-900">{item.uom}</dd>
             </div>
           </dl>
