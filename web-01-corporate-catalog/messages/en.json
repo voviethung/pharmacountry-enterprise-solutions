@@ -9,7 +9,8 @@
   },
   "nav": {
     "home": "Home",
-    "catalog": "Product Catalog"
+    "catalog": "Product Catalog",
+    "backToHub": "← Back to PharmaCountry.vn"
   },
   "footer": {
     "tagline": "© {year} {companyName}. Demo corporate site — WEB-01 (Enterprise Platform Phase 7)."

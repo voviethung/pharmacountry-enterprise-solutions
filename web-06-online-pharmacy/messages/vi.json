@@ -8,7 +8,8 @@
     "brandSub": "— Nhà thuốc trực tuyến, Cửa hàng A",
     "shop": "Cửa hàng",
     "trackOrder": "Theo dõi đơn hàng",
-    "cart": "Giỏ hàng"
+    "cart": "Giỏ hàng",
+    "backToHub": "← Về PharmaCountry.vn"
   },
   "footer": {
     "line1": "Demo Pharmacy Chain Co. — đây là gian hàng demo (ENTERPRISE_PLATFORM WEB-06, Phase 7). Mọi sản phẩm, giá, tồn kho và đơn hàng hiển thị ở đây là dữ liệu demo trực tiếp, được tạo và quản lý bởi hệ thống ERP kết nối (Golden Demo #23, Cửa hàng A) — đây là môi trường demo, không phải một nhà thuốc thương mại thật.",

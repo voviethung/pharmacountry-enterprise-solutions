@@ -8,7 +8,8 @@
     "brandSub": "— Online Pharmacy, Store A",
     "shop": "Shop",
     "trackOrder": "Track Order",
-    "cart": "Cart"
+    "cart": "Cart",
+    "backToHub": "← Back to PharmaCountry.vn"
   },
   "footer": {
     "line1": "Demo Pharmacy Chain Co. — this is a demo storefront (ENTERPRISE_PLATFORM WEB-06, Phase 7). All products, prices, stock levels, and orders shown here are live demo data generated and managed by the connected ERP system (Golden Demo #23, Store A) — this is a demo instance, not a commercial pharmacy.",

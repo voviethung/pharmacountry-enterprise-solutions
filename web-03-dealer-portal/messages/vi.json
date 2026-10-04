@@ -39,7 +39,8 @@
     "navDebt": "Công nợ của tôi",
     "navReturns": "Trả hàng",
     "logoutButton": "Đăng xuất",
-    "signingOut": "Đang đăng xuất…"
+    "signingOut": "Đang đăng xuất…",
+    "backToHub": "← Về PharmaCountry.vn"
   },
   "dashboard": {
     "welcome": "Chào mừng trở lại, {name}",

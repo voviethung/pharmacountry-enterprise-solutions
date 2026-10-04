@@ -42,7 +42,8 @@
       "documents": "Documents"
     },
     "signOut": "Sign out",
-    "signingOut": "Signing out…"
+    "signingOut": "Signing out…",
+    "backToHub": "← Back to PharmaCountry.vn"
   },
   "dashboard": {
     "welcome": "Welcome back, {name}",

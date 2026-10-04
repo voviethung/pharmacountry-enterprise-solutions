@@ -6,7 +6,8 @@
   "nav": {
     "shop": "Shop",
     "track": "Track Order",
-    "cart": "Cart"
+    "cart": "Cart",
+    "backToHub": "← Back to PharmaCountry.vn"
   },
   "brand": {
     "name": "Demo Consumer Distribution Co.",

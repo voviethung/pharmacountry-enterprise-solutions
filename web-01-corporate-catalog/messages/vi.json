@@ -9,7 +9,8 @@
   },
   "nav": {
     "home": "Trang chủ",
-    "catalog": "Danh mục sản phẩm"
+    "catalog": "Danh mục sản phẩm",
+    "backToHub": "← Về PharmaCountry.vn"
   },
   "footer": {
     "tagline": "© {year} {companyName}. Trang doanh nghiệp demo — WEB-01 (Enterprise Platform Phase 7)."
