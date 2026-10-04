@@ -10,6 +10,67 @@ export const alt = "PharmaCountry Enterprise Solutions";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Built as plain JSX (not a nested SVG <img>) on purpose: an embedded SVG data-URI rasterizes
+// through a separate path that has no font data, so its own <text>"PMCT"</text> came out as
+// tofu boxes. Every element here instead goes through ImageResponse's normal Satori text
+// pipeline (already proven working for "PharmaCountry"/"Enterprise Solutions" below), at the
+// cost of approximating PharmaCountryMark's hexagon as a rounded rect (Satori has no clip-path
+// support) — same white-badge/green-outline/"PMCT"-text structure and colors, still unmistakably
+// the real mark.
+function LogoMark() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        width: 120,
+        height: 120,
+        marginRight: 36,
+        borderRadius: 26,
+        backgroundColor: "#ffffff",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          width: 76,
+          height: 76,
+          transform: "rotate(45deg)",
+          border: "5px solid #158A57",
+          borderRadius: 10,
+          backgroundColor: "#ffffff",
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          width: 66,
+          height: 26,
+          backgroundColor: "#158A57",
+          borderRadius: 4,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            fontSize: 13,
+            fontWeight: 700,
+            color: "#ffffff",
+            letterSpacing: "0.5px",
+          }}
+        >
+          PMCT
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const COPY = {
   vi: {
     eyebrow: "PHARMACOUNTRY ENTERPRISE SOLUTIONS",
@@ -48,29 +109,7 @@ export default async function Image({
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            style={{
-              display: "flex",
-              width: 120,
-              height: 120,
-              alignItems: "center",
-              justifyContent: "center",
-              marginRight: 36,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                width: 84,
-                height: 84,
-                transform: "rotate(45deg)",
-                background:
-                  "linear-gradient(135deg, #3DBB89 0%, #158A57 45%, #0A4A2D 100%)",
-                borderRadius: 14,
-                border: "3px solid #1FA76B",
-              }}
-            />
-          </div>
+          <LogoMark />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{
