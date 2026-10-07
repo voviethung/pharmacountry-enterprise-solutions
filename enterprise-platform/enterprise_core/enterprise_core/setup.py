@@ -10,6 +10,74 @@ warehouse seeds, which were misclassified this way).
 
 import frappe
 
+# A fresh ERPNext site created HEADLESSLY (bench new-site, never the interactive Setup Wizard)
+# is missing a whole set of standard root/default records the Setup Wizard normally creates —
+# "All Customer Groups", "All Supplier Groups", "All Territories", "All Item Groups", the
+# "Transit" Warehouse Type, default UOMs, etc. (see erpnext/setup/setup_wizard/operations/
+# install_fixtures.py's own install()/get_preset_records()). This app's own AI/golden-demo seed
+# functions create real master/transactional data (e.g. threepl_seeds._ensure_company(), which
+# creates a Customer Group explicitly parented under "All Customer Groups") and assume these
+# roots already exist, the same assumption the Setup Wizard flow always satisfies — a real
+# multi-tenant provisioning flow never runs that wizard, so fresh sites hard-failed with
+# "Could not find Warehouse Type: Transit" and then "Could not find Parent Customer Group: All
+# Customer Groups" in succession (confirmed live via scripts/provision-tenant.sh against a real
+# new site, frappe_docker_demo) — never hit before because the platform's own 2 real sites
+# happened to already have these from however they were first bootstrapped.
+#
+# Fix: call ERPNext's own install_fixtures.install() directly — the exact function the Setup
+# Wizard itself calls — rather than hand-reimplementing one missing record at a time as each
+# seed function happens to trip over the next one. Confirmed safe to call unconditionally (every
+# insert in frappe.desk.page.setup_wizard.setup_wizard.make_records() uses
+# ignore_if_duplicate=True and swallows+logs any other exception, never raising), so it's a
+# correct no-op on the 2 existing real sites that already have these records.
+def seed_erpnext_fixtures():
+	from erpnext.setup.setup_wizard.operations.install_fixtures import install as install_erpnext_fixtures
+	from erpnext.setup.setup_wizard.setup_wizard import setup_company, setup_defaults
+
+	# install_fixtures.install() is always called with a real country string in the interactive
+	# Setup Wizard (it comes straight from the wizard form, never None) — some of its preset
+	# records (default Territory) are built directly from it, so it can't be left out. "Vietnam"
+	# matches this platform's own real target market (see pharmacountry.vn's own "mặc định tiếng
+	# Việt" requirement elsewhere in this codebase), not a hardcoded assumption about any one
+	# tenant's real country — a tenant can still add/rename territories after provisioning.
+	country = "Vietnam"
+	install_erpnext_fixtures(country=country)
+
+	# install_fixtures.install() alone still isn't enough: ERPNext's "Standard Selling"/"Standard
+	# Buying" Price Lists (needed by threepl_seeds._ensure_item_prices() and every other seed
+	# function that prices an Item) are created by a DIFFERENT Setup Wizard stage —
+	# setup_defaults() — which itself needs setup_company()'s own default Company (for its
+	# currency/fiscal-year/global-defaults) to already exist first. Both are "Only for
+	# programmatical use" per setup_wizard.py's own comment on setup_complete(), the function this
+	# reproduces headlessly (stage_fixtures + setup_company + setup_defaults, skipping only the
+	# telemetry-capture stage, which is meaningless outside the real interactive wizard).
+	#
+	# Skipped entirely if a Company already exists on this site (the platform's own 2 real sites,
+	# or a second after_migrate run) — this block exists purely to bootstrap the master data a
+	# BRAND NEW site otherwise lacks, never to create a second company on top of one that's
+	# already there. The placeholder name/abbreviation below is deliberately generic (not any
+	# tenant's real company) — renaming/replacing it with the tenant's actual company is a
+	# separate onboarding step, out of scope for "make fresh-site provisioning not crash."
+	if frappe.db.exists("Company"):
+		return
+
+	today = frappe.utils.getdate()
+	args = frappe._dict(
+		{
+			"company_name": "Tenant Company",
+			"company_abbr": "TC",
+			"currency": "VND",
+			"country": country,
+			"chart_of_accounts": "Standard",
+			"domain": "Manufacturing",
+			"fy_start_date": f"{today.year}-01-01",
+			"fy_end_date": f"{today.year}-12-31",
+		}
+	)
+	setup_company(args)
+	setup_defaults(args)
+
+
 # (engine_code, engine_name, category) — master plan §3, 15 Capability Engines.
 _CAPABILITY_ENGINES = [
 	("CE-01", "ERP Core", "Core"),
@@ -143,8 +211,141 @@ _INDUSTRY_PACKS = [
 	# as IP-FEED/IP-PREMIX) since the traded goods are feed ingredients/additives.
 ]
 
-# The only pack with a real Edition to pair with so far (DP-302's sample Edition).
-_PACK_DEFAULT_EDITIONS = {"IP-PHARMA": _SAMPLE_EDITION_CODE}
+# The only pack with a real Edition to pair with so far (DP-302's sample Edition). Superseded
+# below by _PACK_DEFAULT_EDITIONS once the real product Editions exist — kept here unchanged so
+# the sample Edition itself (already referenced by Enterprise Core Settings.active_edition) never
+# loses its own original pairing in the history of this dict.
+_SAMPLE_PACK_DEFAULT_EDITIONS = {"IP-PHARMA": _SAMPLE_EDITION_CODE}
+
+
+# ---------------------------------------------------------------------------------------------
+# Product Editions (SaaS packaging, "chuẩn hóa Product Core") — real tiered product offerings
+# built on the same Edition/Capability Engine mechanism the sample Edition above proved out.
+# Two axes, matching how real multi-industry ERP SaaS products (NetSuite, Odoo) package
+# themselves: which INDUSTRY GROUP a customer operates in (groups the 27 Industry Packs into the
+# ~8 verticals a real buyer actually shops for — nobody buys "Hatchery" alone), and which SERVICE
+# TIER they're on (Starter/Professional/Enterprise, controlling which Capability Engines are
+# enabled). 8 groups x 3 tiers = 24 real Editions. The 4 "Horizontal / Cross-Industry" standalone
+# packs (IP-QMS/IP-DMS/IP-LIMS/IP-EAM) are deliberately NOT part of any group — they're
+# cross-cutting add-on products in their own right, not an industry vertical, so they keep no
+# default_edition here (same as today).
+# (group_code, group_name, [pack_codes])
+_EDITION_GROUPS = [
+	("PHARMA", "Pharmaceutical", ["IP-PHARMA", "IP-PHARMACY", "IP-3PL-COLDCHAIN"]),
+	("SUPPLEMENT_COSMETICS", "Nutraceutical & Cosmetics", ["IP-SUPPLEMENT", "IP-COSMETICS", "IP-CONSUMER-DIST"]),
+	("MEDICAL_DEVICE", "Medical Device", ["IP-MEDICAL-DEVICE"]),
+	("VETERINARY", "Veterinary", ["IP-VETERINARY", "IP-VETERINARY-BIOLOGICAL"]),
+	("ANIMAL_FEED", "Animal Feed", ["IP-FEED", "IP-PREMIX", "IP-INGREDIENT-TRADING"]),
+	("LIVESTOCK", "Livestock", ["IP-LIVESTOCK-PIG", "IP-LIVESTOCK-POULTRY", "IP-LIVESTOCK-CATTLE", "IP-HATCHERY"]),
+	("AQUACULTURE", "Aquaculture", ["IP-AQUAFEED", "IP-AQUA-ENVIRONMENT", "IP-SHRIMP", "IP-FISH", "IP-AQUA-HATCHERY"]),
+	("PROCESSING", "Meat & Seafood Processing", ["IP-MEAT-PROCESSING", "IP-SEAFOOD-PROCESSING"]),
+]
+
+# Engines every tier shares, before a group's own industry engines are added.
+_TIER_STARTER_ENGINES = ["CE-01", "CE-04", "CE-05"]
+_TIER_PROFESSIONAL_ADDS = ["CE-02", "CE-03", "CE-11", "CE-12"]
+_TIER_ENTERPRISE_ADDS = ["CE-13", "CE-14", "CE-15"]
+
+# Per-group industry engines, added at Professional (and inherited by Enterprise) — derived from
+# what each group's own packs' real doctypes actually exercise (manufacturing/QC-heavy packs get
+# QMS/DMS/LIMS/EAM; farm-operation packs get Farm Management instead, not the manufacturing QC
+# stack their doctypes never touch; see DP-307's own per-pack seed function list above for which
+# doctypes each pack really uses).
+_GROUP_INDUSTRY_ENGINES = {
+	"PHARMA": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"SUPPLEMENT_COSMETICS": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"MEDICAL_DEVICE": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"VETERINARY": ["CE-06", "CE-07", "CE-10"],
+	"ANIMAL_FEED": ["CE-06", "CE-08", "CE-09"],
+	"LIVESTOCK": ["CE-10"],
+	"AQUACULTURE": ["CE-10"],
+	"PROCESSING": ["CE-06", "CE-08"],
+}
+
+_TIER_SUFFIXES = ["STARTER", "PROFESSIONAL", "ENTERPRISE"]
+
+
+def _build_product_editions():
+	"""Returns [(edition_code, edition_name, description, [engine_codes])] for all 24 real
+	Editions — computed from the registries above rather than hand-listed, so the Starter <
+	Professional < Enterprise engine progression can never drift out of sync across the 8 groups."""
+	editions = []
+	for group_code, group_name, _packs in _EDITION_GROUPS:
+		industry_engines = _GROUP_INDUSTRY_ENGINES[group_code]
+		starter = list(_TIER_STARTER_ENGINES)
+		professional = starter + _TIER_PROFESSIONAL_ADDS + industry_engines
+		enterprise = professional + _TIER_ENTERPRISE_ADDS
+		tiers = [("STARTER", starter), ("PROFESSIONAL", professional), ("ENTERPRISE", enterprise)]
+		for tier_suffix, engines in tiers:
+			edition_code = f"{group_code}_{tier_suffix}"
+			edition_name = f"{group_name} — {tier_suffix.title()}"
+			description = (
+				f"Real product Edition (chuẩn hóa Product Core) for the {group_name} industry "
+				f"group, {tier_suffix.title()} tier."
+			)
+			# De-duplicate while preserving order (a group/tier combination can list the same
+			# engine twice across the Starter/Professional/Enterprise/industry lists above).
+			seen = set()
+			ordered_engines = [e for e in engines if not (e in seen or seen.add(e))]
+			editions.append((edition_code, edition_name, description, ordered_engines))
+	return editions
+
+
+_PRODUCT_EDITIONS = _build_product_editions()
+
+# Every pack's real default Edition: its group's Professional tier (the sensible middle default —
+# Starter/Enterprise remain available for a future subscription/signup flow to let the customer
+# pick). IP-PHARMA intentionally moves OFF the old illustrative PHARMA_MFG_STARTER sample onto
+# the real PHARMA_PROFESSIONAL Edition; the sample Edition record itself is left in place
+# unchanged (still referenced by _SAMPLE_PACK_DEFAULT_EDITIONS above and by whatever Enterprise
+# Core Settings.active_edition already points to) rather than deleted, so no existing Link field
+# is ever left dangling.
+_PACK_DEFAULT_EDITIONS = {
+	pack_code: f"{group_code}_PROFESSIONAL"
+	for group_code, _group_name, pack_codes in _EDITION_GROUPS
+	for pack_code in pack_codes
+}
+
+
+def seed_product_editions():
+	for edition_code, edition_name, description, engine_codes in _PRODUCT_EDITIONS:
+		if frappe.db.exists("Edition", edition_code):
+			continue
+		edition = frappe.get_doc(
+			{
+				"doctype": "Edition",
+				"edition_code": edition_code,
+				"edition_name": edition_name,
+				"description": description,
+				"is_default": 0,
+			}
+		)
+		for engine_code in engine_codes:
+			edition.append("capability_engines", {"capability_engine": engine_code, "enabled": 1})
+		edition.insert(ignore_permissions=True)
+
+
+def sync_industry_pack_default_editions():
+	for pack_code, edition_code in _PACK_DEFAULT_EDITIONS.items():
+		current = frappe.db.get_value("Industry Pack", pack_code, "default_edition")
+		if current == edition_code:
+			continue
+		frappe.db.set_value("Industry Pack", pack_code, "default_edition", edition_code)
+
+
+def activate_edition(edition_code: str) -> None:
+	"""Pins THIS SITE's Enterprise Core Settings.active_edition to a real product Edition — the
+	one step a tenant-provisioning flow calls (via `bench execute`) right after `bench new-site
+	... --install-app enterprise_core` finishes seeding the Edition/Capability Engine/Industry
+	Pack registry (after_install, above), to turn a freshly-provisioned site into "this tenant is
+	on the Veterinary Professional plan" without any manual Desk clicking. Called from
+	frappe_docker_demo's scripts/provision-tenant.sh."""
+	if not frappe.db.exists("Edition", edition_code):
+		frappe.throw(f"Edition '{edition_code}' does not exist on this site.")
+	settings = frappe.get_single("Enterprise Core Settings")
+	settings.active_edition = edition_code
+	settings.save(ignore_permissions=True)
+	frappe.db.commit()
 
 
 def seed_industry_packs():
@@ -865,11 +1066,40 @@ def seed_ai_evaluation_datasets_wrapper():
 	seed_ai_evaluation_datasets()
 
 
+# The platform's own 2 demo/sales sites (see frappe_docker_demo/scripts/_lib.sh's own
+# REAL_SITES) — the only sites that should ever get real golden-demo SHOWCASE data (fake
+# companies, hardcoded demo users like qa.manager@pharmacountry.vn, AI chat history, etc.). A
+# real tenant site provisioned via scripts/provision-tenant.sh must start clean with just the
+# platform's own catalog (Capability Engines/Editions/Industry Packs/Templates — seeded
+# unconditionally below, harmless metadata, not demo data) — never pre-loaded with another
+# company's fake data. Confirmed live: without this gate, a fresh tenant site hard-crashes
+# partway through the AI wrapper functions, which hardcode assumptions (specific demo
+# users/companies) that only the 2 real sites actually have.
+_DEMO_SHOWCASE_SITES = {"test.demo.local", "pharmacountry.vn"}
+
+
+def seed_demo_showcase_data():
+	if frappe.local.site not in _DEMO_SHOWCASE_SITES:
+		return
+	seed_ai_foundation_wrapper()
+	seed_ai_executive_assistant_wrapper()
+	seed_ai_qms_copilot_wrapper()
+	seed_ai_dms_copilot_wrapper()
+	seed_ai_manufacturing_insight_wrapper()
+	seed_ai_procurement_assistant_wrapper()
+	seed_ai_farm_aquaculture_insight_wrapper()
+	seed_ai_permission_aware_rag_wrapper()
+	seed_ai_evaluation_datasets_wrapper()
+
+
 def after_install():
+	seed_erpnext_fixtures()
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
+	seed_product_editions()
 	seed_industry_packs()
+	sync_industry_pack_default_editions()
 	seed_role_templates()
 	seed_industry_pack_roles()
 	seed_workspace_templates()
@@ -901,22 +1131,17 @@ def after_install():
 	seed_industry_pack_premix_seeds()
 	seed_industry_pack_ingredient_trading_seeds()
 	seed_industry_pack_meat_processing_seeds()
-	seed_ai_foundation_wrapper()
-	seed_ai_executive_assistant_wrapper()
-	seed_ai_qms_copilot_wrapper()
-	seed_ai_dms_copilot_wrapper()
-	seed_ai_manufacturing_insight_wrapper()
-	seed_ai_procurement_assistant_wrapper()
-	seed_ai_farm_aquaculture_insight_wrapper()
-	seed_ai_permission_aware_rag_wrapper()
-	seed_ai_evaluation_datasets_wrapper()
+	seed_demo_showcase_data()
 
 
 def after_migrate():
+	seed_erpnext_fixtures()
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
+	seed_product_editions()
 	seed_industry_packs()
+	sync_industry_pack_default_editions()
 	seed_role_templates()
 	seed_industry_pack_roles()
 	seed_workspace_templates()
@@ -948,12 +1173,4 @@ def after_migrate():
 	seed_industry_pack_premix_seeds()
 	seed_industry_pack_ingredient_trading_seeds()
 	seed_industry_pack_meat_processing_seeds()
-	seed_ai_foundation_wrapper()
-	seed_ai_executive_assistant_wrapper()
-	seed_ai_qms_copilot_wrapper()
-	seed_ai_dms_copilot_wrapper()
-	seed_ai_manufacturing_insight_wrapper()
-	seed_ai_procurement_assistant_wrapper()
-	seed_ai_farm_aquaculture_insight_wrapper()
-	seed_ai_permission_aware_rag_wrapper()
-	seed_ai_evaluation_datasets_wrapper()
+	seed_demo_showcase_data()

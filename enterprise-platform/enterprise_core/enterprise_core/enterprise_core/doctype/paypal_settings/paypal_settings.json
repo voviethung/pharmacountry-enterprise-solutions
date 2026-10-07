@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "creation": "2026-10-07 18:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "mode",
+  "client_id",
+  "client_secret",
+  "webhook_id",
+  "default_currency",
+  "product_id"
+ ],
+ "fields": [
+  {
+   "default": "Sandbox",
+   "description": "Sandbox for testing (no real money moves); switch to Live only once a real subscription has been tested end-to-end in Sandbox.",
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode",
+   "options": "Sandbox\nLive",
+   "reqd": 1
+  },
+  {
+   "description": "From the PayPal Developer Dashboard (developer.paypal.com) > Apps & Credentials > your app. Sandbox and Live each have their own separate Client ID.",
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "label": "Client ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client_secret",
+   "fieldtype": "Password",
+   "label": "Client Secret",
+   "reqd": 1
+  },
+  {
+   "description": "From the Webhooks section of the same app, after registering this site's webhook URL — used to verify an incoming webhook POST really came from PayPal before trusting it.",
+   "fieldname": "webhook_id",
+   "fieldtype": "Data",
+   "label": "Webhook ID"
+  },
+  {
+   "default": "USD",
+   "description": "PayPal does not support VND as a transaction currency — every Billing Plan/Subscription amount is charged in this currency regardless of the tenant's own country.",
+   "fieldname": "default_currency",
+   "fieldtype": "Select",
+   "label": "Default Currency",
+   "options": "USD\nEUR\nGBP\nAUD\nSGD",
+   "reqd": 1
+  },
+  {
+   "description": "Auto-created once by paypal_billing.py on the first ensure_billing_plan() call — the single shared PayPal \"Product\" every Edition's Billing Plans are nested under. Leave blank; never set by hand.",
+   "fieldname": "product_id",
+   "fieldtype": "Data",
+   "label": "PayPal Product ID",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-07 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "PayPal Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
