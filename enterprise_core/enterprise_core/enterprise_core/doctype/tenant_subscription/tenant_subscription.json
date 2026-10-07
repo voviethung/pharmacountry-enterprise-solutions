@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "autoname": "hash",
+ "creation": "2026-10-07 18:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tenant_site",
+  "company_name",
+  "customer_email",
+  "column_break_1",
+  "edition",
+  "billing_cycle",
+  "status",
+  "section_break_1",
+  "amount",
+  "currency",
+  "column_break_2",
+  "trial_end_date",
+  "current_period_end",
+  "section_break_2",
+  "paypal_subscription_id",
+  "paypal_plan_id",
+  "events"
+ ],
+ "fields": [
+  {
+   "description": "The real Frappe site hostname this subscription provisions/governs, e.g. acme.pharmacountry.vn — matches scripts/provision-tenant.sh's own <site-name> argument.",
+   "fieldname": "tenant_site",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tenant Site",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_email",
+   "fieldtype": "Data",
+   "label": "Customer Email",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "edition",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Edition",
+   "options": "Edition",
+   "reqd": 1
+  },
+  {
+   "default": "Monthly",
+   "fieldname": "billing_cycle",
+   "fieldtype": "Select",
+   "label": "Billing Cycle",
+   "options": "Monthly\nYearly",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "description": "Pending: checkout started, not yet approved by PayPal. Trial: approved, inside a free trial window (if any). Active: paying. Past Due: a renewal payment failed. Canceled: ended (by the tenant or after repeated failed payments).",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nTrial\nActive\nPast Due\nCanceled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "Always in PayPal's own billing currency (see PayPal Settings.default_currency) — PayPal does not support VND, so this is never a VND amount even for a Vietnam-based tenant.",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trial_end_date",
+   "fieldtype": "Date",
+   "label": "Trial End Date"
+  },
+  {
+   "fieldname": "current_period_end",
+   "fieldtype": "Date",
+   "label": "Current Period End"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "PayPal"
+  },
+  {
+   "fieldname": "paypal_subscription_id",
+   "fieldtype": "Data",
+   "label": "PayPal Subscription ID",
+   "unique": 1
+  },
+  {
+   "fieldname": "paypal_plan_id",
+   "fieldtype": "Data",
+   "label": "PayPal Plan ID"
+  },
+  {
+   "fieldname": "events",
+   "fieldtype": "Table",
+   "label": "Events",
+   "options": "Subscription Event"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-07 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Enterprise Core",
+ "name": "Tenant Subscription",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
