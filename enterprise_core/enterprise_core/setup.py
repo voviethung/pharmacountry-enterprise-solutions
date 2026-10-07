@@ -143,8 +143,126 @@ _INDUSTRY_PACKS = [
 	# as IP-FEED/IP-PREMIX) since the traded goods are feed ingredients/additives.
 ]
 
-# The only pack with a real Edition to pair with so far (DP-302's sample Edition).
-_PACK_DEFAULT_EDITIONS = {"IP-PHARMA": _SAMPLE_EDITION_CODE}
+# The only pack with a real Edition to pair with so far (DP-302's sample Edition). Superseded
+# below by _PACK_DEFAULT_EDITIONS once the real product Editions exist — kept here unchanged so
+# the sample Edition itself (already referenced by Enterprise Core Settings.active_edition) never
+# loses its own original pairing in the history of this dict.
+_SAMPLE_PACK_DEFAULT_EDITIONS = {"IP-PHARMA": _SAMPLE_EDITION_CODE}
+
+
+# ---------------------------------------------------------------------------------------------
+# Product Editions (SaaS packaging, "chuẩn hóa Product Core") — real tiered product offerings
+# built on the same Edition/Capability Engine mechanism the sample Edition above proved out.
+# Two axes, matching how real multi-industry ERP SaaS products (NetSuite, Odoo) package
+# themselves: which INDUSTRY GROUP a customer operates in (groups the 27 Industry Packs into the
+# ~8 verticals a real buyer actually shops for — nobody buys "Hatchery" alone), and which SERVICE
+# TIER they're on (Starter/Professional/Enterprise, controlling which Capability Engines are
+# enabled). 8 groups x 3 tiers = 24 real Editions. The 4 "Horizontal / Cross-Industry" standalone
+# packs (IP-QMS/IP-DMS/IP-LIMS/IP-EAM) are deliberately NOT part of any group — they're
+# cross-cutting add-on products in their own right, not an industry vertical, so they keep no
+# default_edition here (same as today).
+# (group_code, group_name, [pack_codes])
+_EDITION_GROUPS = [
+	("PHARMA", "Pharmaceutical", ["IP-PHARMA", "IP-PHARMACY", "IP-3PL-COLDCHAIN"]),
+	("SUPPLEMENT_COSMETICS", "Nutraceutical & Cosmetics", ["IP-SUPPLEMENT", "IP-COSMETICS", "IP-CONSUMER-DIST"]),
+	("MEDICAL_DEVICE", "Medical Device", ["IP-MEDICAL-DEVICE"]),
+	("VETERINARY", "Veterinary", ["IP-VETERINARY", "IP-VETERINARY-BIOLOGICAL"]),
+	("ANIMAL_FEED", "Animal Feed", ["IP-FEED", "IP-PREMIX", "IP-INGREDIENT-TRADING"]),
+	("LIVESTOCK", "Livestock", ["IP-LIVESTOCK-PIG", "IP-LIVESTOCK-POULTRY", "IP-LIVESTOCK-CATTLE", "IP-HATCHERY"]),
+	("AQUACULTURE", "Aquaculture", ["IP-AQUAFEED", "IP-AQUA-ENVIRONMENT", "IP-SHRIMP", "IP-FISH", "IP-AQUA-HATCHERY"]),
+	("PROCESSING", "Meat & Seafood Processing", ["IP-MEAT-PROCESSING", "IP-SEAFOOD-PROCESSING"]),
+]
+
+# Engines every tier shares, before a group's own industry engines are added.
+_TIER_STARTER_ENGINES = ["CE-01", "CE-04", "CE-05"]
+_TIER_PROFESSIONAL_ADDS = ["CE-02", "CE-03", "CE-11", "CE-12"]
+_TIER_ENTERPRISE_ADDS = ["CE-13", "CE-14", "CE-15"]
+
+# Per-group industry engines, added at Professional (and inherited by Enterprise) — derived from
+# what each group's own packs' real doctypes actually exercise (manufacturing/QC-heavy packs get
+# QMS/DMS/LIMS/EAM; farm-operation packs get Farm Management instead, not the manufacturing QC
+# stack their doctypes never touch; see DP-307's own per-pack seed function list above for which
+# doctypes each pack really uses).
+_GROUP_INDUSTRY_ENGINES = {
+	"PHARMA": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"SUPPLEMENT_COSMETICS": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"MEDICAL_DEVICE": ["CE-06", "CE-07", "CE-08", "CE-09"],
+	"VETERINARY": ["CE-06", "CE-07", "CE-10"],
+	"ANIMAL_FEED": ["CE-06", "CE-08", "CE-09"],
+	"LIVESTOCK": ["CE-10"],
+	"AQUACULTURE": ["CE-10"],
+	"PROCESSING": ["CE-06", "CE-08"],
+}
+
+_TIER_SUFFIXES = ["STARTER", "PROFESSIONAL", "ENTERPRISE"]
+
+
+def _build_product_editions():
+	"""Returns [(edition_code, edition_name, description, [engine_codes])] for all 24 real
+	Editions — computed from the registries above rather than hand-listed, so the Starter <
+	Professional < Enterprise engine progression can never drift out of sync across the 8 groups."""
+	editions = []
+	for group_code, group_name, _packs in _EDITION_GROUPS:
+		industry_engines = _GROUP_INDUSTRY_ENGINES[group_code]
+		starter = list(_TIER_STARTER_ENGINES)
+		professional = starter + _TIER_PROFESSIONAL_ADDS + industry_engines
+		enterprise = professional + _TIER_ENTERPRISE_ADDS
+		tiers = [("STARTER", starter), ("PROFESSIONAL", professional), ("ENTERPRISE", enterprise)]
+		for tier_suffix, engines in tiers:
+			edition_code = f"{group_code}_{tier_suffix}"
+			edition_name = f"{group_name} — {tier_suffix.title()}"
+			description = (
+				f"Real product Edition (chuẩn hóa Product Core) for the {group_name} industry "
+				f"group, {tier_suffix.title()} tier."
+			)
+			# De-duplicate while preserving order (a group/tier combination can list the same
+			# engine twice across the Starter/Professional/Enterprise/industry lists above).
+			seen = set()
+			ordered_engines = [e for e in engines if not (e in seen or seen.add(e))]
+			editions.append((edition_code, edition_name, description, ordered_engines))
+	return editions
+
+
+_PRODUCT_EDITIONS = _build_product_editions()
+
+# Every pack's real default Edition: its group's Professional tier (the sensible middle default —
+# Starter/Enterprise remain available for a future subscription/signup flow to let the customer
+# pick). IP-PHARMA intentionally moves OFF the old illustrative PHARMA_MFG_STARTER sample onto
+# the real PHARMA_PROFESSIONAL Edition; the sample Edition record itself is left in place
+# unchanged (still referenced by _SAMPLE_PACK_DEFAULT_EDITIONS above and by whatever Enterprise
+# Core Settings.active_edition already points to) rather than deleted, so no existing Link field
+# is ever left dangling.
+_PACK_DEFAULT_EDITIONS = {
+	pack_code: f"{group_code}_PROFESSIONAL"
+	for group_code, _group_name, pack_codes in _EDITION_GROUPS
+	for pack_code in pack_codes
+}
+
+
+def seed_product_editions():
+	for edition_code, edition_name, description, engine_codes in _PRODUCT_EDITIONS:
+		if frappe.db.exists("Edition", edition_code):
+			continue
+		edition = frappe.get_doc(
+			{
+				"doctype": "Edition",
+				"edition_code": edition_code,
+				"edition_name": edition_name,
+				"description": description,
+				"is_default": 0,
+			}
+		)
+		for engine_code in engine_codes:
+			edition.append("capability_engines", {"capability_engine": engine_code, "enabled": 1})
+		edition.insert(ignore_permissions=True)
+
+
+def sync_industry_pack_default_editions():
+	for pack_code, edition_code in _PACK_DEFAULT_EDITIONS.items():
+		current = frappe.db.get_value("Industry Pack", pack_code, "default_edition")
+		if current == edition_code:
+			continue
+		frappe.db.set_value("Industry Pack", pack_code, "default_edition", edition_code)
 
 
 def seed_industry_packs():
@@ -869,7 +987,9 @@ def after_install():
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
+	seed_product_editions()
 	seed_industry_packs()
+	sync_industry_pack_default_editions()
 	seed_role_templates()
 	seed_industry_pack_roles()
 	seed_workspace_templates()
@@ -916,7 +1036,9 @@ def after_migrate():
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
+	seed_product_editions()
 	seed_industry_packs()
+	sync_industry_pack_default_editions()
 	seed_role_templates()
 	seed_industry_pack_roles()
 	seed_workspace_templates()
