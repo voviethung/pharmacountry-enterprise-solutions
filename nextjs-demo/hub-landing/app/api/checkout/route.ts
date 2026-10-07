@@ -1,23 +1,12 @@
 import { NextResponse } from "next/server";
 import { createSubscriptionCheckout, FrappeApiError } from "@/lib/api";
 
-// Server-side Route Handler backing the Hub's public /signup form — same structural reason as
-// app/api/contact/route.ts: the browser's own <form>/fetch can only ever talk to THIS Next.js
-// server (same-origin), never directly to Frappe with a custom Host header (see lib/api.ts's
-// own top-of-file comment on why callFrappeApi() needs Node's raw `http` module). Real request
-// path: browser -> this route handler (Node server) -> Frappe's guest-whitelisted
-// `paypal_billing.create_subscription_checkout()`, which does its own full, independent
-// re-validation (edition must be real + priced, tenant_site must not already have a pending/
-// active subscription, etc.) — this route's own checks are a defense-in-depth/better-error-
-// message layer, never the real security boundary, exactly like the /api/contact route.
-//
-// This route reads ONLY the 7 fields the backend function accepts — no pass-through of an
-// arbitrary request body.
 const MAX_EDITION_CODE_LEN = 60;
 const MAX_COMPANY_LEN = 120;
 const MAX_EMAIL_LEN = 180;
-const MAX_TENANT_SITE_LEN = 63; // a DNS label limit — tenant_site becomes "<this>.pharmacountry.vn".
+const MAX_TENANT_SITE_LEN = 63;
 const TENANT_SITE_PATTERN = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
+const LEGACY_SAMPLE_EDITION = "PHARMA_MFG_STARTER";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -49,8 +38,12 @@ export async function POST(request: Request) {
   const retUrl = typeof returnUrl === "string" ? returnUrl.trim() : "";
   const cnclUrl = typeof cancelUrl === "string" ? cancelUrl.trim() : "";
 
-  if (!edition || edition.length > MAX_EDITION_CODE_LEN) {
-    return NextResponse.json({ error: "A valid plan is required." }, { status: 400 });
+  if (
+    !edition ||
+    edition.length > MAX_EDITION_CODE_LEN ||
+    edition === LEGACY_SAMPLE_EDITION
+  ) {
+    return NextResponse.json({ error: "A valid public plan is required." }, { status: 400 });
   }
   if (cycle !== "Monthly" && cycle !== "Yearly") {
     return NextResponse.json(
