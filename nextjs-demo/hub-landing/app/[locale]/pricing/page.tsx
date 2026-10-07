@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPricingPlans, type PricingPlan } from "@/lib/api";
 import PricingTable, { type PricingGroup } from "@/components/PricingTable";
 
+const LEGACY_SAMPLE_EDITION = "PHARMA_MFG_STARTER";
+
 export async function generateMetadata({
   params,
 }: {
@@ -16,18 +18,10 @@ export async function generateMetadata({
   };
 }
 
-// Force dynamic rendering — this page calls the real Frappe backend (get_pricing_plans()) on
-// every request, same discipline as every other backend-reading page in this app (see
-// app/[locale]/page.tsx's own comment on why).
 export const dynamic = "force-dynamic";
 
-// Presentation-only display order for the real industry groups `get_pricing_plans()` returns
-// (computed server-side from the real Edition.edition_code, see that function's own
-// docstring) — any industry code not listed here (there shouldn't be one today) still renders,
-// just sorted alphabetically after the ones below, rather than being dropped.
 const INDUSTRY_ORDER = [
   "PHARMA",
-  "PHARMA_MFG",
   "SUPPLEMENT_COSMETICS",
   "MEDICAL_DEVICE",
   "ANIMAL_FEED",
@@ -49,7 +43,9 @@ export default async function PricingPage({
   let plans: PricingPlan[] = [];
   let loadError = false;
   try {
-    plans = await getPricingPlans();
+    plans = (await getPricingPlans()).filter(
+      (plan) => plan.edition_code !== LEGACY_SAMPLE_EDITION
+    );
   } catch {
     loadError = true;
   }
