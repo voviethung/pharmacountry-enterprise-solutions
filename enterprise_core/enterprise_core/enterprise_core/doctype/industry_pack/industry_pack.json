@@ -40,7 +40,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Industry Category",
-   "options": "Pharmaceutical\nNutraceutical\nCosmetics\nMedical Device\nVeterinary\nAnimal Feed\nLivestock\nAquaculture\nProcessing"
+   "options": "Pharmaceutical\nNutraceutical\nCosmetics\nMedical Device\nVeterinary\nAnimal Feed\nLivestock\nAquaculture\nProcessing\nHorizontal / Cross-Industry"
   },
   {
    "fieldname": "description",

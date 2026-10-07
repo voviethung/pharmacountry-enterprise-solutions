@@ -10,6 +10,74 @@ warehouse seeds, which were misclassified this way).
 
 import frappe
 
+# A fresh ERPNext site created HEADLESSLY (bench new-site, never the interactive Setup Wizard)
+# is missing a whole set of standard root/default records the Setup Wizard normally creates —
+# "All Customer Groups", "All Supplier Groups", "All Territories", "All Item Groups", the
+# "Transit" Warehouse Type, default UOMs, etc. (see erpnext/setup/setup_wizard/operations/
+# install_fixtures.py's own install()/get_preset_records()). This app's own AI/golden-demo seed
+# functions create real master/transactional data (e.g. threepl_seeds._ensure_company(), which
+# creates a Customer Group explicitly parented under "All Customer Groups") and assume these
+# roots already exist, the same assumption the Setup Wizard flow always satisfies — a real
+# multi-tenant provisioning flow never runs that wizard, so fresh sites hard-failed with
+# "Could not find Warehouse Type: Transit" and then "Could not find Parent Customer Group: All
+# Customer Groups" in succession (confirmed live via scripts/provision-tenant.sh against a real
+# new site, frappe_docker_demo) — never hit before because the platform's own 2 real sites
+# happened to already have these from however they were first bootstrapped.
+#
+# Fix: call ERPNext's own install_fixtures.install() directly — the exact function the Setup
+# Wizard itself calls — rather than hand-reimplementing one missing record at a time as each
+# seed function happens to trip over the next one. Confirmed safe to call unconditionally (every
+# insert in frappe.desk.page.setup_wizard.setup_wizard.make_records() uses
+# ignore_if_duplicate=True and swallows+logs any other exception, never raising), so it's a
+# correct no-op on the 2 existing real sites that already have these records.
+def seed_erpnext_fixtures():
+	from erpnext.setup.setup_wizard.operations.install_fixtures import install as install_erpnext_fixtures
+	from erpnext.setup.setup_wizard.setup_wizard import setup_company, setup_defaults
+
+	# install_fixtures.install() is always called with a real country string in the interactive
+	# Setup Wizard (it comes straight from the wizard form, never None) — some of its preset
+	# records (default Territory) are built directly from it, so it can't be left out. "Vietnam"
+	# matches this platform's own real target market (see pharmacountry.vn's own "mặc định tiếng
+	# Việt" requirement elsewhere in this codebase), not a hardcoded assumption about any one
+	# tenant's real country — a tenant can still add/rename territories after provisioning.
+	country = "Vietnam"
+	install_erpnext_fixtures(country=country)
+
+	# install_fixtures.install() alone still isn't enough: ERPNext's "Standard Selling"/"Standard
+	# Buying" Price Lists (needed by threepl_seeds._ensure_item_prices() and every other seed
+	# function that prices an Item) are created by a DIFFERENT Setup Wizard stage —
+	# setup_defaults() — which itself needs setup_company()'s own default Company (for its
+	# currency/fiscal-year/global-defaults) to already exist first. Both are "Only for
+	# programmatical use" per setup_wizard.py's own comment on setup_complete(), the function this
+	# reproduces headlessly (stage_fixtures + setup_company + setup_defaults, skipping only the
+	# telemetry-capture stage, which is meaningless outside the real interactive wizard).
+	#
+	# Skipped entirely if a Company already exists on this site (the platform's own 2 real sites,
+	# or a second after_migrate run) — this block exists purely to bootstrap the master data a
+	# BRAND NEW site otherwise lacks, never to create a second company on top of one that's
+	# already there. The placeholder name/abbreviation below is deliberately generic (not any
+	# tenant's real company) — renaming/replacing it with the tenant's actual company is a
+	# separate onboarding step, out of scope for "make fresh-site provisioning not crash."
+	if frappe.db.exists("Company"):
+		return
+
+	today = frappe.utils.getdate()
+	args = frappe._dict(
+		{
+			"company_name": "Tenant Company",
+			"company_abbr": "TC",
+			"currency": "VND",
+			"country": country,
+			"chart_of_accounts": "Standard",
+			"domain": "Manufacturing",
+			"fy_start_date": f"{today.year}-01-01",
+			"fy_end_date": f"{today.year}-12-31",
+		}
+	)
+	setup_company(args)
+	setup_defaults(args)
+
+
 # (engine_code, engine_name, category) — master plan §3, 15 Capability Engines.
 _CAPABILITY_ENGINES = [
 	("CE-01", "ERP Core", "Core"),
@@ -263,6 +331,21 @@ def sync_industry_pack_default_editions():
 		if current == edition_code:
 			continue
 		frappe.db.set_value("Industry Pack", pack_code, "default_edition", edition_code)
+
+
+def activate_edition(edition_code: str) -> None:
+	"""Pins THIS SITE's Enterprise Core Settings.active_edition to a real product Edition — the
+	one step a tenant-provisioning flow calls (via `bench execute`) right after `bench new-site
+	... --install-app enterprise_core` finishes seeding the Edition/Capability Engine/Industry
+	Pack registry (after_install, above), to turn a freshly-provisioned site into "this tenant is
+	on the Veterinary Professional plan" without any manual Desk clicking. Called from
+	frappe_docker_demo's scripts/provision-tenant.sh."""
+	if not frappe.db.exists("Edition", edition_code):
+		frappe.throw(f"Edition '{edition_code}' does not exist on this site.")
+	settings = frappe.get_single("Enterprise Core Settings")
+	settings.active_edition = edition_code
+	settings.save(ignore_permissions=True)
+	frappe.db.commit()
 
 
 def seed_industry_packs():
@@ -983,7 +1066,34 @@ def seed_ai_evaluation_datasets_wrapper():
 	seed_ai_evaluation_datasets()
 
 
+# The platform's own 2 demo/sales sites (see frappe_docker_demo/scripts/_lib.sh's own
+# REAL_SITES) — the only sites that should ever get real golden-demo SHOWCASE data (fake
+# companies, hardcoded demo users like qa.manager@pharmacountry.vn, AI chat history, etc.). A
+# real tenant site provisioned via scripts/provision-tenant.sh must start clean with just the
+# platform's own catalog (Capability Engines/Editions/Industry Packs/Templates — seeded
+# unconditionally below, harmless metadata, not demo data) — never pre-loaded with another
+# company's fake data. Confirmed live: without this gate, a fresh tenant site hard-crashes
+# partway through the AI wrapper functions, which hardcode assumptions (specific demo
+# users/companies) that only the 2 real sites actually have.
+_DEMO_SHOWCASE_SITES = {"test.demo.local", "pharmacountry.vn"}
+
+
+def seed_demo_showcase_data():
+	if frappe.local.site not in _DEMO_SHOWCASE_SITES:
+		return
+	seed_ai_foundation_wrapper()
+	seed_ai_executive_assistant_wrapper()
+	seed_ai_qms_copilot_wrapper()
+	seed_ai_dms_copilot_wrapper()
+	seed_ai_manufacturing_insight_wrapper()
+	seed_ai_procurement_assistant_wrapper()
+	seed_ai_farm_aquaculture_insight_wrapper()
+	seed_ai_permission_aware_rag_wrapper()
+	seed_ai_evaluation_datasets_wrapper()
+
+
 def after_install():
+	seed_erpnext_fixtures()
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
@@ -1021,18 +1131,11 @@ def after_install():
 	seed_industry_pack_premix_seeds()
 	seed_industry_pack_ingredient_trading_seeds()
 	seed_industry_pack_meat_processing_seeds()
-	seed_ai_foundation_wrapper()
-	seed_ai_executive_assistant_wrapper()
-	seed_ai_qms_copilot_wrapper()
-	seed_ai_dms_copilot_wrapper()
-	seed_ai_manufacturing_insight_wrapper()
-	seed_ai_procurement_assistant_wrapper()
-	seed_ai_farm_aquaculture_insight_wrapper()
-	seed_ai_permission_aware_rag_wrapper()
-	seed_ai_evaluation_datasets_wrapper()
+	seed_demo_showcase_data()
 
 
 def after_migrate():
+	seed_erpnext_fixtures()
 	seed_capability_engines()
 	seed_feature_flags()
 	seed_sample_edition()
@@ -1070,12 +1173,4 @@ def after_migrate():
 	seed_industry_pack_premix_seeds()
 	seed_industry_pack_ingredient_trading_seeds()
 	seed_industry_pack_meat_processing_seeds()
-	seed_ai_foundation_wrapper()
-	seed_ai_executive_assistant_wrapper()
-	seed_ai_qms_copilot_wrapper()
-	seed_ai_dms_copilot_wrapper()
-	seed_ai_manufacturing_insight_wrapper()
-	seed_ai_procurement_assistant_wrapper()
-	seed_ai_farm_aquaculture_insight_wrapper()
-	seed_ai_permission_aware_rag_wrapper()
-	seed_ai_evaluation_datasets_wrapper()
+	seed_demo_showcase_data()
