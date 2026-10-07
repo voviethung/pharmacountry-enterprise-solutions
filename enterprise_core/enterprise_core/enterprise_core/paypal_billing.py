@@ -1,36 +1,25 @@
-"""PayPal Subscriptions billing integration — the "Subscription/Billing" roadmap step, built on
-top of the 24 real product Editions from setup.py's "chuẩn hóa Product Core" and the real
-scripts/provision-tenant.sh multi-tenant provisioning step.
+"""PayPal Subscriptions billing integration for the commercial SaaS control plane.
 
-ARCHITECTURE: this module runs on the CONTROL-PLANE site — the one real site where PayPal
-Settings is configured and Subscription records live (today: pharmacountry.vn, the platform's
-own main real site) — never on a tenant's own site. A tenant's own site only ever receives a
-single activate_edition() call (enterprise_core.setup.activate_edition), made here via a direct
-cross-site `frappe.init(site=...)` connection — the exact same mechanism `bench --site X
-execute` itself uses under the hood, valid because every tenant site lives in the same shared
-bench, just its own separate database — never an HTTP round-trip to the tenant site.
+This module runs on the control-plane site where PayPal Settings and Tenant Subscription
+records live. Customer tenant sites keep their own business data and only receive their active
+Edition/configuration.
 
-SECURITY: webhook_api() below is guest-whitelisted (PayPal calls it directly, no session) and is
-the one real write path a stranger could try to forge — it verifies every request's signature
-against PayPal's own /v1/notifications/verify-webhook-signature endpoint BEFORE trusting a
-single field of the payload, refusing anything that doesn't verify. The checkout-creation path
-(create_subscription_checkout) is also guest-whitelisted (a real signup flow has no session yet)
-but only ever creates a Pending-status record and a legitimate PayPal approval link — it never
-activates anything by itself.
+The public Hub now calls create_subscription_checkout() through its Next.js signup/checkout
+flow. This backend remains the real security boundary: it re-validates the requested Edition,
+creates only a Pending subscription, and never trusts a browser success page as proof of
+payment. PayPal webhook signatures are verified before subscription state changes are trusted.
 
-NOT YET WIRED: no public pricing/checkout PAGE calls create_subscription_checkout() yet (that's
-a Next.js page, future work) — this module is the backend half, usable today via the Frappe API
-directly. PayPal Settings must be configured (Client ID/Secret from
-https://developer.paypal.com > Apps & Credentials, Sandbox first) and each Edition's
-monthly_price/yearly_price set before any of this actually works — ensure_billing_plan() refuses
-to create a Billing Plan for an unpriced Edition rather than silently charging $0.
+Tenant-site creation/DNS publication is still a separate provisioning concern. On activation,
+this module activates the purchased Edition on an already-provisioned tenant site and logs any
+activation failure for operational follow-up.
 """
 
 import frappe
 import requests
-from frappe.utils import add_months, add_years, getdate, nowdate
+from frappe.utils import add_months, add_years, getdate
 
 _DEMO_SHOWCASE_SITES = {"test.demo.local", "pharmacountry.vn"}
+_PUBLIC_CHECKOUT_EXCLUDED_EDITIONS = {"PHARMA_MFG_STARTER"}
 
 
 def _settings():
@@ -94,10 +83,7 @@ def _ensure_product(settings) -> str:
 
 
 def ensure_billing_plan(edition_code: str, billing_cycle: str) -> str:
-	"""Returns a real PayPal Billing Plan ID for this Edition/cycle, creating it on PayPal (and
-	caching the ID on the Edition doc) the first time it's needed — every later call for the
-	same Edition/cycle just returns the cached ID, never creates a duplicate Plan. Refuses to
-	create a Plan for an Edition that has no real price set, rather than ever charging $0."""
+	"""Return a PayPal Billing Plan ID for one Edition/cycle, creating and caching it once."""
 	if billing_cycle not in ("Monthly", "Yearly"):
 		frappe.throw(f"Unknown billing_cycle '{billing_cycle}' — must be 'Monthly' or 'Yearly'.")
 
@@ -130,7 +116,7 @@ def ensure_billing_plan(edition_code: str, billing_cycle: str) -> str:
 					"frequency": {"interval_unit": interval_unit, "interval_count": 1},
 					"tenure_type": "REGULAR",
 					"sequence": 1,
-					"total_cycles": 0,  # 0 = runs until cancelled, standard SaaS subscription.
+					"total_cycles": 0,
 					"pricing_scheme": {
 						"fixed_price": {"value": f"{float(price):.2f}", "currency_code": settings.default_currency}
 					},
@@ -158,12 +144,15 @@ def create_subscription_checkout(
 	return_url: str,
 	cancel_url: str,
 ):
-	"""Starts a real PayPal subscription checkout for a prospective tenant. Returns the PayPal
-	approval URL to redirect the browser to — nothing is activated yet; that only happens once
-	PayPal calls webhook_api() with BILLING.SUBSCRIPTION.ACTIVATED after the customer actually
-	approves and pays. Creates a local Subscription record with status "Pending" so the whole
-	checkout attempt is tracked even if the customer never completes it."""
-	if frappe.db.exists("Tenant Subscription", {"tenant_site": tenant_site, "status": ["in", ["Pending", "Trial", "Active"]]}):
+	"""Start a PayPal subscription checkout and create a local Pending Tenant Subscription."""
+	edition_code = (edition_code or "").strip()
+	if edition_code in _PUBLIC_CHECKOUT_EXCLUDED_EDITIONS:
+		frappe.throw(f"Edition '{edition_code}' is not available for public subscription checkout.")
+
+	if frappe.db.exists(
+		"Tenant Subscription",
+		{"tenant_site": tenant_site, "status": ["in", ["Pending", "Trial", "Active"]]},
+	):
 		frappe.throw(f"'{tenant_site}' already has a pending or active subscription.")
 
 	plan_id = ensure_billing_plan(edition_code, billing_cycle)
@@ -241,12 +230,7 @@ def _verify_webhook_signature(headers: dict, raw_body: str, settings) -> bool:
 
 
 def _activate_tenant_edition(tenant_site: str, edition_code: str) -> None:
-	"""Cross-site call into the tenant's OWN database (same shared bench, different site) — see
-	this module's own docstring for why this is the correct mechanism, not an HTTP call. Never
-	raises past this function: a tenant site being briefly unreachable must not corrupt the
-	control-plane's own Subscription record or crash webhook processing (PayPal retries webhooks
-	on a non-2xx response, but this failure mode warrants a human looking at logs, not an
-	automatic retry storm)."""
+	"""Activate the purchased Edition on an already-provisioned tenant site."""
 	try:
 		frappe.init(site=tenant_site)
 		frappe.connect()
@@ -272,10 +256,7 @@ def _extend_period(subscription, billing_cycle: str) -> None:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def webhook_api():
-	"""PayPal's own webhook endpoint for this platform — register this URL
-	(https://pharmacountry.vn/api/method/enterprise_core.enterprise_core.paypal_billing.webhook_api)
-	in the PayPal Developer Dashboard's Webhooks section for the same app PayPal Settings uses,
-	then copy the Webhook ID it gives you into PayPal Settings.webhook_id."""
+	"""PayPal webhook endpoint. Verify the signature before trusting any event fields."""
 	raw_body = frappe.request.get_data(as_text=True)
 	settings = _settings()
 
@@ -289,11 +270,11 @@ def webhook_api():
 	paypal_subscription_id = resource.get("id") or resource.get("billing_agreement_id")
 
 	if not paypal_subscription_id:
-		# Not every PayPal webhook event is subscription-shaped (PayPal sends many event types to
-		# the same webhook URL) — ignore anything we can't map to a real Subscription record.
 		return {"status": "ignored", "reason": "no subscription id in payload"}
 
-	sub_name = frappe.db.get_value("Tenant Subscription", {"paypal_subscription_id": paypal_subscription_id})
+	sub_name = frappe.db.get_value(
+		"Tenant Subscription", {"paypal_subscription_id": paypal_subscription_id}
+	)
 	if not sub_name:
 		frappe.log_error(
 			title="PayPal webhook for unknown subscription",
@@ -329,10 +310,10 @@ def webhook_api():
 		sub.status = "Canceled"
 		sub.save(ignore_permissions=True)
 		frappe.db.commit()
-		# Deliberately does NOT deactivate the tenant's Edition automatically — a sudden feature
-		# lockout on a billing event is a real-customer-impacting action a human should confirm
-		# first, not something this webhook silently does. Logged clearly for follow-up instead.
-		sub.log_event(event_type, "Subscription cancelled/expired — tenant Edition NOT auto-deactivated; review manually.")
+		sub.log_event(
+			event_type,
+			"Subscription cancelled/expired — tenant Edition NOT auto-deactivated; review manually.",
+		)
 
 	else:
 		sub.log_event(event_type, "Unhandled event type, logged for visibility only.")
