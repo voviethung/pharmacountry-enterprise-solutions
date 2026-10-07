@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { getPricingPlans, type BillingCycle, type PricingPlan } from "@/lib/api";
 import SignupForm from "@/components/SignupForm";
 
+const LEGACY_SAMPLE_EDITION = "PHARMA_MFG_STARTER";
+
 export async function generateMetadata({
   params,
 }: {
@@ -17,9 +19,6 @@ export async function generateMetadata({
   };
 }
 
-// Force dynamic rendering — this page re-fetches get_pricing_plans() to validate and re-display
-// the selected plan server-side (never trusting the edition/cycle query params on their own),
-// same discipline as every other backend-reading page in this app.
 export const dynamic = "force-dynamic";
 
 export default async function SignupPage({
@@ -41,7 +40,10 @@ export default async function SignupPage({
   let loadError = false;
   try {
     const plans = await getPricingPlans();
-    plan = plans.find((p) => p.edition_code === editionCode) ?? null;
+    plan =
+      editionCode === LEGACY_SAMPLE_EDITION
+        ? null
+        : plans.find((p) => p.edition_code === editionCode) ?? null;
   } catch {
     loadError = true;
   }
