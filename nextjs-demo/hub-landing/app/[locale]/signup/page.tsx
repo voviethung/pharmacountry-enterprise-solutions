@@ -35,6 +35,10 @@ export default async function SignupPage({
 
   const editionCode = typeof edition === "string" ? edition.trim() : "";
   const billingCycle: BillingCycle = cycle === "Yearly" ? "Yearly" : "Monthly";
+  const signupIntro =
+    locale === "vi"
+      ? "Nhập thông tin doanh nghiệp để tiếp tục thanh toán qua PayPal. Sau khi PayPal xác nhận đăng ký, hệ thống sẽ ghi nhận subscription và hoàn tất tenant theo quy trình provisioning; tên miền có thể cần bước cấu hình hạ tầng trước khi truy cập."
+      : "Enter your company details to continue to PayPal. After PayPal confirms the subscription, the platform records the subscription and completes the tenant through the provisioning workflow; hostname infrastructure may still require a configuration step before access.";
 
   let plan: PricingPlan | null = null;
   let loadError = false;
@@ -79,7 +83,7 @@ export default async function SignupPage({
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <h1 className="text-3xl font-bold text-slate-900">{t("title")}</h1>
-      <p className="mt-3 max-w-2xl text-slate-600">{t("intro")}</p>
+      <p className="mt-3 max-w-2xl text-slate-600">{signupIntro}</p>
 
       <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-[1fr_320px]">
         <SignupForm editionCode={plan.edition_code} billingCycle={billingCycle} locale={locale} />
