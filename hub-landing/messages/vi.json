@@ -7,7 +7,15 @@
     "aboutTitle": "Giới thiệu — PharmaCountry Enterprise Solutions",
     "aboutDescription": "PharmaCountry Enterprise Solutions xây dựng những gì, và vì sao.",
     "contactTitle": "Liên hệ — PharmaCountry Enterprise Solutions",
-    "contactDescription": "Liên hệ với đội ngũ PharmaCountry Enterprise Solutions."
+    "contactDescription": "Liên hệ với đội ngũ PharmaCountry Enterprise Solutions.",
+    "pricingTitle": "Bảng giá — PharmaCountry Enterprise Solutions",
+    "pricingDescription": "Các gói đăng ký thực tế theo từng ngành và cấp độ, lấy trực tiếp từ hệ thống Edition của chúng tôi.",
+    "signupTitle": "Đăng ký — PharmaCountry Enterprise Solutions",
+    "signupDescription": "Hoàn tất đăng ký gói giải pháp bạn đã chọn.",
+    "checkoutSuccessTitle": "Đăng ký thành công — PharmaCountry Enterprise Solutions",
+    "checkoutSuccessDescription": "Yêu cầu đăng ký của bạn đã được ghi nhận.",
+    "checkoutCancelTitle": "Đã hủy đăng ký — PharmaCountry Enterprise Solutions",
+    "checkoutCancelDescription": "Quá trình thanh toán đã bị hủy."
   },
   "brand": {
     "name": "PharmaCountry",
@@ -18,6 +26,7 @@
     "solutions": "Giải pháp",
     "solutionsFull": "Ngành & Giải pháp",
     "about": "Giới thiệu",
+    "pricing": "Bảng giá",
     "contact": "Liên hệ",
     "switchToVi": "Tiếng Việt",
     "switchToEn": "English"
@@ -270,6 +279,68 @@
       "zaloQrLabel": "Quét mã Zalo",
       "zaloQrAlt": "Mã QR Zalo của PharmaCountry",
       "zaloQrHint": "Quét bằng app Zalo để kết bạn/nhắn tin trực tiếp."
+    }
+  },
+  "pricing": {
+    "title": "Bảng giá",
+    "intro": "Các gói đăng ký thực tế theo từng ngành, lấy trực tiếp từ hệ thống Edition (sản phẩm/giá) của chúng tôi — không phải bảng giá cố định dựng riêng cho trang này.",
+    "loadError": "Dữ liệu bảng giá trực tiếp tạm thời không khả dụng. Vui lòng thử lại sau.",
+    "toggle": {
+      "monthly": "Hàng tháng",
+      "yearly": "Hàng năm"
+    },
+    "yearlySavingsNote": "Thanh toán theo năm tương đương được miễn phí khoảng 2 tháng so với thanh toán hàng tháng.",
+    "perMonth": "/tháng",
+    "perYear": "/năm",
+    "subscribe": "Đăng ký ngay",
+    "tierLabel": {
+      "Starter": "Starter",
+      "Professional": "Professional",
+      "Enterprise": "Enterprise"
+    },
+    "industries": {
+      "PHARMA": "Dược phẩm",
+      "PHARMA_MFG": "Sản xuất dược phẩm (gói mẫu minh họa)",
+      "SUPPLEMENT_COSMETICS": "Thực phẩm chức năng & Mỹ phẩm",
+      "MEDICAL_DEVICE": "Thiết bị y tế",
+      "ANIMAL_FEED": "Thức ăn chăn nuôi",
+      "LIVESTOCK": "Chăn nuôi",
+      "AQUACULTURE": "Thủy sản",
+      "PROCESSING": "Chế biến thịt & thủy sản",
+      "VETERINARY": "Thú y"
+    }
+  },
+  "signup": {
+    "title": "Hoàn tất đăng ký",
+    "intro": "Nhập thông tin doanh nghiệp của bạn để tiếp tục thanh toán qua PayPal. Hệ thống của bạn sẽ được kích hoạt tự động ngay sau khi thanh toán được xác nhận.",
+    "loadError": "Không thể tải dữ liệu gói giải pháp lúc này. Vui lòng thử lại sau.",
+    "planNotFoundTitle": "Không tìm thấy gói giải pháp",
+    "planNotFoundBody": "Chúng tôi không tìm thấy gói giải pháp này trong hệ thống. Vui lòng chọn lại từ trang Bảng giá.",
+    "backToPricing": "← Quay lại Bảng giá",
+    "selectedPlanHeading": "Gói đã chọn",
+    "perMonthShort": "/tháng",
+    "perYearShort": "/năm",
+    "billedMonthly": "Thanh toán hàng tháng (USD).",
+    "billedYearly": "Thanh toán hàng năm (USD).",
+    "labelCompanyName": "Tên công ty",
+    "labelEmail": "Địa chỉ email",
+    "labelTenantSite": "Tên miền phụ của bạn",
+    "tenantSiteHint": "Đây sẽ là tên miền phụ của hệ thống bạn, ví dụ: \"acme\" → acme.pharmacountry.vn. Chỉ dùng chữ thường, số và dấu gạch ngang.",
+    "submit": "Tiếp tục đến PayPal",
+    "submitting": "Đang xử lý…",
+    "errorValidation": "Vui lòng nhập tên công ty, email hợp lệ và tên miền phụ hợp lệ (chữ thường, số, dấu gạch ngang).",
+    "errorGeneric": "Đã có lỗi xảy ra khi bắt đầu thanh toán. Vui lòng thử lại sau."
+  },
+  "checkout": {
+    "success": {
+      "title": "Đăng ký thành công",
+      "body": "Cảm ơn bạn đã đăng ký. Yêu cầu thanh toán của bạn đã được PayPal xác nhận và hệ thống của bạn sẽ được kích hoạt tự động trong thời gian ngắn.",
+      "backHome": "Về trang chủ"
+    },
+    "cancel": {
+      "title": "Đã hủy thanh toán",
+      "body": "Bạn đã hủy quá trình thanh toán. Chưa có khoản phí nào được tính và chưa có hệ thống nào được kích hoạt. Bạn có thể thử lại bất cứ lúc nào.",
+      "backToPricing": "← Quay lại Bảng giá"
     }
   }
 }

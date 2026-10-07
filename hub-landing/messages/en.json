@@ -7,7 +7,15 @@
     "aboutTitle": "About — PharmaCountry Enterprise Solutions",
     "aboutDescription": "What PharmaCountry Enterprise Solutions builds, and why.",
     "contactTitle": "Contact — PharmaCountry Enterprise Solutions",
-    "contactDescription": "Get in touch with the PharmaCountry Enterprise Solutions team."
+    "contactDescription": "Get in touch with the PharmaCountry Enterprise Solutions team.",
+    "pricingTitle": "Pricing — PharmaCountry Enterprise Solutions",
+    "pricingDescription": "Real subscription plans by industry and tier, pulled live from our own Edition registry.",
+    "signupTitle": "Sign Up — PharmaCountry Enterprise Solutions",
+    "signupDescription": "Complete your signup for the plan you selected.",
+    "checkoutSuccessTitle": "Signup Complete — PharmaCountry Enterprise Solutions",
+    "checkoutSuccessDescription": "Your signup request has been received.",
+    "checkoutCancelTitle": "Checkout Canceled — PharmaCountry Enterprise Solutions",
+    "checkoutCancelDescription": "The checkout process was canceled."
   },
   "brand": {
     "name": "PharmaCountry",
@@ -18,6 +26,7 @@
     "solutions": "Solutions",
     "solutionsFull": "Industries & Solutions",
     "about": "About",
+    "pricing": "Pricing",
     "contact": "Contact",
     "switchToVi": "Tiếng Việt",
     "switchToEn": "English"
@@ -270,6 +279,68 @@
       "zaloQrLabel": "Scan on Zalo",
       "zaloQrAlt": "PharmaCountry's Zalo QR code",
       "zaloQrHint": "Scan with the Zalo app to connect or message us directly."
+    }
+  },
+  "pricing": {
+    "title": "Pricing",
+    "intro": "Real subscription plans by industry, pulled live from our own Edition (product/pricing) registry — not a static price list built just for this page.",
+    "loadError": "Live pricing data is temporarily unavailable. Please try again shortly.",
+    "toggle": {
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "yearlySavingsNote": "Paying yearly is equivalent to about 2 months free compared to paying monthly.",
+    "perMonth": "/mo",
+    "perYear": "/yr",
+    "subscribe": "Subscribe",
+    "tierLabel": {
+      "Starter": "Starter",
+      "Professional": "Professional",
+      "Enterprise": "Enterprise"
+    },
+    "industries": {
+      "PHARMA": "Pharmaceutical",
+      "PHARMA_MFG": "Pharma Manufacturing (sample edition)",
+      "SUPPLEMENT_COSMETICS": "Nutraceutical & Cosmetics",
+      "MEDICAL_DEVICE": "Medical Device",
+      "ANIMAL_FEED": "Animal Feed",
+      "LIVESTOCK": "Livestock",
+      "AQUACULTURE": "Aquaculture",
+      "PROCESSING": "Meat & Seafood Processing",
+      "VETERINARY": "Veterinary"
+    }
+  },
+  "signup": {
+    "title": "Complete Your Signup",
+    "intro": "Enter your company details to continue to PayPal checkout. Your system will be activated automatically as soon as payment is confirmed.",
+    "loadError": "We couldn't load plan data right now. Please try again shortly.",
+    "planNotFoundTitle": "Plan Not Found",
+    "planNotFoundBody": "We couldn't find this plan in our system. Please pick a plan again from the Pricing page.",
+    "backToPricing": "← Back to Pricing",
+    "selectedPlanHeading": "Selected Plan",
+    "perMonthShort": "/mo",
+    "perYearShort": "/yr",
+    "billedMonthly": "Billed monthly (USD).",
+    "billedYearly": "Billed yearly (USD).",
+    "labelCompanyName": "Company name",
+    "labelEmail": "Email address",
+    "labelTenantSite": "Your subdomain",
+    "tenantSiteHint": "This becomes your system's subdomain, e.g. \"acme\" → acme.pharmacountry.vn. Lowercase letters, numbers, and hyphens only.",
+    "submit": "Continue to PayPal",
+    "submitting": "Processing…",
+    "errorValidation": "Please enter a company name, a valid email, and a valid subdomain (lowercase letters, numbers, hyphens).",
+    "errorGeneric": "Something went wrong starting checkout. Please try again shortly."
+  },
+  "checkout": {
+    "success": {
+      "title": "Signup Complete",
+      "body": "Thank you for signing up. PayPal has confirmed your payment and your system will be activated automatically shortly.",
+      "backHome": "Back to Home"
+    },
+    "cancel": {
+      "title": "Checkout Canceled",
+      "body": "You canceled the checkout process. No charge was made and no system was activated. You can try again anytime.",
+      "backToPricing": "← Back to Pricing"
     }
   }
 }
