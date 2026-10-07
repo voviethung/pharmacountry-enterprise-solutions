@@ -1048,6 +1048,82 @@ def _notify_hub_contact_lead(contact: dict) -> None:
 		)
 
 
+# ============================================================================
+# Public Pricing / SaaS Signup (USER-REQUESTED — add a pricing/signup flow to the EXISTING Hub,
+# not a new Next.js app). Backs two new pages in `nextjs-demo/hub-landing`: `/pricing` (this
+# function) and `/signup` (which calls this same function to re-display the chosen plan, then
+# calls the already-built `paypal_billing.create_subscription_checkout()` directly — that
+# function is NOT duplicated here).
+#
+# DATA SOURCE: the real `Edition` DocType (25 real records today — 8 industries x
+# Starter/Professional/Enterprise, plus one extra Starter-only edition, PHARMA_MFG_STARTER) —
+# the platform's own real product/billing catalog, already priced in USD
+# (`monthly_price`/`yearly_price`) for `paypal_billing.py`'s real PayPal Sandbox checkout flow.
+# Nothing here is invented pricing data.
+#
+# SECURITY MODEL — same discipline as every other function in this module: `Edition`'s own
+# DocType permissions (see enterprise_core/doctype/edition/edition.json) grant read/write only
+# to `System Manager` — there is NO Guest/All read permission on it. `frappe.db.get_all()` with
+# an explicit field allow-list is used for the exact same reason `get_industry_solutions()`/
+# `get_platform_stats()` above use it instead of `frappe.get_list()`: `get_list()` ENFORCES
+# DocType permissions and would return an empty result to the guest user this endpoint runs as.
+# The only filter applied (`monthly_price > 0`) is a hardcoded constant, never a request
+# parameter. Only `edition_code`/`edition_name`/`description`/`monthly_price`/`yearly_price` are
+# ever read — never `paypal_monthly_plan_id`/`paypal_yearly_plan_id` (internal cached PayPal plan
+# IDs) and never the `capability_engines`/`feature_flags` child tables.
+#
+# `industry`/`tier` ARE NOT REAL FIELDS on Edition (confirmed against edition.json — there is no
+# separate tier field at all) — both are computed here, in Python, from the real
+# `edition_code`'s own `<INDUSTRY>_<TIER>` naming convention, never guessed per-record and never
+# stored.
+_EDITION_TIERS = ("STARTER", "PROFESSIONAL", "ENTERPRISE")
+
+
+def _split_edition_code(edition_code: str):
+	"""Derives (industry, tier) from a real Edition.edition_code using the platform's own
+	`<INDUSTRY>_<TIER>` naming convention (e.g. "PHARMA_STARTER" -> ("PHARMA", "Starter")).
+	"PHARMA_MFG_STARTER" -> ("PHARMA_MFG", "Starter") — a real, distinct extra group (one more
+	Starter-only edition), never merged into "PHARMA" by guesswork. Falls back to the full code
+	as the industry with an empty tier for any code that doesn't end in a known tier suffix,
+	rather than raising — stays correct if a differently-named Edition is ever added."""
+	for tier in _EDITION_TIERS:
+		suffix = f"_{tier}"
+		if edition_code.endswith(suffix):
+			return edition_code[: -len(suffix)], tier.capitalize()
+	return edition_code, ""
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_pricing_plans():
+	"""Public, guest-accessible pricing-plan list for the Hub's new `/pricing` page — every real
+	Edition that actually has a monthly price set (`monthly_price > 0`, a hardcoded constant
+	filter, never a request parameter), with `industry`/`tier` computed from `edition_code` (see
+	`_split_edition_code()`). Never returns the cached PayPal plan ID fields or the
+	capability_engines/feature_flags child tables — a guest only ever sees what a real public
+	pricing page needs to show."""
+	editions = frappe.db.get_all(
+		"Edition",
+		filters={"monthly_price": [">", 0]},
+		fields=["edition_code", "edition_name", "description", "monthly_price", "yearly_price"],
+		order_by="edition_code asc",
+	)
+	plans = []
+	for edition in editions:
+		industry, tier = _split_edition_code(edition.edition_code)
+		plans.append(
+			{
+				"edition_code": edition.edition_code,
+				"edition_name": edition.edition_name,
+				"description": edition.description or "",
+				"monthly_price": edition.monthly_price,
+				"yearly_price": edition.yearly_price,
+				"industry": industry,
+				"tier": tier,
+			}
+		)
+	return plans
+
+
 def verify_hub_contact_lead_access_control():
 	"""Real, empirical proof for the Hub contact form's guest-write security model — part of the
 	platform's standard verify_* regression sweep. Always runs as Guest (this endpoint never
