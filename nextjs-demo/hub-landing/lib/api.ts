@@ -228,3 +228,65 @@ export function submitContactLead(input: ContactLeadInput): Promise<{ success: b
     }
   );
 }
+
+// Real pricing-plan data for the Hub's new /pricing + /signup pages, backed by
+// `public_api.py`'s `get_pricing_plans()` — the real `Edition` doctype (25 real records, 8
+// industries x Starter/Professional/Enterprise plus one extra Starter-only edition), never a
+// hardcoded price list here. `industry`/`tier` are computed server-side from `edition_code`
+// (see that function's own docstring) — this frontend never re-derives them.
+export interface PricingPlan {
+  edition_code: string;
+  edition_name: string;
+  description: string;
+  monthly_price: number;
+  yearly_price: number;
+  industry: string;
+  tier: string;
+}
+
+export function getPricingPlans(): Promise<PricingPlan[]> {
+  return callFrappeApi<PricingPlan[]>(
+    "enterprise_core.enterprise_core.public_api.get_pricing_plans"
+  );
+}
+
+export type BillingCycle = "Monthly" | "Yearly";
+
+export interface CheckoutInput {
+  editionCode: string;
+  billingCycle: BillingCycle;
+  tenantSite: string;
+  companyName: string;
+  customerEmail: string;
+  returnUrl: string;
+  cancelUrl: string;
+}
+
+export interface CheckoutResult {
+  approval_url: string;
+  subscription: string;
+}
+
+// The Hub's own guest-write call into the already-built, already-PayPal-Sandbox-tested
+// `paypal_billing.create_subscription_checkout()` — same callFrappeApi() plumbing as
+// submitContactLead() above, just a different target function. This call only ever STARTS a
+// checkout (creates a Pending Tenant Subscription + a PayPal approval link); real tenant
+// provisioning happens later, out of band, via paypal_billing.py's own webhook_api() once the
+// customer actually approves and pays on PayPal — never triggered from this frontend.
+export function createSubscriptionCheckout(input: CheckoutInput): Promise<CheckoutResult> {
+  return callFrappeApi<CheckoutResult>(
+    "enterprise_core.enterprise_core.paypal_billing.create_subscription_checkout",
+    {
+      method: "POST",
+      body: {
+        edition_code: input.editionCode,
+        billing_cycle: input.billingCycle,
+        tenant_site: input.tenantSite,
+        company_name: input.companyName,
+        customer_email: input.customerEmail,
+        return_url: input.returnUrl,
+        cancel_url: input.cancelUrl,
+      },
+    }
+  );
+}

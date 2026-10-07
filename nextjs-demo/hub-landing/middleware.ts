@@ -22,7 +22,24 @@ const intlMiddleware = createIntlMiddleware(routing);
 //
 // GENUINELY AMBIGUOUS: default to Vietnamese, matching the user's own explicit stated
 // preference, rather than defaulting to English.
+//
+// CRAWLER OVERRIDE (checked first, before CF-IPCountry): a link-preview bot (Zalo, Facebook,
+// etc.) fetching the bare `pharmacountry.vn` for its OG card is not "a visitor" in the
+// geo-detection sense at all — it typically runs from infrastructure outside Vietnam and/or
+// sends a generic `Accept-Language: en-US` regardless of who the link was actually shared with,
+// so the normal CF-IPCountry/Accept-Language logic below can't be trusted for it (confirmed
+// live: a link shared in Zalo to a VN contact rendered an English OG card). Since the real
+// audience is VN-default by explicit requirement, every known preview/search crawler is forced
+// to the default locale directly, rather than running through geo detection at all.
+const CRAWLER_USER_AGENT_PATTERN =
+  /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Slackbot|Discordbot|SkypeUriPreview|Pinterest|redditbot|vkShare|Zalo|Googlebot|bingbot|Applebot|YandexBot|DuckDuckBot/i;
+
 function detectLocale(request: NextRequest): "vi" | "en" {
+  const userAgent = request.headers.get("user-agent") || "";
+  if (CRAWLER_USER_AGENT_PATTERN.test(userAgent)) {
+    return routing.defaultLocale;
+  }
+
   const cfCountry = request.headers.get("cf-ipcountry");
   if (cfCountry && cfCountry.trim()) {
     return cfCountry.trim().toUpperCase() === "VN" ? "vi" : "en";
