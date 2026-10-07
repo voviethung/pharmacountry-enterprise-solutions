@@ -94,7 +94,7 @@ Rules:
 - Keep it only for backward compatibility/history while existing links/settings may still reference it.
 - Do not show it on public pricing.
 - Do not accept it through public signup.
-- Do not accept it through the public Next.js checkout boundary.
+- Do not accept it through either the public Next.js checkout boundary or the guest Frappe checkout endpoint.
 - New customer deployments use the real `PHARMA_STARTER`, `PHARMA_PROFESSIONAL` or `PHARMA_ENTERPRISE` Editions.
 
 A future migration may retire/delete it only after checking all Link fields, settings and existing subscription references.
@@ -121,7 +121,7 @@ Each customer tenant must have:
 - tenant-specific users, permissions and configuration;
 - no public-demo showcase data unless explicitly created by that customer's own onboarding/import process.
 
-Fresh-site provisioning has been exercised end-to-end. Public demo data is gated away from real customer tenant provisioning.
+Fresh-site provisioning has been exercised end-to-end as a separate backend/operations workflow. Public demo data is gated away from real customer tenant provisioning.
 
 ### 2.6 Tenant Subscription
 
@@ -159,7 +159,7 @@ Do not use internal demo numbers as customer-facing product names.
 
 ## 3. Current SaaS lifecycle
 
-Current implemented flow:
+Current implemented pieces form this lifecycle, but tenant-site creation is still a separate provisioning workflow rather than an automatic side effect of PayPal checkout:
 
 ```text
 Visitor
@@ -178,12 +178,22 @@ Tenant Subscription (Pending)
   ↓
 PayPal event/webhook
   ↓
-Subscription state / activation logic
+Subscription state becomes Active
   ↓
-Tenant Site + active Edition
+Separate tenant provisioning workflow creates/prepares the Frappe site
+  ↓
+Edition activation is applied to the existing tenant site
+  ↓
+DNS/hostname publication and first-run onboarding
 ```
 
-The browser success page is informational only. It must never be the source of truth for payment or tenant activation.
+Important current behavior:
+
+- The browser success page is informational only and is never proof of payment.
+- The PayPal webhook changes subscription state and attempts Edition activation on the named tenant site.
+- The webhook **does not create a missing Frappe tenant site**.
+- If the tenant site does not exist yet, Edition activation is logged as a failure and requires provisioning/operational follow-up.
+- Therefore the platform must not market the current checkout as fully zero-touch automated provisioning yet.
 
 ---
 
@@ -246,6 +256,7 @@ The platform must not imply that QMS/DMS/GMP is required for every customer.
 4. Billing secrets remain on the control plane.
 5. Tenant permissions and data isolation are mandatory boundaries, not presentation choices.
 6. Test provisioning on truly fresh sites; existing demo sites cannot prove fresh-install correctness.
+7. Do not mark a subscription/site lifecycle as fully automated until tenant creation, DNS publication and first-run onboarding are actually wired end-to-end.
 
 ---
 
@@ -260,7 +271,8 @@ Rules:
 - Cached PayPal plan IDs are internal data and must not be exposed by public pricing APIs.
 - Checkout creates a Pending subscription; payment-provider events determine the real subscription state.
 - A public frontend must never trust query parameters as the sole validation of an Edition.
-- Legacy/sample Editions must not be accepted by the public commercial path.
+- Legacy/sample Editions must not be accepted by the public commercial path, including the backend guest checkout endpoint.
+- Payment activation and tenant provisioning are related but distinct workflows; do not conflate them.
 
 ---
 
@@ -282,9 +294,16 @@ Do not silently restore an older demo-only assumption because an old README or c
 
 The following are not yet considered fully closed merely because the base subscription flow exists:
 
-### 9.1 Automatic tenant hostname/DNS provisioning
+### 9.1 Automatic tenant provisioning + hostname/DNS
 
-Fresh Frappe-site provisioning works, but Cloudflare/DNS hostname publication still needs full automation and runtime qualification.
+Fresh Frappe-site provisioning works when run explicitly, but the PayPal activation webhook does not create a missing tenant site. The commercial target is an idempotent provisioning orchestrator that can:
+
+- create the tenant site;
+- install required apps;
+- activate the purchased Edition;
+- apply the selected Industry Pack/onboarding configuration;
+- create/publish the tenant hostname through Cloudflare/DNS;
+- record provisioning status/errors back on the control plane.
 
 ### 9.2 First-run tenant onboarding
 
