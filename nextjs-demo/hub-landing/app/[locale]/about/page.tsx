@@ -32,12 +32,15 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
+  const technologyPositioning =
+    locale === "vi"
+      ? "Nền tảng được xây dựng trên Frappe/ERPNext — một nền tảng công nghệ mã nguồn mở đã được kiểm chứng — và được PharmaCountry mở rộng bằng các capability engine, Industry Pack, workflow, mô hình dữ liệu, AI, cổng/website chuyên dụng và kiến trúc triển khai đa khách hàng. Giá trị sản phẩm nằm ở lớp nghiệp vụ, cấu hình ngành, tích hợp và triển khai được xây dựng trên nền tảng đó, không phải ở việc che giấu công nghệ lõi."
+      : "The platform is built on Frappe/ERPNext — a proven open-source technology foundation — and extended by PharmaCountry with capability engines, Industry Packs, workflows, data models, AI, dedicated portals/web applications, and multi-tenant deployment architecture. The product value is in the business, industry, integration, and implementation layer built on that foundation, not in obscuring the underlying core technology.";
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-bold text-slate-900">{t("title")}</h1>
 
-      {/* Real About-page image (generated from IMAGE_PROMPTS.md's "About-page image" prompt). */}
       <div className="mt-8 relative h-56 overflow-hidden rounded-xl border border-[#158A57]/20 sm:h-72">
         <Image
           src="/images/about-team.webp"
@@ -50,14 +53,10 @@ export default async function AboutPage({
 
       <div className="mt-8 space-y-6 text-slate-700 leading-relaxed">
         <p>{t("p1")}</p>
-        <p>{t("p2")}</p>
+        <p>{technologyPositioning}</p>
         <p>{t("p3")}</p>
         <p>{t("p4")}</p>
 
-        {/* Enterprise-vendor-profile sections (P2 addition) — company/location, technology,
-            deployment options, implementation methodology, support, and security/data isolation.
-            Each section is grounded in what this platform actually runs on and what has actually
-            been built and verified (see this file's own build notes for the sourcing). */}
         <div className="pt-4 space-y-10">
           <section>
             <div className="flex items-center gap-2.5">
