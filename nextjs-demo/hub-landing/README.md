@@ -12,8 +12,8 @@ It is no longer just a demo index. The Hub now presents the platform as a commer
 - **`/platform`** — commercial platform architecture: Frappe/ERPNext core, Capability Engines, Editions, Industry Packs, tenant sites and subscriptions.
 - **`/pricing`** — real priced Editions read from the Frappe backend.
 - **`/signup`** — validates a selected public Edition and collects tenant/company/customer details.
-- **`/checkout/success`** / **`/checkout/cancel`** — PayPal checkout return surfaces; actual activation is webhook-driven.
-- **`/about`** — company/platform background.
+- **`/checkout/success`** / **`/checkout/cancel`** — PayPal checkout return surfaces; payment/subscription truth comes from the backend webhook flow.
+- **`/about`** — company/platform background and explicit Frappe/ERPNext technology positioning.
 - **`/contact`** — public contact form writing a real CRM Lead and triggering the configured notification email path.
 
 The header is intentionally product-first: **Products → Industries → Platform → Pricing → Contact**. The logo remains the Home link.
@@ -29,7 +29,7 @@ Current platform facts used by the public product story:
 - 15 shared Capability Engines.
 - 24 commercial Editions: 8 industry groups x Starter / Professional / Enterprise.
 - 27 Industry Packs.
-- Fresh tenant-site provisioning tested end-to-end.
+- Fresh tenant-site provisioning tested end-to-end as a separate backend/operations workflow.
 - PayPal-backed Tenant Subscription lifecycle foundation.
 - Seven sibling Next.js public/demo applications.
 
@@ -37,11 +37,12 @@ Current platform facts used by the public product story:
 
 `PHARMA_MFG_STARTER` was the original illustrative Edition used to prove the Edition mechanism before the real commercial catalog existed. It is retained in the backend for history/backward compatibility but is **not a public commercial plan**.
 
-The Hub explicitly excludes it from:
+It is explicitly rejected/hidden at every public commercial boundary:
 
 - `/pricing`
 - `/signup`
 - `/api/checkout`
+- `enterprise_core.enterprise_core.paypal_billing.create_subscription_checkout`
 
 The public catalog should show the real `PHARMA_STARTER`, `PHARMA_PROFESSIONAL`, and `PHARMA_ENTERPRISE` Editions instead.
 
@@ -94,16 +95,19 @@ HUB_WEB07_URL=http://localhost:3007
 
 Actual ports/URLs are deployment facts; use the values that match the running environment.
 
-## Billing and activation boundary
+## Billing, provisioning and activation boundaries
 
-The public Next.js application starts checkout but is not the billing source of truth.
+The public Next.js application starts checkout but is not the billing or provisioning source of truth.
 
 1. Visitor selects a priced public Edition.
 2. `/signup` re-validates the selected Edition against backend pricing data.
 3. `/api/checkout` validates the request and starts PayPal checkout.
-4. The control-plane Frappe site stores the `Tenant Subscription`.
-5. PayPal webhook events drive subscription activation/state changes.
-6. Tenant provisioning/Edition activation happens in the platform backend, not in a browser success page.
+4. The control-plane Frappe site stores a Pending `Tenant Subscription`.
+5. PayPal webhook events drive subscription state changes.
+6. The webhook attempts to activate the purchased Edition on the named tenant site **if that site already exists**.
+7. Creating a missing Frappe tenant site, publishing its DNS/Cloudflare hostname and applying first-run company/admin onboarding remain separate provisioning steps.
+
+The browser success page therefore never claims that a tenant is already ready merely because PayPal redirected back successfully.
 
 PayPal credentials and billing control-plane data must never be moved into public frontend code or customer tenant sites.
 
@@ -111,6 +115,7 @@ PayPal credentials and billing control-plane data must never be moved into publi
 
 Do not present these as complete until implemented and runtime-qualified:
 
+- Automatic tenant creation/orchestration triggered from the commercial lifecycle.
 - Automatic Cloudflare/DNS hostname provisioning.
 - First-run tenant company/admin onboarding replacing generic bootstrap defaults.
 - Customer self-service account/subscription administration.
