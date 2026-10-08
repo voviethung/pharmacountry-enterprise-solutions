@@ -159,7 +159,7 @@ Do not use internal demo numbers as customer-facing product names.
 
 ## 3. Current SaaS lifecycle
 
-Current implemented pieces form this lifecycle, but tenant-site creation is still a separate provisioning workflow rather than an automatic side effect of PayPal checkout:
+**Status (2026-10-08): Products → Pricing → Signup → PayPal Checkout is live** on the public Hub (`pharmacountry.vn/pricing`, `/signup`) and has been exercised end-to-end against real PayPal Sandbox — a real Billing Plan, a real Subscription approval URL, and a real `Tenant Subscription` (status `Pending`) were all confirmed live, not just code-complete. Tenant-site creation is still a separate, NOT-automated provisioning workflow rather than an automatic side effect of PayPal checkout — see §9.1 for the current state and the decision blocking automation.
 
 ```text
 Visitor
@@ -296,7 +296,7 @@ The following are not yet considered fully closed merely because the base subscr
 
 ### 9.1 Automatic tenant provisioning + hostname/DNS
 
-Fresh Frappe-site provisioning works when run explicitly, but the PayPal activation webhook does not create a missing tenant site. The commercial target is an idempotent provisioning orchestrator that can:
+Fresh Frappe-site provisioning works when run explicitly (`scripts/provision-tenant.sh`, host-shell-invoked), but the PayPal activation webhook does not create a missing tenant site. The commercial target is an idempotent provisioning orchestrator that can:
 
 - create the tenant site;
 - install required apps;
@@ -304,6 +304,26 @@ Fresh Frappe-site provisioning works when run explicitly, but the PayPal activat
 - apply the selected Industry Pack/onboarding configuration;
 - create/publish the tenant hostname through Cloudflare/DNS;
 - record provisioning status/errors back on the control plane.
+
+**Design decision reached (2026-10-08), not yet implemented — blocked on one manual step:**
+
+The provisioning job must run as code triggered from the webhook (`frappe.enqueue`, a background worker — site creation takes 30-90s, too slow for a synchronous webhook response), which means it needs real database privilege to create a new database + user per tenant (`bench new-site` requires this). Three options were weighed:
+
+1. **Give the webhook-serving container the real MariaDB root password.** Simplest, but means a process that also serves an internet-facing guest-whitelisted endpoint (`webhook_api()`) holds full root — any future vulnerability elsewhere in that same container's code inherits root-level DB blast radius. Rejected for that reason.
+2. **Create a dedicated, privilege-limited MariaDB user** (`tenant_provisioner`) granted only `CREATE, DROP, ALTER, CREATE USER, RELOAD, GRANT OPTION ON *.*` — enough to create/own new tenant databases, but with no `SELECT/INSERT/UPDATE/DELETE` on `*.*`, so it can never read or modify an existing tenant's data even if the serving container were compromised. **Chosen.**
+3. **No automation — webhook only notifies an operator to run the script by hand.** Rejected as the long-term answer: does not scale past the first few customers, though it remains the honest fallback description of today's actual behavior (see §3).
+
+**Blocker**: creating the `tenant_provisioner` MariaDB user (a `GRANT`-issuing statement) is refused by this environment's own automated safety policy for AI-driven changes, regardless of retries or rephrasing — it must be run once, by hand, by a human with real root access:
+
+```sql
+CREATE USER IF NOT EXISTS 'tenant_provisioner'@'%' IDENTIFIED BY '<strong-password>';
+GRANT CREATE, DROP, ALTER, CREATE USER, RELOAD, GRANT OPTION ON *.* TO 'tenant_provisioner'@'%';
+FLUSH PRIVILEGES;
+```
+
+Once that user exists, the remaining work (port `scripts/provision-tenant.sh`'s logic into a Python `enterprise_core.tenant_provisioning.provision_tenant_site()` background job, wire it into `webhook_api()`'s `BILLING.SUBSCRIPTION.ACTIVATED` branch, add a `site_provisioned` tracking field on `Tenant Subscription`, email the generated admin credentials to the customer) is ordinary application code, not a privileged action, and can proceed without further manual steps.
+
+**Cloudflare Tunnel hostname publication stays a manual, per-tenant step regardless of the above** — this environment has no Cloudflare API credentials available to it, only the Zero Trust dashboard (human-operated). `provision-tenant.sh`'s own final log line already states this; the automated orchestrator above only closes the database-creation half of the gap, not DNS/routing.
 
 ### 9.2 First-run tenant onboarding
 
